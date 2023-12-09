@@ -1,44 +1,45 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
-const userSchema = mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, "Please enter your name"],
-  },
-  email: {
-    type: String,
-    required: [true, "Please enter your email"],
-  },
-  password: {
-    type: String,
-    required: [true, "Please enter your password"],
-    minLength: [4, "Password should be greater than 4 characters"],
-  },
-  phone: {
-    type: Number,
-  },
-  address: {
-    houseNo: {
-      type: Number,
-    },
-    city: {
+const userSchema = mongoose.Schema(
+  {
+    name: {
       type: String,
+      required: [true, "Please enter your name"],
     },
-    pincode: {
+    email: {
+      type: String,
+      required: [true, "Please enter your email"],
+      trim: true,
+    },
+    password: {
+      type: String,
+      required: [true, "Please enter your password"],
+      minLength: [4, "Password should be greater than 4 characters"],
+    },
+    phone: {
       type: Number,
+      trim: true,
+    },
+    address: {
+      houseNo: {
+        type: Number,
+      },
+      city: {
+        type: String,trim: true,
+      },
+      pincode: {
+        type: Number,
+        trim: true,
+      },
+    },
+    role: {
+      type: String,phone: Number,
+      default: "user",
     },
   },
-  role: {
-    type: String,
-    default: "user",
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
-
+  { timestamps: true }
+);
 
 /******************************************************SAVE PASSWORD****************************************************************/
 userSchema.pre("save", async function () {
@@ -47,8 +48,24 @@ userSchema.pre("save", async function () {
 });
 
 /******************************************************COMPARE PASSWORD****************************************************************/
-userSchema.methods.matchPassword = async function(enteredPassword){
-    return await bcrypt.compare(enteredPassword, this.password)
-}
+userSchema.methods.matchPassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
+
+const deletedUserSchema = mongoose.Schema({
+  name: String,
+
+  email: {
+    type: String,
+    required: true,
+  },
+  status: {
+    type: String,
+    default: "deleted"
+
+  }
+});
+
 const User = mongoose.model("Users", userSchema);
-module.exports =User
+const DeletedUser = mongoose.model("DeletedUsers", deletedUserSchema);
+module.exports = { User, DeletedUser };
