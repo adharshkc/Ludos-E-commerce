@@ -25,7 +25,7 @@ const addProduct = async function (req, res) {
     res.json("product added");
     // res.send(addProduct)
   } else {
-    res.status(404)
+    res.status(404);
     res.json("error adding product");
   }
 };
@@ -44,18 +44,24 @@ const editProduct = async function (req, res) {
       console.log("error editing product");
     }
   } catch (err) {
-    res.status(404)
+    res.status(404);
     console.log(err);
   }
 };
 
-const deleteProduct = async function(req, res){
-    try{
-        const deleteProduct = await Products.findByIdAndDelete(req.params.id)
-    }catch(err){
-        res.status(404)
-        res.json("error deleting product")
+const deleteProduct = async function (req, res) {
+    console.log("delete")
+  try {
+    console.log(req.params.id)
+    const deleteProduct = await Products.findByIdAndDelete(req.params.id);
+    console.log(deleteProduct)
+    if (deleteProduct) {
+      res.json("user deleted successfully");
     }
-}
+  } catch (err) {
+    res.status(404);
+    res.json("error deleting product");
+  }
+};
 
-module.exports = { addProduct, editProduct, showProduct };
+module.exports = { addProduct, editProduct, showProduct, deleteProduct };
