@@ -1,9 +1,15 @@
 const express = require("express");
 const {User} = require("../models/user");
 
+
+const home = function(req, res){
+  res.render('home')
+}
+
+
 /**********************************************GET LOGIN****************************************************************** */
 const userLogin = function (req, res) {
-  res.send("hello");
+  res.render('index');
 };
 
 /**********************************************POST LOGIN****************************************************************** */
@@ -51,4 +57,12 @@ const user_registration = async function (req, res) {
   }
 };
 
-module.exports = { userLogin, user_signin, user_registration, userRegister };
+
+/**********************************************EDIT USER****************************************************************** */
+
+const editUser = async function(req, res){
+  const {name, phone, houseNo, city, pincode } = req.body;
+  const editedUser = await User.findByIdAndUpdate({name, phone, address})
+}
+
+module.exports = { userLogin, user_signin, user_registration, userRegister, home };
