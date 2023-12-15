@@ -3,7 +3,7 @@ const {User} = require("../models/user");
 
 
 const home = function(req, res){
-  res.render('home')
+  res.render('product-detail')
 }
 
 
@@ -32,7 +32,7 @@ const user_signin = async function (req, res) {
 /**********************************************GET REGISTER****************************************************************** */
 
 const userRegister = function (req, res) {
-  res.send("welcome register page");
+  res.render("signup");
 };
 
 /**********************************************POST REGISTER****************************************************************** */
