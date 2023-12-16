@@ -4,11 +4,13 @@ const {
   editProduct,
   showProduct,
   deleteProduct,
+  singleProduct,
 } = require("../controller/product");
 
 const router = express.Router();
 
-router.get("/admin_panel/products", showProduct);
+router.get("/products", showProduct);
+router.get("/products/single/:id", singleProduct)
 router.get("/admin_panel/products/add_product");
 router.post("/admin_panel/products/add_product", addProduct);
 router.put("/admin_panel/products/edit/:id", editProduct);

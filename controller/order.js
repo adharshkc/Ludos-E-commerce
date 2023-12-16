@@ -2,6 +2,12 @@ const Order = require("../models/order")
 
 
 
-const viewOrder = async function(req,res){
-    // const orders = 
+
+
+
+const cart = async function(req,res){
+    res.render('cart')
 }
+
+
+module.exports = {cart}

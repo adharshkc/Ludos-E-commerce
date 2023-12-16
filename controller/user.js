@@ -1,12 +1,15 @@
 const express = require("express");
 const {User} = require("../models/user");
+const Products = require("../models/product")
 
 
-const home = function(req, res){
+const home = async function(req, res){
   const userData = {
     isUser :true
   }
-  res.render('index',{user:userData})
+  // const products = await Products.find().lean()
+  // console.log(products.image)
+  res.render('index')
 }
 
 

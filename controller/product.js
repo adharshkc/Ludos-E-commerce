@@ -1,11 +1,24 @@
 const Products = require("../models/product");
 
-/**************************************************************************************************************** */
+/************************************************************GET PRODUCTS PAGE**************************************************** */
 
 const showProduct = async function (req, res) {
-  const products = await Products.find({});
-  res.send(products);
+  const products = await Products.find({}).lean()
+  res.render('products', {products: products})
 };
+
+
+/************************************************************GET SINGLE PRODUCT PAGE**************************************************** */
+
+const singleProduct = async function(req, res){
+  const productId = req.params.id;
+  console.log(productId)
+  const product = await Products.findOne({_id: productId})
+  console.log(product)
+  res.render('product-detail', {product:product})
+}
+
+/************************************************************POST ADMIN ADD PRODUCT**************************************************** */
 
 const addProduct = async function (req, res) {
   const { name, image, brand, price, category, description, countInStock } =
@@ -30,6 +43,9 @@ const addProduct = async function (req, res) {
   }
 };
 
+
+/************************************************************PUT ADMIN EDIT PRODUCT**************************************************** */
+
 const editProduct = async function (req, res) {
   try {
     const editedProduct = await Products.findByIdAndUpdate(
@@ -49,6 +65,8 @@ const editProduct = async function (req, res) {
   }
 };
 
+/************************************************************POST ADMIN DELETE PRODUCTS**************************************************** */
+
 const deleteProduct = async function (req, res) {
     console.log("delete")
   try {
@@ -64,4 +82,4 @@ const deleteProduct = async function (req, res) {
   }
 };
 
-module.exports = { addProduct, editProduct, showProduct, deleteProduct };
+module.exports = { addProduct, editProduct, showProduct, deleteProduct, singleProduct };
