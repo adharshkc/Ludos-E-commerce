@@ -1,5 +1,5 @@
 const express = require("express");
-const {userLogin, user_signin, user_registration, userRegister, home} = require('../controller/user')
+const {userLogin, user_signin, user_registration, userRegister, home, logout} = require('../controller/user')
 
 
 const router = express.Router();
@@ -13,6 +13,6 @@ router.get("/add_cart");
 router.get("/cart");
 router.get("/checkout");
 router.post("/user_account");
-router.get("/logout");
+router.get("/logout", logout);
 
 module.exports = router;

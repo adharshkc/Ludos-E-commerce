@@ -101,100 +101,41 @@
 
                       <span class="js-menu-toggle"></span>
                       <ul style="width:120px">
+                        {{#if user.isUser}}
                         <li>
 
                           <a href="dashboard.html"><i
                               class="fas fa-user-circle u-s-m-r-6"
                             ></i>
 
-                            <span>Account</span></a></li>
+                            <span>My Account</span></a></li>
+                        {{else}}
                         <li>
 
-                          <a href="signup.html"><i
+                          <a href="/register"><i
                               class="fas fa-user-plus u-s-m-r-6"
                             ></i>
 
                             <span>Signup</span></a></li>
                         <li>
 
-                          <a href="signin.html"><i
+                          <a href="/login"><i
                               class="fas fa-lock u-s-m-r-6"
                             ></i>
 
                             <span>Signin</span></a></li>
                         <li>
 
-                          <a href="signup.html"><i
+                          <a href="/logout"><i
                               class="fas fa-lock-open u-s-m-r-6"
                             ></i>
 
                             <span>Signout</span></a></li>
+                            {{/if}}
                       </ul>
                       <!--====== End - Dropdown ======-->
                     </li>
-                    {{! <li
-                      class="has-dropdown"
-                      data-tooltip="tooltip"
-                      data-placement="left"
-                      title="Settings"
-                    >
-
-                      <a><i class="fas fa-user-cog"></i></a>
-
-                      <!--====== Dropdown ======-->
-
-                      <span class="js-menu-toggle"></span>
-                      <ul style="width:120px">
-                        <li class="has-dropdown has-dropdown--ul-right-100">
-
-                          <a>Language<i
-                              class="fas fa-angle-down u-s-m-l-6"
-                            ></i></a>
-
-                          <!--====== Dropdown ======-->
-
-                          <span class="js-menu-toggle"></span>
-                          <ul style="width:120px">
-                            <li>
-
-                              <a class="u-c-brand">ENGLISH</a></li>
-                            <li>
-
-                              <a>ARABIC</a></li>
-                            <li>
-
-                              <a>FRANCAIS</a></li>
-                            <li>
-
-                              <a>ESPANOL</a></li>
-                          </ul>
-                          <!--====== End - Dropdown ======-->
-                        </li>
-                        <li class="has-dropdown has-dropdown--ul-right-100">
-
-                          <a>Currency<i
-                              class="fas fa-angle-down u-s-m-l-6"
-                            ></i></a>
-
-                          <!--====== Dropdown ======-->
-
-                          <span class="js-menu-toggle"></span>
-                          <ul style="width:225px">
-                            <li>
-
-                              <a class="u-c-brand">$ - US DOLLAR</a></li>
-                            <li>
-
-                              <a>£ - BRITISH POUND STERLING</a></li>
-                            <li>
-
-                              <a>€ - EURO</a></li>
-                          </ul>
-                          <!--====== End - Dropdown ======-->
-                        </li>
-                      </ul>
-                      <!--====== End - Dropdown ======-->
-                    </li> }}
+                    
                     <li
                       data-tooltip="tooltip"
                       data-placement="left"
@@ -565,203 +506,20 @@
                           class="fas fa-shopping-bag"
                         ></i>
 
-                        <span class="total-item-round">2</span></a>
+                        <span class="total-item-roun"></span></a>
 
                       <!--====== Dropdown ======-->
 
-                      <span class="js-menu-toggle"></span>
-                      <div class="mini-cart">
+                      
 
                         <!--====== Mini Product Container ======-->
-                        <div
-                          class="mini-product-container gl-scroll u-s-m-b-15"
-                        >
-
-                          <!--====== Card for mini cart ======-->
-                          <div class="card-mini-product">
-                            <div class="mini-product">
-                              <div class="mini-product__image-wrapper">
-
-                                <a
-                                  class="mini-product__link"
-                                  href="product-detail.html"
-                                >
-
-                                  <img
-                                    class="u-img-fluid"
-                                    src="images/product/electronic/product3.jpg"
-                                    alt=""
-                                  /></a></div>
-                              <div class="mini-product__info-wrapper">
-
-                                <span class="mini-product__category">
-
-                                  <a
-                                    href="shop-side-version-2.html"
-                                  >Electronics</a></span>
-
-                                <span class="mini-product__name">
-
-                                  <a href="product-detail.html">Yellow Wireless
-                                    Headphone</a></span>
-
-                                <span class="mini-product__quantity">1 x</span>
-
-                                <span
-                                  class="mini-product__price"
-                                >$8</span></div>
-                            </div>
-
-                            <a
-                              class="mini-product__delete-link far fa-trash-alt"
-                            ></a>
-                          </div>
-                          <!--====== End - Card for mini cart ======-->
-
-                          <!--====== Card for mini cart ======-->
-                          <div class="card-mini-product">
-                            <div class="mini-product">
-                              <div class="mini-product__image-wrapper">
-
-                                <a
-                                  class="mini-product__link"
-                                  href="product-detail.html"
-                                >
-
-                                  <img
-                                    class="u-img-fluid"
-                                    src="images/product/electronic/product18.jpg"
-                                    alt=""
-                                  /></a></div>
-                              <div class="mini-product__info-wrapper">
-
-                                <span class="mini-product__category">
-
-                                  <a
-                                    href="shop-side-version-2.html"
-                                  >Electronics</a></span>
-
-                                <span class="mini-product__name">
-
-                                  <a href="product-detail.html">Nikon DSLR
-                                    Camera 4k</a></span>
-
-                                <span class="mini-product__quantity">1 x</span>
-
-                                <span
-                                  class="mini-product__price"
-                                >$8</span></div>
-                            </div>
-
-                            <a
-                              class="mini-product__delete-link far fa-trash-alt"
-                            ></a>
-                          </div>
-                          <!--====== End - Card for mini cart ======-->
-
-                          <!--====== Card for mini cart ======-->
-                          <div class="card-mini-product">
-                            <div class="mini-product">
-                              <div class="mini-product__image-wrapper">
-
-                                <a
-                                  class="mini-product__link"
-                                  href="product-detail.html"
-                                >
-
-                                  <img
-                                    class="u-img-fluid"
-                                    src="images/product/women/product8.jpg"
-                                    alt=""
-                                  /></a></div>
-                              <div class="mini-product__info-wrapper">
-
-                                <span class="mini-product__category">
-
-                                  <a href="shop-side-version-2.html">Women
-                                    Clothing</a></span>
-
-                                <span class="mini-product__name">
-
-                                  <a href="product-detail.html">New Dress D Nice
-                                    Elegant</a></span>
-
-                                <span class="mini-product__quantity">1 x</span>
-
-                                <span
-                                  class="mini-product__price"
-                                >$8</span></div>
-                            </div>
-
-                            <a
-                              class="mini-product__delete-link far fa-trash-alt"
-                            ></a>
-                          </div>
-                          <!--====== End - Card for mini cart ======-->
-
-                          <!--====== Card for mini cart ======-->
-                          <div class="card-mini-product">
-                            <div class="mini-product">
-                              <div class="mini-product__image-wrapper">
-
-                                <a
-                                  class="mini-product__link"
-                                  href="product-detail.html"
-                                >
-
-                                  <img
-                                    class="u-img-fluid"
-                                    src="images/product/men/product8.jpg"
-                                    alt=""
-                                  /></a></div>
-                              <div class="mini-product__info-wrapper">
-
-                                <span class="mini-product__category">
-
-                                  <a href="shop-side-version-2.html">Men
-                                    Clothing</a></span>
-
-                                <span class="mini-product__name">
-
-                                  <a href="product-detail.html">New Fashion D
-                                    Nice Elegant</a></span>
-
-                                <span class="mini-product__quantity">1 x</span>
-
-                                <span
-                                  class="mini-product__price"
-                                >$8</span></div>
-                            </div>
-
-                            <a
-                              class="mini-product__delete-link far fa-trash-alt"
-                            ></a>
-                          </div>
-                          <!--====== End - Card for mini cart ======-->
-                        </div>
+                        
                         <!--====== End - Mini Product Container ======-->
 
                         <!--====== Mini Product Statistics ======-->
-                        <div class="mini-product-stat">
-                          <div class="mini-total">
-
-                            <span class="subtotal-text">SUBTOTAL</span>
-
-                            <span class="subtotal-value">$16</span></div>
-                          <div class="mini-action">
-
-                            <a
-                              class="mini-link btn--e-brand-b-2"
-                              href="checkout.html"
-                            >PROCEED TO CHECKOUT</a>
-
-                            <a
-                              class="mini-link btn--e-transparent-secondary-b-2"
-                              href="cart.html"
-                            >VIEW CART</a></div>
-                        </div>
+                        
                         <!--====== End - Mini Product Statistics ======-->
-                      </div>
+                      
                       <!--====== End - Dropdown ======-->
                     </li>
                   </ul>
@@ -782,92 +540,7 @@
       <div class="app-content">
 
         <!--====== Primary Slider ======-->
-        <div class="s-skeleton s-skeleton--h-600 s-skeleton--bg-grey">
-          <div class="owl-carousel primary-style-1" id="hero-slider">
-            <div class="hero-slide hero-slide--1">
-              <div class="container">
-                <div class="row">
-                  <div class="col-12">
-                    <div class="slider-content slider-content--animation">
-
-                      <span class="content-span-1 u-c-secondary">Latest Update
-                        Stock</span>
-
-                      <span class="content-span-2 u-c-secondary">30% Off On
-                        Electronics</span>
-
-                      <span class="content-span-3 u-c-secondary">Find
-                        electronics on best prices, Also Discover most selling
-                        products of electronics</span>
-
-                      <span class="content-span-4 u-c-secondary">Starting At
-
-                        <span class="u-c-brand">$1050.00</span></span>
-
-                      <a
-                        class="shop-now-link btn--e-brand"
-                        href="shop-side-version-2.html"
-                      >SHOP NOW</a></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="hero-slide hero-slide--2">
-              <div class="container">
-                <div class="row">
-                  <div class="col-12">
-                    <div class="slider-content slider-content--animation">
-
-                      <span class="content-span-1 u-c-white">Find Top Brands</span>
-
-                      <span class="content-span-2 u-c-white">10% Off On
-                        Electronics</span>
-
-                      <span class="content-span-3 u-c-white">Find electronics on
-                        best prices, Also Discover most selling products of
-                        electronics</span>
-
-                      <span class="content-span-4 u-c-white">Starting At
-
-                        <span class="u-c-brand">$380.00</span></span>
-
-                      <a
-                        class="shop-now-link btn--e-brand"
-                        href="shop-side-version-2.html"
-                      >SHOP NOW</a></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="hero-slide hero-slide--3">
-              <div class="container">
-                <div class="row">
-                  <div class="col-12">
-                    <div class="slider-content slider-content--animation">
-
-                      <span class="content-span-1 u-c-secondary">Find Top Brands</span>
-
-                      <span class="content-span-2 u-c-secondary">10% Off On
-                        Electronics</span>
-
-                      <span class="content-span-3 u-c-secondary">Find
-                        electronics on best prices, Also Discover most selling
-                        products of electronics</span>
-
-                      <span class="content-span-4 u-c-secondary">Starting At
-
-                        <span class="u-c-brand">$550.00</span></span>
-
-                      <a
-                        class="shop-now-link btn--e-brand"
-                        href="shop-side-version-2.html"
-                      >SHOP NOW</a></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        
         <!--====== End - Primary Slider ======-->
 
         <!--====== Section 1 ======-->
@@ -902,7 +575,7 @@
 
                       <img
                         class="aspect__img collection__img"
-                        src="images/collection/coll-1.jpg"
+                        src="https://img.freepik.com/free-photo/sports-shoe-pair-design-illustration-generated-by-ai_188544-19642.jpg?w=826&t=st=1702661659~exp=1702662259~hmac=f784e3266bd570c6695a6863a7200b5b977107559ebb0255d50042d1aff8b2c5"
                         alt=""
                       /></div>
                   </a></div>
@@ -913,7 +586,7 @@
 
                       <img
                         class="aspect__img collection__img"
-                        src="images/collection/coll-2.jpg"
+                        src="https://img.freepik.com/free-photo/portrait-stylish-attractive-young-bearded-man-listening-music-wireless-headphones-modern-style-confident-mood_285396-9537.jpg?w=740&t=st=1702663549~exp=1702664149~hmac=c7974f537703595f661595ab8135e996de9b3d6cd796b77fcf93ffd8122cfbe3"
                         alt=""
                       /></div>
                   </a></div>
@@ -924,7 +597,7 @@
 
                       <img
                         class="aspect__img collection__img"
-                        src="images/collection/coll-3.jpg"
+                        src="https://img.freepik.com/free-photo/young-adult-wearing-futuristic-smart-glasses-indoors-generated-by-ai_188544-32756.jpg?t=st=1702703671~exp=1702707271~hmac=3e9515c556f5dea89c27cfc68f632a9dda02651de36d1f5c965a1d4281b67b05&w=826"
                         alt=""
                       /></div>
                   </a></div>
@@ -935,7 +608,7 @@
 
                       <img
                         class="aspect__img collection__img"
-                        src="images/collection/coll-4.jpg"
+                        src="https://img.freepik.com/free-photo/black-wireless-earbud-with-charging-case_1268-14371.jpg?t=st=1702703664~exp=1702704264~hmac=c60c1c86753e9b0e5d823459ed77e64abd35ad38e5d038841c70b8f8f6349670"
                         alt=""
                       /></div>
                   </a></div>
@@ -1026,7 +699,7 @@
 
                               <img
                                 class="aspect__img"
-                                src="images/product/electronic/product2.jpg"
+                                src="/images/wireless-inear-headphones-with-case-pink-background-flat-lay_169016-23020.avif"
                                 alt=""
                               /></a>
                             <div class="product-o__action-wrap">
@@ -3342,444 +3015,11 @@
         <!--====== End - Section 9 ======-->
 
         <!--====== Section 10 ======-->
-        {{! <div class="u-s-p-b-60">
-
-          <!--====== Section Intro ======-->
-          <div class="section__intro u-s-m-b-46">
-            <div class="container">
-              <div class="row">
-                <div class="col-lg-12">
-                  <div class="section__text-wrap">
-                    <h1 class="section__heading u-c-secondary u-s-m-b-12">LATEST
-                      FROM BLOG</h1>
-
-                    <span class="section__span u-c-silver">START YOU DAY WITH
-                      FRESH AND LATEST NEWS</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!--====== End - Section Intro ======-->
-
-          <!--====== Section Content ======-->
-          <div class="section__content">
-            <div class="container">
-              <div class="row">
-                <div class="col-lg-4 col-md-6 u-s-m-b-30">
-                  <div class="bp-mini bp-mini--img u-h-100">
-                    <div class="bp-mini__thumbnail">
-
-                      <!--====== Image Code ======-->
-
-                      <a
-                        class="aspect aspect--bg-grey aspect--1366-768 u-d-block"
-                        href="blog-detail.html"
-                      >
-
-                        <img
-                          class="aspect__img"
-                          src="images/blog/post-2.jpg"
-                          alt=""
-                        /></a>
-                      <!--====== End - Image Code ======-->
-                    </div>
-                    <div class="bp-mini__content">
-                      <div class="bp-mini__stat">
-
-                        <span class="bp-mini__stat-wrap">
-
-                          <span class="bp-mini__publish-date">
-
-                            <a>
-
-                              <span>25 February 2018</span></a></span></span>
-
-                        <span class="bp-mini__stat-wrap">
-
-                          <span class="bp-mini__preposition">By</span>
-
-                          <span class="bp-mini__author">
-
-                            <a href="#">Dayle</a></span></span>
-
-                        <span class="bp-mini__stat">
-
-                          <span class="bp-mini__comment">
-
-                            <a href="blog-detail.html"><i
-                                class="far fa-comments u-s-m-r-4"
-                              ></i>
-
-                              <span>8</span></a></span></span></div>
-                      <div class="bp-mini__category">
-
-                        <a>Learning</a>
-
-                        <a>News</a>
-
-                        <a>Health</a></div>
-
-                      <span class="bp-mini__h1">
-
-                        <a href="blog-detail.html">Life is an extraordinary
-                          Adventure</a></span>
-                      <p class="bp-mini__p">Lorem Ipsum is simply dummy text of
-                        the printing and typesetting industry.</p>
-                      <div class="blog-t-w">
-
-                        <a
-                          class="gl-tag btn--e-transparent-hover-brand-b-2"
-                        >Travel</a>
-
-                        <a
-                          class="gl-tag btn--e-transparent-hover-brand-b-2"
-                        >Culture</a>
-
-                        <a
-                          class="gl-tag btn--e-transparent-hover-brand-b-2"
-                        >Place</a></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-md-6 u-s-m-b-30">
-                  <div class="bp-mini bp-mini--img u-h-100">
-                    <div class="bp-mini__thumbnail">
-
-                      <!--====== Image Code ======-->
-
-                      <a
-                        class="aspect aspect--bg-grey aspect--1366-768 u-d-block"
-                        href="blog-detail.html"
-                      >
-
-                        <img
-                          class="aspect__img"
-                          src="images/blog/post-12.jpg"
-                          alt=""
-                        /></a>
-                      <!--====== End - Image Code ======-->
-                    </div>
-                    <div class="bp-mini__content">
-                      <div class="bp-mini__stat">
-
-                        <span class="bp-mini__stat-wrap">
-
-                          <span class="bp-mini__publish-date">
-
-                            <a>
-
-                              <span>25 February 2018</span></a></span></span>
-
-                        <span class="bp-mini__stat-wrap">
-
-                          <span class="bp-mini__preposition">By</span>
-
-                          <span class="bp-mini__author">
-
-                            <a href="#">Dayle</a></span></span>
-
-                        <span class="bp-mini__stat">
-
-                          <span class="bp-mini__comment">
-
-                            <a href="blog-detail.html"><i
-                                class="far fa-comments u-s-m-r-4"
-                              ></i>
-
-                              <span>8</span></a></span></span></div>
-                      <div class="bp-mini__category">
-
-                        <a>Learning</a>
-
-                        <a>News</a>
-
-                        <a>Health</a></div>
-
-                      <span class="bp-mini__h1">
-
-                        <a href="blog-detail.html">Wait till its open</a></span>
-                      <p class="bp-mini__p">Lorem Ipsum is simply dummy text of
-                        the printing and typesetting industry.</p>
-                      <div class="blog-t-w">
-
-                        <a
-                          class="gl-tag btn--e-transparent-hover-brand-b-2"
-                        >Travel</a>
-
-                        <a
-                          class="gl-tag btn--e-transparent-hover-brand-b-2"
-                        >Culture</a>
-
-                        <a
-                          class="gl-tag btn--e-transparent-hover-brand-b-2"
-                        >Place</a></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-lg-4 col-md-6 u-s-m-b-30">
-                  <div class="bp-mini bp-mini--img u-h-100">
-                    <div class="bp-mini__thumbnail">
-
-                      <!--====== Image Code ======-->
-
-                      <a
-                        class="aspect aspect--bg-grey aspect--1366-768 u-d-block"
-                        href="blog-detail.html"
-                      >
-
-                        <img
-                          class="aspect__img"
-                          src="images/blog/post-5.jpg"
-                          alt=""
-                        /></a>
-                      <!--====== End - Image Code ======-->
-                    </div>
-                    <div class="bp-mini__content">
-                      <div class="bp-mini__stat">
-
-                        <span class="bp-mini__stat-wrap">
-
-                          <span class="bp-mini__publish-date">
-
-                            <a>
-
-                              <span>25 February 2018</span></a></span></span>
-
-                        <span class="bp-mini__stat-wrap">
-
-                          <span class="bp-mini__preposition">By</span>
-
-                          <span class="bp-mini__author">
-
-                            <a href="#">Dayle</a></span></span>
-
-                        <span class="bp-mini__stat">
-
-                          <span class="bp-mini__comment">
-
-                            <a href="blog-detail.html"><i
-                                class="far fa-comments u-s-m-r-4"
-                              ></i>
-
-                              <span>8</span></a></span></span></div>
-                      <div class="bp-mini__category">
-
-                        <a>Learning</a>
-
-                        <a>News</a>
-
-                        <a>Health</a></div>
-
-                      <span class="bp-mini__h1">
-
-                        <a href="blog-detail.html">Tell me difference between
-                          smoke and vape</a></span>
-                      <p class="bp-mini__p">Lorem Ipsum is simply dummy text of
-                        the printing and typesetting industry.</p>
-                      <div class="blog-t-w">
-
-                        <a
-                          class="gl-tag btn--e-transparent-hover-brand-b-2"
-                        >Travel</a>
-
-                        <a
-                          class="gl-tag btn--e-transparent-hover-brand-b-2"
-                        >Culture</a>
-
-                        <a
-                          class="gl-tag btn--e-transparent-hover-brand-b-2"
-                        >Place</a></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!--====== End - Section Content ======-->
-        </div> }}
+       
         <!--====== End - Section 10 ======-->
 
         <!--====== Section 11 ======-->
-        <div class="u-s-p-b-90 u-s-m-b-30">
-
-          <!--====== Section Intro ======-->
-          <div class="section__intro u-s-m-b-46">
-            <div class="container">
-              <div class="row">
-                <div class="col-lg-12">
-                  <div class="section__text-wrap">
-                    <h1
-                      class="section__heading u-c-secondary u-s-m-b-12"
-                    >CLIENTS FEEDBACK</h1>
-
-                    <span class="section__span u-c-silver">WHAT OUR CLIENTS SAY</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!--====== End - Section Intro ======-->
-
-          <!--====== Section Content ======-->
-          <div class="section__content">
-            <div class="container">
-
-              <!--====== Testimonial Slider ======-->
-              <div class="slider-fouc">
-                <div class="owl-carousel" id="testimonial-slider">
-                  <div class="testimonial">
-                    <div class="testimonial__img-wrap">
-
-                      <img
-                        class="testimonial__img"
-                        src="images/about/test-1.jpg"
-                        alt=""
-                      /></div>
-                    <div class="testimonial__content-wrap">
-
-                      <span class="testimonial__double-quote"><i
-                          class="fas fa-quote-right"
-                        ></i></span>
-                      <blockquote class="testimonial__block-quote">
-                        <p>"Far far away, behind the word mountains, far from
-                          the countries Vokalia and Consonantia, there live the
-                          blind texts. Separated they live in Bookmarksgrove
-                          right at the coast of the Semantics, a large language
-                          ocean."</p>
-                      </blockquote>
-
-                      <span class="testimonial__author">John D. / DVNTR Inc.</span>
-                    </div>
-                  </div>
-                  <div class="testimonial">
-                    <div class="testimonial__img-wrap">
-
-                      <img
-                        class="testimonial__img"
-                        src="images/about/test-2.jpg"
-                        alt=""
-                      /></div>
-                    <div class="testimonial__content-wrap">
-
-                      <span class="testimonial__double-quote"><i
-                          class="fas fa-quote-right"
-                        ></i></span>
-                      <blockquote class="testimonial__block-quote">
-                        <p>"Far far away, behind the word mountains, far from
-                          the countries Vokalia and Consonantia, there live the
-                          blind texts. Separated they live in Bookmarksgrove
-                          right at the coast of the Semantics, a large language
-                          ocean."</p>
-                      </blockquote>
-
-                      <span class="testimonial__author">John D. / DVNTR Inc.</span>
-                    </div>
-                  </div>
-                  <div class="testimonial">
-                    <div class="testimonial__img-wrap">
-
-                      <img
-                        class="testimonial__img"
-                        src="images/about/test-3.jpg"
-                        alt=""
-                      /></div>
-                    <div class="testimonial__content-wrap">
-
-                      <span class="testimonial__double-quote"><i
-                          class="fas fa-quote-right"
-                        ></i></span>
-                      <blockquote class="testimonial__block-quote">
-                        <p>"Far far away, behind the word mountains, far from
-                          the countries Vokalia and Consonantia, there live the
-                          blind texts. Separated they live in Bookmarksgrove
-                          right at the coast of the Semantics, a large language
-                          ocean."</p>
-                      </blockquote>
-
-                      <span class="testimonial__author">John D. / DVNTR Inc.</span>
-                    </div>
-                  </div>
-                  <div class="testimonial">
-                    <div class="testimonial__img-wrap">
-
-                      <img
-                        class="testimonial__img"
-                        src="images/about/test-4.jpg"
-                        alt=""
-                      /></div>
-                    <div class="testimonial__content-wrap">
-
-                      <span class="testimonial__double-quote"><i
-                          class="fas fa-quote-right"
-                        ></i></span>
-                      <blockquote class="testimonial__block-quote">
-                        <p>"Far far away, behind the word mountains, far from
-                          the countries Vokalia and Consonantia, there live the
-                          blind texts. Separated they live in Bookmarksgrove
-                          right at the coast of the Semantics, a large language
-                          ocean."</p>
-                      </blockquote>
-
-                      <span class="testimonial__author">John D. / DVNTR Inc.</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!--====== End - Testimonial Slider ======-->
-            </div>
-          </div>
-          <!--====== End - Section Content ======-->
-        </div>
-        <!--====== End - Section 11 ======-->
-
-        <!--====== Section 12 ======-->
-        <div class="u-s-p-b-60">
-
-          <!--====== Section Content ======-->
-          <div class="section__content">
-            <div class="container">
-
-              <!--====== Brand Slider ======-->
-              <div class="slider-fouc">
-                <div class="owl-carousel" id="brand-slider" data-item="5">
-                  <div class="brand-slide">
-
-                    <a href="shop-side-version-2.html">
-
-                      <img src="images/brand/b1.png" alt="" /></a></div>
-                  <div class="brand-slide">
-
-                    <a href="shop-side-version-2.html">
-
-                      <img src="images/brand/b2.png" alt="" /></a></div>
-                  <div class="brand-slide">
-
-                    <a href="shop-side-version-2.html">
-
-                      <img src="images/brand/b3.png" alt="" /></a></div>
-                  <div class="brand-slide">
-
-                    <a href="shop-side-version-2.html">
-
-                      <img src="images/brand/b4.png" alt="" /></a></div>
-                  <div class="brand-slide">
-
-                    <a href="shop-side-version-2.html">
-
-                      <img src="images/brand/b5.png" alt="" /></a></div>
-                  <div class="brand-slide">
-
-                    <a href="shop-side-version-2.html">
-
-                      <img src="images/brand/b6.png" alt="" /></a></div>
-                </div>
-              </div>
-              <!--====== End - Brand Slider ======-->
-            </div>
-          </div>
-          <!--====== End - Section Content ======-->
-        </div>
+        
         <!--====== End - Section 12 ======-->
       </div>
       <!--====== End - App Content ======-->

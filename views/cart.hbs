@@ -95,35 +95,38 @@
                       <!--====== Dropdown ======-->
 
                       <span class="js-menu-toggle"></span>
-                      <ul style="width:120px">
+                     <ul style="width:120px">
+                        {{#if user.isUser}}
                         <li>
 
                           <a href="dashboard.html"><i
                               class="fas fa-user-circle u-s-m-r-6"
                             ></i>
 
-                            <span>Account</span></a></li>
+                            <span>My Account</span></a></li>
+                        {{else}}
                         <li>
 
-                          <a href="signup.html"><i
+                          <a href="/register"><i
                               class="fas fa-user-plus u-s-m-r-6"
                             ></i>
 
                             <span>Signup</span></a></li>
                         <li>
 
-                          <a href="signin.html"><i
+                          <a href="/login"><i
                               class="fas fa-lock u-s-m-r-6"
                             ></i>
 
                             <span>Signin</span></a></li>
                         <li>
 
-                          <a href="signup.html"><i
+                          <a href="/logout"><i
                               class="fas fa-lock-open u-s-m-r-6"
                             ></i>
 
                             <span>Signout</span></a></li>
+                            {{/if}}
                       </ul>
                       <!--====== End - Dropdown ======-->
                     </li>

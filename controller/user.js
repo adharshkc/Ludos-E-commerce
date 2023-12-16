@@ -3,13 +3,16 @@ const {User} = require("../models/user");
 
 
 const home = function(req, res){
-  res.render('product-detail')
+  const userData = {
+    isUser :true
+  }
+  res.render('index',{user:userData})
 }
 
 
 /**********************************************GET LOGIN****************************************************************** */
 const userLogin = function (req, res) {
-  res.render('index');
+  res.render('signin');
 };
 
 /**********************************************POST LOGIN****************************************************************** */
@@ -19,9 +22,11 @@ const user_signin = async function (req, res) {
   const user = await User.findOne({email})
   console.log(user)
   if(user && (await user.matchPassword(password))){
-    res.json("user authenticated")
+    console.log("user authenticated")
+    res.redirect('/')
   }else{
-    res.json("user not found")
+    
+    res.redirect('/')
   }
 
   
@@ -39,9 +44,9 @@ const userRegister = function (req, res) {
 
 const user_registration = async function (req, res) {
   const { name, email, password, phone } = req.body;
-  // console.log(
-  //   `name ${name} email:${email}, password: ${password}, phone: ${phone}`
-  // );
+  console.log(
+    `name ${name} email:${email}, password: ${password}, phone: ${phone}`
+  );
   const user = await User.findOne({ email: email });
   if (!user) {
     const newUser = await User.create({
@@ -50,10 +55,13 @@ const user_registration = async function (req, res) {
       password: password,
       phone: phone,
     });
-    res.json("user created successfully")
+    console.log("user registered")
+    res.redirect('/')
+
   }else{
     res.status(404)
-    res.json("user already exists")
+    res.redirect('/')
+    console.log("failed to register")
   }
 };
 
@@ -65,4 +73,12 @@ const editUser = async function(req, res){
   const editedUser = await User.findByIdAndUpdate({name, phone, address})
 }
 
-module.exports = { userLogin, user_signin, user_registration, userRegister, home };
+
+
+
+const logout = async function(req,res){
+  res.redirect('/')
+}
+
+
+module.exports = { userLogin, user_signin, user_registration, userRegister, home, logout };

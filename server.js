@@ -8,6 +8,7 @@ const orderRouter = require("./routes/order");
 const productRouter = require("./routes/product");
 const userRouter = require("./routes/user");
 const connectDb = require("./db/config");
+const exp = require("constants");
 
 const app = express();
 const port = process.env.PORT;
@@ -18,10 +19,13 @@ app.engine(
     extname: "hbs",
     defaultLayout: "layout",
     layoutsDir: __dirname + "/views/layouts",
+    partialsDir: __dirname+ "/views/partials"
   })
 );
+app.use(express.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/public'))
 app.set("views", path.join(__dirname, "views"));
+app.use("/images", express.static(path.join(__dirname, "/images")))
 app.set("view engine", "hbs");
 
 connectDb();
