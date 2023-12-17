@@ -4,11 +4,7 @@ const Products = require("../models/product")
 
 
 const home = async function(req, res){
-  const userData = {
-    isUser :true
-  }
-  // const products = await Products.find().lean()
-  // console.log(products.image)
+  
   res.render('index')
 }
 
