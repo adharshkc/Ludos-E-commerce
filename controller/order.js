@@ -6,7 +6,7 @@ const Order = require("../models/order")
 
 
 const cart = async function(req,res){
-    res.render('cart')
+    res.render('user/cart')
 }
 
 

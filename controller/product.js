@@ -4,18 +4,22 @@ const Products = require("../models/product");
 
 const showProduct = async function (req, res) {
   const products = await Products.find({}).lean()
-  res.render('products', {products: products})
+  res.render('user/products')
 };
 
 
-/************************************************************GET SINGLE PRODUCT PAGE**************************************************** */
+/************************************************************ SINGLE PRODUCT PAGE**************************************************** */
 
 const singleProduct = async function(req, res){
   const productId = req.params.id;
   console.log(productId)
   const product = await Products.findOne({_id: productId})
   console.log(product)
-  res.render('product-detail', {product:product})
+  res.render('user/product', {layout: "../layouts/layout"})
+}
+
+const postProduct = async function(req, res){
+  res.redirect("/cart")
 }
 
 /************************************************************POST ADMIN ADD PRODUCT**************************************************** */
@@ -43,6 +47,9 @@ const addProduct = async function (req, res) {
   }
 };
 
+const getAddProduct = function(req,res ){
+  res.render("admin/add-product")
+}
 
 /************************************************************PUT ADMIN EDIT PRODUCT**************************************************** */
 
@@ -82,4 +89,4 @@ const deleteProduct = async function (req, res) {
   }
 };
 
-module.exports = { addProduct, editProduct, showProduct, deleteProduct, singleProduct };
+module.exports = { addProduct, editProduct, showProduct, deleteProduct, singleProduct, getAddProduct, postProduct };
