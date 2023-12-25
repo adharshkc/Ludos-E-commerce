@@ -11,8 +11,8 @@ const showProduct = async function (req, res) {
 /************************************************************ SINGLE PRODUCT PAGE**************************************************** */
 
 const singleProduct = async function(req, res){
-  // const productId = req.params.id;
-  // console.log(productId)
+  const productId = req.params.id;
+  console.log(productId)
   // const product = await Products.findOne({_id: productId})
   // console.log(product)
   res.render('user/product', {layout: "../layouts/layout"})

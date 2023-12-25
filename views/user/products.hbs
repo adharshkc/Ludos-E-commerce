@@ -33,13 +33,14 @@
             <div class="shop-p__collection">
               <div class="row is-grid-active">
             {{#each products}}
+               
                 <div class="col-lg-3 col-md-4 col-sm-6">
                   <div class="product-m">
                     <div class="product-m__thumb">
 
                       <a
                         class="aspect aspect--bg-grey aspect--square u-d-block"
-                        href=""
+                        href="/product"
                       >
 
                         <img
@@ -58,14 +59,14 @@
                           title="Quick Look"
                         ></a></div>
                       <div class="product-m__add-cart">
-
+                       
                         <a
                         href="/product"
                           class="btn--e-brand custom-hover"
                           data-modal="modal"
                           onMouseOver="this.style.color='#fff'"
                           data-modal-id="#add-to-cart"
-                        >Add to Cart</a></div>
+                        > <button class="btn btn--e-brand-b-2" type="submit">Add to Cart</button></a></div>
                     </div>
                     <div class="product-m__content">
                       <div class="product-m__category">
@@ -106,8 +107,8 @@
                   </div>
                 </div>
                
+                </form>                                            
             {{/each}}
-                
               </div>
             </div>
             <div class="u-s-p-y-60">
