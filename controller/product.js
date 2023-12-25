@@ -4,22 +4,23 @@ const Products = require("../models/product");
 
 const showProduct = async function (req, res) {
   const products = await Products.find({}).lean()
-  res.render('user/products')
+  res.render('user/products', {products: products})
 };
 
 
 /************************************************************ SINGLE PRODUCT PAGE**************************************************** */
 
 const singleProduct = async function(req, res){
-  const productId = req.params.id;
-  console.log(productId)
-  const product = await Products.findOne({_id: productId})
-  console.log(product)
+  // const productId = req.params.id;
+  // console.log(productId)
+  // const product = await Products.findOne({_id: productId})
+  // console.log(product)
   res.render('user/product', {layout: "../layouts/layout"})
 }
 
 const postProduct = async function(req, res){
-  res.redirect("/cart")
+  console.log("proid"+req.params.id)
+  // res.redirect("/product")
 }
 
 /************************************************************POST ADMIN ADD PRODUCT**************************************************** */

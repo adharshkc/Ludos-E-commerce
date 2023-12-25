@@ -60,14 +60,21 @@
 
                 <span class="js-menu-toggle"></span>
                 <ul style="width:120px">
-                  {{#if user.isUser}}
+                  {{#if isUser}}
                     <li>
 
-                      <a href="dashboard.html"><i
+                      <a href="/user_profile"><i
                           class="fas fa-user-circle u-s-m-r-6"
                         ></i>
 
                         <span>My Account</span></a></li>
+                        <li>
+
+                      <a href="/logout"><i
+                          class="fas fa-lock-open u-s-m-r-6"
+                        ></i>
+
+                        <span>Signout</span></a></li>
                   {{else}}
                     <li>
 
@@ -81,18 +88,12 @@
                       <a href="/login"><i class="fas fa-lock u-s-m-r-6"></i>
 
                         <span>Signin</span></a></li>
-                    <li>
-
-                      <a href="/logout"><i
-                          class="fas fa-lock-open u-s-m-r-6"
-                        ></i>
-
-                        <span>Signout</span></a></li>
-                    <li>
+                    
+                    {{!-- <li>
 
                       <a href="/user/profile"><i class="fa fa-user" aria-hidden="true"></i>
 
-                        <span>Profile</span></a></li>
+                        <span>Profile</span></a></li> --}}
                   {{/if}}
                 </ul>
                 <!--====== End - Dropdown ======-->

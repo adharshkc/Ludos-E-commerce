@@ -12,6 +12,7 @@ const {
   editAddress,
 } = require("../controller/user");
 const { cart } = require("../controller/order");
+const { checkAuth } = require("../middlewares/auth");
 
 const router = express.Router();
 
@@ -21,10 +22,10 @@ router.post("/user_signin", user_signin);
 router.get("/register", userRegister);
 router.post("/user_registration", user_registration);
 router.get("/add_cart");
-router.get("/cart", cart);
+router.get("/cart",checkAuth, cart);
 router.get("/checkout");
 router.post("/user_account");
-router.get("/user_profile", user_dashboard);
+router.get("/user_profile", checkAuth, user_dashboard);
 router.get("/user_edit_profile", user_profile_edit)
 router.get("/user_edit_address", editAddress)
 router.get("/user_checkout", checkout)

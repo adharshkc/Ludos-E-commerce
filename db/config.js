@@ -1,11 +1,15 @@
-const mongoose = require("mongoose");
+var mongoose = require('mongoose');
+var db = mongoose.connection;
 
-const connectDb = function () {
-  mongoose.connect(process.env.MONGO_URI).then(() => {
-    console.log("database connected successfully");
-  }).catch((err)=>{
-    console.log(err)
-  })
-};
 
-module.exports = connectDb;
+mongoose.set('strictQuery', true);
+mongoose.connect(process.env.MONGO_URI, {
+    })
+
+    db.once('open',()=> console.log('Connected to Mongoose '));
+    db.on('error',error=> console.error(error));
+    db.on('disconnected',()=>{
+        console.log('Mongoose Disconnected');
+    });
+
+    module.exports = mongoose.connection

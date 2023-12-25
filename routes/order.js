@@ -9,7 +9,7 @@ router.delete("/admin_panel/orders/delete_orders/:id");
 
 
 
-router.get("/cart", cart)
+// router.get("/cart", cart)
 
 
 module.exports = router;

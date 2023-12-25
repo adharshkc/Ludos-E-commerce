@@ -32,18 +32,19 @@
             </div>
             <div class="shop-p__collection">
               <div class="row is-grid-active">
+            {{#each products}}
                 <div class="col-lg-3 col-md-4 col-sm-6">
                   <div class="product-m">
                     <div class="product-m__thumb">
 
                       <a
                         class="aspect aspect--bg-grey aspect--square u-d-block"
-                        href="product-detail.html"
+                        href=""
                       >
 
                         <img
                           class="aspect__img"
-                          src="images/product/men/product6.jpg"
+                          src="{{this.image}}"
                           alt=""
                         /></a>
                       <div class="product-m__quick-look">
@@ -69,10 +70,10 @@
                     <div class="product-m__content">
                       <div class="product-m__category">
 
-                        <a href="shop-side-version-2.html">Men Clothing</a></div>
+                        <a href="shop-side-version-2.html">{{this.brand}}</a></div>
                       <div class="product-m__name">
 
-                        <a href="product-detail.html">New Fashion B Nice Elegant</a></div>
+                        <a href="product-detail.html">{{this.name}}</a></div>
                       <div class="product-m__rating gl-rating-style"><i
                           class="fas fa-star"
                         ></i><i class="fas fa-star"></i><i
@@ -82,7 +83,7 @@
                         ></i>
 
                         <span class="product-m__review">(23)</span></div>
-                      <div class="product-m__price">$125.00</div>
+                      <div class="product-m__price">₹{{this.price}}</div>
                       <div class="product-m__hover">
                         <div class="product-m__preview-description">
 
@@ -105,6 +106,7 @@
                   </div>
                 </div>
                
+            {{/each}}
                 
               </div>
             </div>
