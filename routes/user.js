@@ -10,8 +10,9 @@ const {
   user_profile_edit,
   checkout,
   editAddress,
+  cart,
 } = require("../controller/user");
-const { cart } = require("../controller/order");
+// const { cart } = require("../controller/order");
 const { checkAuth } = require("../middlewares/auth");
 
 const router = express.Router();

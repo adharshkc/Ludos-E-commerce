@@ -1,4 +1,5 @@
 const Products = require("../models/product");
+const Cart = require("../models/cart")
 
 /************************************************************GET PRODUCTS PAGE**************************************************** */
 
@@ -12,15 +13,29 @@ const showProduct = async function (req, res) {
 
 const singleProduct = async function(req, res){
   const productId = req.params.id;
-  console.log(productId)
-  // const product = await Products.findOne({_id: productId})
-  // console.log(product)
-  res.render('user/product', {layout: "../layouts/layout"})
+  // console.log(productId)
+  const product = await Products.findOne({_id: productId}).lean()
+  // console.log(product+"product")
+  res.render('user/product', {product})
 }
 
 const postProduct = async function(req, res){
-  console.log("proid"+req.params.id)
-  // res.redirect("/product")
+  const cart = await Cart.findOne({user: req.session.useriduser })
+  if(cart){
+    const existingItem = cart.items.findIndex(item => item.product.toString() === req.params.id)
+    if(existingItem !== -1){
+      cart.items[existingItem].quantity +=1;
+    }else{
+      cart.items.push({product: req.params.id, quantity: 1})
+    }
+    await Cart.save()
+  }else{
+    const newCart = new Cart({
+      user: req.session.userid,
+      items: [{ product: req.params.id, quantity: 1 }] // Add the product to a new cart with quantity 1
+    });
+  }
+  res.redirect("/cart")
 }
 
 /************************************************************POST ADMIN ADD PRODUCT**************************************************** */

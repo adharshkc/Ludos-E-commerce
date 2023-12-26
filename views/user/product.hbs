@@ -19,10 +19,10 @@
                 <a href="shop-side-version-2.html">Electronics</a></li>
               <li class="has-separator">
 
-                <a href="shop-side-version-2.html">DSLR Cameras</a></li>
+                <a href="shop-side-version-2.html">{{product.category}}</a></li>
               <li class="is-marked">
 
-                <a href="shop-side-version-2.html">Nikon Cameras</a></li>
+                <a href="shop-side-version-2.html">{{product.name}}</a></li>
             </ul>
           </div>
           <!--====== End - Product Breadcrumb ======-->
@@ -33,13 +33,13 @@
               <div id="pd-o-initiate">
                 <div
                   class="pd-o-img-wrap"
-                  data-src="images/product/product-d-1.jpg"
+                  data-src="{{product.image}}"
                 >
 
                   <img
                     class="u-img-fluid"
-                    src="images/product/product-d-1.jpg"
-                    data-zoom-image="images/product/product-d-1.jpg"
+                    src="{{product.image}}"
+                    data-zoom-image="{{product.image}}"
                     alt=""
                   /></div>
               </div>
@@ -62,11 +62,11 @@
           <div class="pd-detail">
             <div>
 
-              <span class="pd-detail__name">Nikon Camera 4k Lens Zoom Pro</span></div>
+              <span class="pd-detail__name">{{product.name}}</span></div>
             <div>
               <div class="pd-detail__inline">
 
-                <span class="pd-detail__price">$6.99</span>
+                <span class="pd-detail__price">₹{{product.price}}</span>
 
                 <span class="pd-detail__discount">(76% OFF)</span><del
                   class="pd-detail__del"
@@ -86,9 +86,9 @@
             <div class="u-s-m-b-15">
               <div class="pd-detail__inline">
 
-                <span class="pd-detail__stock">200 in stock</span>
+                <span class="pd-detail__stock">{{product.countInStock}} in stock</span>
 
-                <span class="pd-detail__left">Only 2 left</span></div>
+                {{!-- <span class="pd-detail__left">Only 2 left</span></div> --}}
             </div>
             <div class="u-s-m-b-15">
 
@@ -102,7 +102,7 @@
             </div>
 
             <div class="u-s-m-b-5">
-              <form class="pd-detail__form" method="post" action="/postproduct">
+              <form class="pd-detail__form" method="post" action="/postProduct/{{product._id}}">
                 <div class="pd-detail-inline-2">
                   <div class="u-s-m-b-15">
 
@@ -114,6 +114,7 @@
                       <input
                         class="input-counter__text input-counter--text-primary-style"
                         type="text"
+                        name="quantity"
                         value="1"
                         data-min="1"
                         data-max="1000"
@@ -126,7 +127,7 @@
                   </div>
                   <div class="u-s-m-b-15">
 
-                    <button class="btn btn--e-brand-b-2" type="submit">Add to
+                    <button class="btn btn--e-brand-b-2 custom-hover" type="submit">Add to
                       Cart</button></div>
                 </div>
               </form>

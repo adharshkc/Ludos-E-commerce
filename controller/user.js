@@ -1,6 +1,7 @@
 const express = require("express");
 const { User } = require("../models/user");
 const Products = require("../models/product");
+const Cart = require("../models/cart");
 
 
 
@@ -99,6 +100,23 @@ const editAddress = function (req, res) {
   res.render("user/edit-address");
 };
 
+
+/**************************************************************GET POST CART**********************************************************/
+const cart = async function(req, res){
+  // console.log(userId)
+  if (req.session.user) {
+    const userId = req.session.userid
+    let isUser = true;
+    const cart = await Cart.findOne({userId}).lean()
+    console.log(cart)
+    res.render("user/cart", { layout: "../layouts/layout", isUser, cart: cart });
+  }
+  // res.render("user/cart")
+}
+
+
+
+
 const checkout = function (req, res) {
   res.render("user/checkout");
 };
@@ -116,6 +134,7 @@ module.exports = {
   user_dashboard,
   user_profile_edit,
   editAddress,
+  cart,
   checkout,
   home,
   logout,

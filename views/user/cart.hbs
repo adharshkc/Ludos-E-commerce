@@ -13,10 +13,10 @@
             <ul class="breadcrumb__list">
               <li class="has-separator">
 
-                <a href="index.html">Home</a></li>
+                <a href="/">Home</a></li>
               <li class="is-marked">
 
-                <a href="cart.html">Cart</a></li>
+                <a href="/cart">Cart</a></li>
             </ul>
           </div>
         </div>
@@ -46,6 +46,7 @@
     <div class="section__content">
       <div class="container">
         <div class="row">
+          {{#if cart.item.product.length}}
           <div class="col-lg-12 col-md-12 col-sm-12 u-s-m-b-30">
             <div class="table-responsive">
               <table class="table-p">
@@ -140,6 +141,7 @@
                   </div>
             </div>
           </div>
+         
         </div>
       </div>
     </div>
@@ -188,6 +190,9 @@
                   </div>
                 </div>
               </div>
+               {{else}}
+          <h1>cart is empty</h1>
+          {{/if}}
             </form>
           </div>
         </div>

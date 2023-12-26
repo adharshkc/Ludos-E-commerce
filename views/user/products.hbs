@@ -33,14 +33,14 @@
             <div class="shop-p__collection">
               <div class="row is-grid-active">
             {{#each products}}
-               
-                <div class="col-lg-3 col-md-4 col-sm-6">
+               {{!-- <form action=""> --}}
+                <form action="/product/{{this._id}}" method="get" class="col-lg-3 col-md-4 col-sm-6">
                   <div class="product-m">
                     <div class="product-m__thumb">
 
                       <a
                         class="aspect aspect--bg-grey aspect--square u-d-block"
-                        href="/product"
+                        style="cursor: default;"
                       >
 
                         <img
@@ -61,7 +61,7 @@
                       <div class="product-m__add-cart">
                        
                         <a
-                        href="/product"
+                        href=""
                           class="btn--e-brand custom-hover"
                           data-modal="modal"
                           onMouseOver="this.style.color='#fff'"
@@ -71,10 +71,10 @@
                     <div class="product-m__content">
                       <div class="product-m__category">
 
-                        <a href="shop-side-version-2.html">{{this.brand}}</a></div>
+                        <a href="">{{this.brand}}</a></div>
                       <div class="product-m__name">
 
-                        <a href="product-detail.html">{{this.name}}</a></div>
+                        <a href="">{{this.name}}</a></div>
                       <div class="product-m__rating gl-rating-style"><i
                           class="fas fa-star"
                         ></i><i class="fas fa-star"></i><i
@@ -105,7 +105,7 @@
                       </div>
                     </div>
                   </div>
-                </div>
+                {{!-- </div> --}}
                
                 </form>                                            
             {{/each}}
