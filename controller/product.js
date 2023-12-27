@@ -20,21 +20,31 @@ const singleProduct = async function(req, res){
 }
 
 const postProduct = async function(req, res){
-  const cart = await Cart.findOne({user: req.session.useriduser })
-  if(cart){
-    const existingItem = cart.items.findIndex(item => item.product.toString() === req.params.id)
-    if(existingItem !== -1){
-      cart.items[existingItem].quantity +=1;
-    }else{
-      cart.items.push({product: req.params.id, quantity: 1})
-    }
-    await Cart.save()
-  }else{
-    const newCart = new Cart({
-      user: req.session.userid,
-      items: [{ product: req.params.id, quantity: 1 }] // Add the product to a new cart with quantity 1
-    });
+  const cart = await Cart.findOne({ user: req.session.userid }); // Find the user's cart
+
+if (cart) {
+  const existingItemIndex = cart.items.findIndex(item => item.product.toString() === req.params.id);
+  
+  if (existingItemIndex !== -1) {
+    await Cart.updateOne(
+      { user: req.session.userid, 'items.product': req.params.id },
+      { $inc: { 'items.$.quantity': 1 } }
+    );
+  } else {
+   
+    await Cart.updateOne(
+      { user: req.session.userid },
+      { $push: { items: { product: req.params.id, quantity: 1 } } }
+    );
   }
+} else {
+  
+ const cart = await Cart.create({
+    user: req.session.userid,
+    items: [{ product: req.params.id, quantity: 1 }]
+  });
+}
+
   res.redirect("/cart")
 }
 

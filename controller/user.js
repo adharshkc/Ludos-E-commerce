@@ -103,12 +103,14 @@ const editAddress = function (req, res) {
 
 /**************************************************************GET POST CART**********************************************************/
 const cart = async function(req, res){
-  // console.log(userId)
   if (req.session.user) {
     const userId = req.session.userid
     let isUser = true;
-    const cart = await Cart.findOne({userId}).lean()
-    console.log(cart)
+    const cart = await Cart.findOne({user: userId}).populate('items.product').lean()
+    cart.items.forEach(item => {
+      
+        console.log(item.product.name);
+    })
     res.render("user/cart", { layout: "../layouts/layout", isUser, cart: cart });
   }
   // res.render("user/cart")
