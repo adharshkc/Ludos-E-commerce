@@ -34,13 +34,14 @@
               <div class="row is-grid-active">
             {{#each products}}
                {{!-- <form action=""> --}}
-                <form action="/product/{{this._id}}" method="get" class="col-lg-3 col-md-4 col-sm-6">
+                <div class="col-lg-3 col-md-4 col-sm-6">
                   <div class="product-m">
                     <div class="product-m__thumb">
 
                       <a
+                      href="/product/{{this._id}}"
                         class="aspect aspect--bg-grey aspect--square u-d-block"
-                        style="cursor: default;"
+                        style=""
                       >
 
                         <img
@@ -61,12 +62,12 @@
                       <div class="product-m__add-cart">
                        
                         <a
-                        href=""
+                        href="/addToCart/{{this._id}}"
                           class="btn--e-brand custom-hover"
                           data-modal="modal"
                           onMouseOver="this.style.color='#fff'"
                           data-modal-id="#add-to-cart"
-                        > <button class="btn btn--e-brand-b-2" type="submit">Add to Cart</button></a></div>
+                        >Add To Cart</a></div>
                     </div>
                     <div class="product-m__content">
                       <div class="product-m__category">
@@ -105,7 +106,7 @@
                       </div>
                     </div>
                   </div>
-                {{!-- </div> --}}
+                </div>
                
                 </form>                                            
             {{/each}}

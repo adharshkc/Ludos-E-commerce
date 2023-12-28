@@ -5,7 +5,13 @@ const Cart = require("../models/cart")
 
 const showProduct = async function (req, res) {
   const products = await Products.find({}).lean()
-  res.render('user/products', {products: products})
+  if (req.session.user) {
+    let isUser = true;
+    res.render('user/products', {products: products, isUser})
+    
+  } else {
+    res.render('user/products', {products: products})
+  }
 };
 
 
@@ -15,39 +21,43 @@ const singleProduct = async function(req, res){
   const productId = req.params.id;
   // console.log(productId)
   const product = await Products.findOne({_id: productId}).lean()
-  // console.log(product+"product")
+  if (req.session.user) {
+    let isUser = true;
+  res.render('user/product', {product, isUser})
+} else {
   res.render('user/product', {product})
 }
+}
 
-const postProduct = async function(req, res){
-  const cart = await Cart.findOne({ user: req.session.userid }); // Find the user's cart
+// const postProduct = async function(req, res){
+//   const cart = await Cart.findOne({ user: req.session.userid }); // Find the user's cart
 
-if (cart) {
-  const existingItemIndex = cart.items.findIndex(item => item.product.toString() === req.params.id);
+// if (cart) {
+//   const existingItemIndex = cart.items.findIndex(item => item.product.toString() === req.params.id);
   
-  if (existingItemIndex !== -1) {
-    await Cart.updateOne(
-      { user: req.session.userid, 'items.product': req.params.id },
-      { $inc: { 'items.$.quantity': 1 } }
-    );
-  } else {
+//   if (existingItemIndex !== -1) {
+//     await Cart.updateOne(
+//       { user: req.session.userid, 'items.product': req.params.id },
+//       { $inc: { 'items.$.quantity': 1 } }
+//     );
+//   } else {
    
-    await Cart.updateOne(
-      { user: req.session.userid },
-      { $push: { items: { product: req.params.id, quantity: 1 } } }
-    );
-  }
-} else {
+//     await Cart.updateOne(
+//       { user: req.session.userid },
+//       { $push: { items: { product: req.params.id, quantity: 1 } } }
+//     );
+//   }
+// } else {
   
- const cart = await Cart.create({
-    user: req.session.userid,
-    items: [{ product: req.params.id, quantity: 1 }],
-    
-  });
-}
+//  const cart = await Cart.create({
+//     user: req.session.userid,
+//     items: [{ product: req.params.id, quantity: 1 }],
 
-  res.redirect("/cart")
-}
+//   });
+// }
+
+//   res.redirect("/cart")
+// }
 
 /************************************************************POST ADMIN ADD PRODUCT**************************************************** */
 
@@ -116,4 +126,4 @@ const deleteProduct = async function (req, res) {
   }
 };
 
-module.exports = { addProduct, editProduct, showProduct, deleteProduct, singleProduct, getAddProduct, postProduct };
+module.exports = { addProduct, editProduct, showProduct, deleteProduct, singleProduct, getAddProduct };

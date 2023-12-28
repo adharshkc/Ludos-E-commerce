@@ -102,7 +102,7 @@
             </div>
 
             <div class="u-s-m-b-5">
-              <form class="pd-detail__form" method="post" action="/postProduct/{{product._id}}">
+              {{!-- <form class="pd-detail__form" method="post" action="/postProduct/{{product._id}}"> --}}
                 <div class="pd-detail-inline-2">
                   <div class="u-s-m-b-15">
 
@@ -127,10 +127,10 @@
                   </div>
                   <div class="u-s-m-b-15">
 
-                    <button class="btn btn--e-brand-b-2 custom-hover" type="submit">Add to
-                      Cart</button></div>
+                <a href="/addToCart/{{product._id}}">    <button class="btn btn--e-brand-b-2 custom-hover" type="submit">Add to
+                      Cart</button></a></div>
                 </div>
-              </form>
+              {{!-- </form> --}}
             </div>
             <div class="u-s-m-b-15">
 
