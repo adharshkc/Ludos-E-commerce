@@ -107,15 +107,15 @@ const cart = async function(req, res){
     const userId = req.session.userid
     let isUser = true;
     const cart = await Cart.findOne({user: userId}).populate('items.product').lean()
-    cart.items.forEach(item => {
-      
-        console.log(item.product.name);
-    })
+    
     res.render("user/cart", { layout: "../layouts/layout", isUser, cart: cart });
   }
-  // res.render("user/cart")
+  
 }
 
+const postCart = async function(req, res){
+  
+}
 
 
 

@@ -41,7 +41,8 @@ if (cart) {
   
  const cart = await Cart.create({
     user: req.session.userid,
-    items: [{ product: req.params.id, quantity: 1 }]
+    items: [{ product: req.params.id, quantity: 1 }],
+    
   });
 }
 

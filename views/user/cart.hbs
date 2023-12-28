@@ -99,6 +99,7 @@
                             class="input-counter__text input-counter--text-primary-style"
                             type="text"
                             value="1"
+                            id="inputField"
                             data-min="1"
                             data-max="1000"
                           />
@@ -205,3 +206,50 @@
 </div>
 
 {{> footer}}
+
+{{!-- <script>
+  const inputField = document.getElementById("inputField")
+
+  inputField.addEventListener('change', sendData)
+
+  function sendData(){
+    const inputValue = inputField.value
+    console.log(inputValue)
+    const data = {value: inputValue}
+    const queryString = new URLSearchParams(data).toString()
+    fetch('http://localhost:3000/cart',{
+      method: 'GET'
+  })
+  .then(response => {
+     if (response.ok) {
+      console.log('Data sent successfully!');
+    } else {
+      console.error('Failed to send data');
+    }
+  }).catch(error =>{
+    console.error(error)
+  })
+  }
+
+</script> --}}
+
+<script>
+  $(document).ready(function(){
+    $('#inputField').on('change', function(){
+      var inputValue = $(this).val()
+      var data = {value: inputValue}
+      $.ajax({
+        type: 'POST',
+        url: 'http://localhost:3000/postCart',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        success: function(res){
+          console.log("data sent ")
+        },
+        error: function(xhr, status, error){
+          console.log("failed to send data")
+        }
+      })
+    })
+  })
+</script>
