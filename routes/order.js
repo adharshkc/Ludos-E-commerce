@@ -1,5 +1,5 @@
 const express = require("express");
-const { addToCart, getCart, addProductToCart, deleteCart, updateCart } = require("../controller/order");
+const { addToCart, getCart, addProductToCart, deleteCart, updateCart, getCheckout } = require("../controller/order");
 const { checkAuth } = require("../middlewares/auth");
 
 const router = express.Router();
@@ -12,5 +12,6 @@ router.get("/addProductToCart/:id", checkAuth, addProductToCart)
 router.get("/deleteCartProduct/:id", checkAuth, deleteCart )
 router.post("/updateCart", checkAuth, updateCart)
 router.get("/cart", checkAuth, getCart)
+router.get("/checkout", checkAuth, getCheckout)
 
 module.exports = router;

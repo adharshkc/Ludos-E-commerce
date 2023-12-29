@@ -111,7 +111,9 @@ const updateCart = async function (req, res) {
 
 
 ///////////////////////////////////////////////////////////////CHECKOUT/////////////////////////////////////////////////////
-
+const getCheckout = async function(req, res){
+  res.render('user/checkout')
+}
 
 module.exports = {
   addToCart,
@@ -119,4 +121,5 @@ module.exports = {
   addProductToCart,
   deleteCart,
   updateCart,
+  getCheckout
 };
