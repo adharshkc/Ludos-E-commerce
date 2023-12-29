@@ -20,25 +20,22 @@ const cartSchema = mongoose.Schema({
       },
     },
   ],
-  totalPrice: {
-    type: Number,
-    default: 0,
-  },
+  
 });
 
-cartSchema.methods.calculateTotalPrice = async function () {
-  const cart = this;
-  const items = cart.items;
-  let total = 0;
+// cartSchema.methods.calculateTotalPrice = async function () {
+//   const cart = this;
+//   const items = cart.items;
+//   let total = 0;
 
-  for (const item of items) {
-    const product = await Product.findById(item.product);
-    if (product) {
-      total += product.price * item.quantity;
-    }
-  }
-  cart.totalPrice = total;
-  await cart.save();
-};
+//   for (const item of items) {
+//     const product = await Product.findById(item.product);
+//     if (product) {
+//       total += product.price * item.quantity;
+//     }
+//   }
+//   cart.totalPrice = total;
+//   await cart.save();
+// };
 
 module.exports = mongoose.mongoose.model("Carts", cartSchema);

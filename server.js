@@ -5,6 +5,7 @@ const path = require("path");
 const session = require("express-session");
 const MongoDBStore = require('connect-mongodb-session')(session);
 const morgan = require("morgan")
+const bodyParser = require('body-parser')
 
 const adminRouter = require("./routes/admin");
 const orderRouter = require("./routes/order");
@@ -15,6 +16,7 @@ const connectDb = require("./db/config");
 const app = express();
 const port = process.env.PORT;
 app.use(express.json());
+app.use(bodyParser.json())
 
 app.use((req, res, next) => {
   res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');

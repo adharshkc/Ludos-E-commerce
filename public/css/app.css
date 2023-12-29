@@ -1186,12 +1186,15 @@ body {
 
 .input-counter__minus {
   left: 0;
-  top: 40%
+  border: none;
+  border-radius: 100%;
+  
 }
 
 .input-counter__plus {
   right: 0;
-  top: 40%;
+  border: none;
+  border-radius: 100%;
 }
 
 /* Input Text Component */

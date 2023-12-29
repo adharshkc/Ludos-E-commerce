@@ -46,8 +46,8 @@
     <div class="section__content">
       <div class="container">
           {{#if cart.items.length}}
-          {{#each cart.items}}
         <div class="row">
+          {{#each cart.items}}
           <div class="col-lg-12 col-md-12 col-sm-12 u-s-m-b-30">
             <div class="table-responsive">
               <table class="table-p">
@@ -75,7 +75,7 @@
                           <ul class="table-p__variant-list">
                             <li>
 
-                              <span>Size: 22</span></li>
+                              <span></span></li>
                             <li>
 
                               <span>Color: Red</span></li>
@@ -90,23 +90,28 @@
 
                         <!--====== Input Counter ======-->
                         <div class="input-counter">
+                          
 
-                          <span
-                            class="input-counter__minus fas fa-minus"
-                          ></span>
+                          <button
+                            class="input-counter__minus fas fa-minus" onclick="updateQuantity( '{{this.product._id}}', -1)"
+                          ></button>
+                          
 
                           <input
                             class="input-counter__text input-counter--text-primary-style"
                             type="text"
-                            value="1"
+                            value="{{this.quantity}}"
                             id="inputField"
                             data-min="1"
                             data-max="1000"
                           />
+                          
 
-                          <span
-                            class="input-counter__plus fas fa-plus"
-                          ></span></div>
+                          <button
+                            class="input-counter__plus fas fa-plus" onclick="updateQuantity( '{{this.product._id}}', 1)"
+                          ></button>
+                          
+                          </div>
                         <!--====== End - Input Counter ======-->
                       </div>
                     </td>
@@ -115,7 +120,7 @@
 
                         <a
                           class="far fa-trash-alt table-p__delete-link"
-                          href="#"
+                          href="/deleteCartProduct/{{this.product._id}}"
                         ></a></div>
                     </td>
                   </tr>
@@ -134,13 +139,6 @@
                   ></i>
 
                   <span>CONTINUE SHOPPING</span></a></div>
-              <div class="route-box__g2">
-
-                <a class="route-box__link" href="cart.html"><i
-                    class="fas fa-trash"
-                  ></i>
-                  <span>CLEAR CART</span></a>
-                  </div>
             </div>
           </div>
          
@@ -166,21 +164,25 @@
                     <div class="u-s-m-b-30">
                       <table class="f-cart__table">
                         <tbody>
-                          <tr>
+                          {{!-- <tr>
                             <td>SHIPPING</td>
-                            <td>$4.00</td>
-                          </tr>
+                            <td>₹40</td>
+                          </tr> --}}
                           <tr>
                             <td>TAX</td>
-                            <td>$0.00</td>
+                            <td>₹1000</td>
+                          </tr>
+                          <tr>
+                            <td>DISCOUNT</td>
+                            <td>-₹1000</td>
                           </tr>
                           <tr>
                             <td>SUBTOTAL</td>
-                            <td>$379.00</td>
+                            <td>₹{{totalPrice}}</td>
                           </tr>
                           <tr>
                             <td>GRAND TOTAL</td>
-                            <td>$379.00</td>
+                            <td>₹{{totalPrice}}</td>
                           </tr>
                         </tbody>
                       </table>
@@ -194,6 +196,13 @@
               </div>
                {{else}}
           <h1>cart is empty</h1>
+          <div class="route-box__g1">
+
+                <a class="route-box__link" href="/products"><i
+                    class="fas fa-long-arrow-alt-left"
+                  ></i>
+
+                  <span>CONTINUE SHOPPING</span></a></div>
           {{/if}}
             </form>
           </div>
@@ -207,49 +216,22 @@
 
 {{> footer}}
 
-{{!-- <script>
-  const inputField = document.getElementById("inputField")
-
-  inputField.addEventListener('change', sendData)
-
-  function sendData(){
-    const inputValue = inputField.value
-    console.log(inputValue)
-    const data = {value: inputValue}
-    const queryString = new URLSearchParams(data).toString()
-    fetch('http://localhost:3000/cart',{
-      method: 'GET'
-  })
-  .then(response => {
-     if (response.ok) {
-      console.log('Data sent successfully!');
-    } else {
-      console.error('Failed to send data');
-    }
-  }).catch(error =>{
-    console.error(error)
-  })
-  }
-
-</script> --}}
-
 <script>
-  $(document).ready(function(){
-    $('#inputField').on('change', function(){
-      var inputValue = $(this).val()
-      var data = {value: inputValue}
-      $.ajax({
-        type: 'POST',
-        url: 'http://localhost:3000/postCart',
-        data: JSON.stringify(data),
-        contentType: 'application/json',
-        success: function(res){
-          console.log("data sent ")
-        },
-        error: function(xhr, status, error){
-          console.log("failed to send data")
-        }
-      })
+  
+
+  function updateQuantity( proId, count){
+    
+    $.ajax({
+      url: "/updateCart",
+      data: {
+        
+        proId: proId,
+        count: count
+      },
+      method: 'post',
+      success: (respose)=>{
+        
+      }
     })
-  })
+  }
 </script>
