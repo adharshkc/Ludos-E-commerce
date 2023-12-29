@@ -1,6 +1,7 @@
 const express = require("express");
-const { addToCart, getCart, addProductToCart, deleteCart, updateCart, getCheckout } = require("../controller/order");
+const { addToCart, getCart, addProductToCart, deleteCart, updateCart, getCheckout, deleteProductCheckout, postCheckout } = require("../controller/order");
 const { checkAuth } = require("../middlewares/auth");
+// const { deleteCartProduct } = require("../helpers/cart");
 
 const router = express.Router();
 
@@ -13,5 +14,7 @@ router.get("/deleteCartProduct/:id", checkAuth, deleteCart )
 router.post("/updateCart", checkAuth, updateCart)
 router.get("/cart", checkAuth, getCart)
 router.get("/checkout", checkAuth, getCheckout)
+router.get("/deleteProductCheckout/:id", checkAuth, deleteProductCheckout)
+router.post("/postCheckout", checkAuth, postCheckout)
 
 module.exports = router;

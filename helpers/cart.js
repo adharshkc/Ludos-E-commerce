@@ -59,4 +59,31 @@ module.exports = {
       });
     }
   },
+
+  deleteCartProduct: async function(userId, proId){
+    try {
+      const cart = await Cart.findOne({ user: userId }).populate("items.product");
+  
+      if (!cart) {
+        console.log("cart not found")
+      }
+      // console.log(req.params.id);
+      const productId = proId;
+      const indexToRemove = cart.items.findIndex(
+        (item) => item.product._id.toString() === productId
+      );
+  
+      if (indexToRemove === -1) {
+       console.log("product not found")
+      }
+  
+      cart.items.splice(indexToRemove, 1);
+  
+      await cart.save();
+  
+      // res.redirect("/cart");
+    } catch (error) {
+      console.log(error)
+    }
+  }
 };

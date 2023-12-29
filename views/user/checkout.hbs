@@ -2,217 +2,174 @@
 
 <div class="app-content">
 
-            <!--====== Section 1 ======-->
-            <div class="u-s-p-y-6">
+  <!--====== Section 1 ======-->
+  <div class="u-s-p-y-6">
 
-                <!--====== Section Content ======-->
-                <div class="section__content">
-                    <div class="container">
-                        <div class="breadcrumb">
-                            <div class="breadcrumb__wrap">
-                                <ul class="breadcrumb__list">
-                                    <li class="has-separator">
+    <!--====== Section Content ======-->
+    <div class="section__content">
+      <div class="container">
+        <div class="breadcrumb">
+          <div class="breadcrumb__wrap">
+            <ul class="breadcrumb__list">
+              <li class="has-separator">
 
-                                        <a href="index.html">Home</a></li>
-                                    <li class="is-marked">
+                <a href="/">Home</a></li>
+              <li class="is-marked">
 
-                                        <a href="checkout.html">Checkout</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                <a href="#">Checkout</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--====== End - Section 1 ======-->
+
+  <!--====== Section 2 ======-->
+  <!--====== End - Section 2 ======-->
+
+  <!--====== Section 3 ======-->
+<form class="" id="checkoutForm" >
+  <div class="u-s-p-b-60">
+
+    <!--====== Section Content ======-->
+    <div class="section__content">
+      <div class="container">
+        <div class="checkout-f">
+          <div class="row justify-content-center">
+            <div class="col-lg-6">
+              <h1 class="checkout-f__h1">DELIVERY INFORMATION</h1>
+                <div class="u-s-m-b-30">
+                  
+
+                  <!--====== E-MAIL ======-->
+                  <div class="u-s-m-b-15">
+
+                    <label class="gl-label" for="billing-email">E-MAIL *</label>
+
+                    <input
+                      class="input-text input-text--primary-style"
+                      type="text"
+                      name="email"
+                      id="billing-email"
+                      value="{{cart.user.email}}"
+                      data-bill=""
+                    /></div>
+                  <!--====== End - E-MAIL ======-->
+
+                  <!--====== PHONE ======-->
+                  <div class="u-s-m-b-15">
+
+                    <label class="gl-label" for="billing-phone">PHONE *</label>
+
+                    <input
+                      class="input-text input-text--primary-style"
+                      type="text"
+                      name="phone"
+                      value="{{cart.user.phone}}"
+                      id="billing-phone"
+                      data-bill=""
+                    /></div>
+                  <!--====== End - PHONE ======-->
+
+                  <!--====== Street Address ======-->
+                  <div class="u-s-m-b-15">
+
+                    <label class="gl-label" for="billing-street">HOUSE NAME
+                      *</label>
+
+                    <input
+                      class="input-text input-text--primary-style"
+                      type="text"
+                      name="houseName"
+                      required
+                      id="billing-street"
+                      value="{{order.shippingAddress.houseName}}"
+                     
+                      data-bill=""
+                    /></div>
+                  
+
+                  <!--====== Town / City ======-->
+                  <div class="u-s-m-b-15">
+
+                    <label class="gl-label" for="billing-town-city">TOWN/CITY *</label>
+
+                    <input
+                      class="input-text input-text--primary-style"
+                      type="text"
+                      required
+                      name="city"
+                      value="{{order.shippingAddress.city}}"
+                      id="billing-town-city"
+                      data-bill=""
+                    /></div>
+                  <!--====== End - Town / City ======-->
+
+                  <!--====== ZIP/POSTAL ======-->
+                  <div class="u-s-m-b-15">
+
+                    <label class="gl-label" for="billing-zip">ZIP/POSTAL CODE *</label>
+
+                    <input
+                      class="input-text input-text--primary-style"
+                      type="text"
+                      id="billing-zip"
+                      name="pincode"
+                      required
+                      
+                      value="{{order.shippingAddress.pincode}}"
+                      data-bill=""
+                    /></div>
+                  <!--====== End - ZIP/POSTAL ======-->
+                  {{!-- <div>
+
+                    <button
+                      class="btn btn--e-transparent-brand-b-2"
+                      type="submit"
+                    >SAVE</button></div> --}}
                 </div>
+              
             </div>
-            <!--====== End - Section 1 ======-->
+            <div class="col-lg-6">
+              <h1 class="checkout-f__h1">ORDER SUMMARY</h1>
 
+              <!--====== Order Summary ======-->
+              <div class="o-summary">
+                <div class="o-summary__section u-s-m-b-30">
+                  <div class="o-summary__item-wrap gl-scroll">
+                    {{#each cart.items}}
+                      <div class="o-card">
+                        <div class="o-card__flex">
+                          <div class="o-card__img-wrap">
 
-            <!--====== Section 2 ======-->
-            <!--====== End - Section 2 ======-->
+                            <img
+                              class="u-img-fluid"
+                              src="{{this.product.image}}"
+                              alt=""
+                            /></div>
+                          <div class="o-card__info-wrap">
 
+                            <span class="o-card__name">
 
-            <!--====== Section 3 ======-->
-            <div class="u-s-p-b-60">
+                              <a
+                                href="/product/{{this.product._id}}"
+                              >{{this.product.name}}</a></span>
 
-                <!--====== Section Content ======-->
-                <div class="section__content">
-                    <div class="container">
-                        <div class="checkout-f">
-                            <div class="row justify-content-center">
-                                <div class="col-lg-6">
-                                    <h1 class="checkout-f__h1">DELIVERY INFORMATION</h1>
-                                    <form class="checkout-f__delivery">
-                                        <div class="u-s-m-b-30">
-                                            <div class="u-s-m-b-15">
+                            <span class="o-card__quantity">Quantity x
+                              {{this.quantity}}</span>
 
-                                                <!--====== Check Box ======-->
-                                                <div class="check-box">
+                            <span
+                              class="o-card__price"
+                            >₹{{this.product.price}}</span></div>
+                        </div>
 
-                                                    <input type="checkbox" id="get-address">
-                                                    <div class="check-box__state check-box__state--primary">
-
-                                                        <label class="check-box__label" for="get-address">Use default shipping and billing address from account</label></div>
-                                                </div>
-                                                <!--====== End - Check Box ======-->
-                                            </div>
-
-                                            <!--====== First Name, Last Name ======-->
-                                            <div class="gl-inline">
-                                                <div class="u-s-m-b-15">
-
-                                                    <label class="gl-label" for="billing-fname">FIRST NAME *</label>
-
-                                                    <input class="input-text input-text--primary-style" type="text" id="billing-fname" data-bill=""></div>
-                                                <div class="u-s-m-b-15">
-
-                                                    <label class="gl-label" for="billing-lname">LAST NAME *</label>
-
-                                                    <input class="input-text input-text--primary-style" type="text" id="billing-lname" data-bill=""></div>
-                                            </div>
-                                            <!--====== End - First Name, Last Name ======-->
-
-
-                                            <!--====== E-MAIL ======-->
-                                            <div class="u-s-m-b-15">
-
-                                                <label class="gl-label" for="billing-email">E-MAIL *</label>
-
-                                                <input class="input-text input-text--primary-style" type="text" id="billing-email" data-bill=""></div>
-                                            <!--====== End - E-MAIL ======-->
-
-
-                                            <!--====== PHONE ======-->
-                                            <div class="u-s-m-b-15">
-
-                                                <label class="gl-label" for="billing-phone">PHONE *</label>
-
-                                                <input class="input-text input-text--primary-style" type="text" id="billing-phone" data-bill=""></div>
-                                            <!--====== End - PHONE ======-->
-
-
-                                            <!--====== Street Address ======-->
-                                            <div class="u-s-m-b-15">
-
-                                                <label class="gl-label" for="billing-street">STREET ADDRESS *</label>
-
-                                                <input class="input-text input-text--primary-style" type="text" id="billing-street" placeholder="House name and street name" data-bill=""></div>
-                                            <div class="u-s-m-b-15">
-
-                                                <label for="billing-street-optional"></label>
-
-                                                <input class="input-text input-text--primary-style" type="text" id="billing-street-optional" placeholder="Apartment, suite unit etc. (optional)" data-bill=""></div>
-                                            <!--====== End - Street Address ======-->
-
-
-                                            <!--====== Country ======-->
-                                            <div class="u-s-m-b-15">
-
-                                                <!--====== Select Box ======-->
-
-                                                <label class="gl-label" for="billing-country">COUNTRY *</label><select class="select-box select-box--primary-style" id="billing-country" data-bill="">
-                                                    <option selected value="">Choose Country</option>
-                                                    <option value="uae">United Arab Emirate (UAE)</option>
-                                                    <option value="uk">United Kingdom (UK)</option>
-                                                    <option value="us">United States (US)</option>
-                                                </select>
-                                                <!--====== End - Select Box ======-->
-                                            </div>
-                                            <!--====== End - Country ======-->
-
-
-                                            <!--====== Town / City ======-->
-                                            <div class="u-s-m-b-15">
-
-                                                <label class="gl-label" for="billing-town-city">TOWN/CITY *</label>
-
-                                                <input class="input-text input-text--primary-style" type="text" id="billing-town-city" data-bill=""></div>
-                                            <!--====== End - Town / City ======-->
-
-
-                                            <!--====== STATE/PROVINCE ======-->
-                                            <div class="u-s-m-b-15">
-
-                                                <!--====== Select Box ======-->
-
-                                                <label class="gl-label" for="billing-state">STATE/PROVINCE *</label><select class="select-box select-box--primary-style" id="billing-state" data-bill="">
-                                                    <option selected value="">Choose State/Province</option>
-                                                    <option value="al">Alabama</option>
-                                                    <option value="al">Alaska</option>
-                                                    <option value="ny">New York</option>
-                                                </select>
-                                                <!--====== End - Select Box ======-->
-                                            </div>
-                                            <!--====== End - STATE/PROVINCE ======-->
-
-
-                                            <!--====== ZIP/POSTAL ======-->
-                                            <div class="u-s-m-b-15">
-
-                                                <label class="gl-label" for="billing-zip">ZIP/POSTAL CODE *</label>
-
-                                                <input class="input-text input-text--primary-style" type="text" id="billing-zip" placeholder="Zip/Postal Code" data-bill=""></div>
-                                            <!--====== End - ZIP/POSTAL ======-->
-                                            <div class="u-s-m-b-10">
-
-                                                <!--====== Check Box ======-->
-                                                <div class="check-box">
-
-                                                    <input type="checkbox" id="make-default-address" data-bill="">
-                                                    <div class="check-box__state check-box__state--primary">
-
-                                                        <label class="check-box__label" for="make-default-address">Make default shipping and billing address</label></div>
-                                                </div>
-                                                <!--====== End - Check Box ======-->
-                                            </div>
-                                            <div class="u-s-m-b-10">
-
-                                                <a class="gl-link" href="#create-account" data-toggle="collapse">Want to create a new account?</a></div>
-                                            <div class="collapse u-s-m-b-15" id="create-account">
-
-                                                <span class="gl-text u-s-m-b-15">Create an account by entering the information below. If you are a returning customer please login at the top of the page.</span>
-                                                <div>
-
-                                                    <label class="gl-label" for="reg-password">Account Password *</label>
-
-                                                    <input class="input-text input-text--primary-style" type="text" data-bill id="reg-password"></div>
-                                            </div>
-                                            <div class="u-s-m-b-10">
-
-                                                <label class="gl-label" for="order-note">ORDER NOTE</label><textarea class="text-area text-area--primary-style" id="order-note"></textarea></div>
-                                            <div>
-
-                                                <button class="btn btn--e-transparent-brand-b-2" type="submit">SAVE</button></div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="col-lg-6">
-                                    <h1 class="checkout-f__h1">ORDER SUMMARY</h1>
-
-                                    <!--====== Order Summary ======-->
-                                    <div class="o-summary">
-                                        <div class="o-summary__section u-s-m-b-30">
-                                            <div class="o-summary__item-wrap gl-scroll">
-                                                <div class="o-card">
-                                                    <div class="o-card__flex">
-                                                        <div class="o-card__img-wrap">
-
-                                                            <img class="u-img-fluid" src="images/product/electronic/product3.jpg" alt=""></div>
-                                                        <div class="o-card__info-wrap">
-
-                                                            <span class="o-card__name">
-
-                                                                <a href="product-detail.html">Yellow Wireless Headphone</a></span>
-
-                                                            <span class="o-card__quantity">Quantity x 1</span>
-
-                                                            <span class="o-card__price">$150.00</span></div>
-                                                    </div>
-
-                                                    <a class="o-card__del far fa-trash-alt"></a>
-                                                </div>
-                                               
-                                            </div>
-                                        </div>
-                                        {{!-- <div class="o-summary__section u-s-m-b-30">
+                        <a href="/deleteProductCheckout/{{this.product._id}}" class="o-card__del far fa-trash-alt"></a>
+                      </div>
+                    {{/each}}
+                  </div>
+                </div>
+                {{! <div class="o-summary__section u-s-m-b-30">
                                             <div class="o-summary__box">
                                                 <h1 class="checkout-f__h1">SHIPPING & BILLING</h1>
                                                 <div class="ship-b">
@@ -230,135 +187,316 @@
                                                         <a class="ship-b__edit btn--e-transparent-platinum-b-2" data-modal="modal" data-modal-id="#edit-ship-address">Edit</a></div>
                                                 </div>
                                             </div>
-                                        </div> --}}
-                                        <div class="o-summary__section u-s-m-b-30">
-                                            <div class="o-summary__box">
-                                                <table class="o-summary__table">
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>SHIPPING</td>
-                                                            <td>$4.00</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>TAX</td>
-                                                            <td>$0.00</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>SUBTOTAL</td>
-                                                            <td>$379.00</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>GRAND TOTAL</td>
-                                                            <td>$379.00</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <div class="o-summary__section u-s-m-b-30">
-                                            <div class="o-summary__box">
-                                                <h1 class="checkout-f__h1">PAYMENT INFORMATION</h1>
-                                                <form class="checkout-f__payment">
-                                                    <div class="u-s-m-b-10">
-
-                                                        <!--====== Radio Box ======-->
-                                                        <div class="radio-box">
-
-                                                            <input type="radio" id="cash-on-delivery" name="payment">
-                                                            <div class="radio-box__state radio-box__state--primary">
-
-                                                                <label class="radio-box__label" for="cash-on-delivery">Cash on Delivery</label></div>
-                                                        </div>
-                                                        <!--====== End - Radio Box ======-->
-
-                                                        <span class="gl-text u-s-m-t-6">Pay Upon Cash on delivery. (This service is only available for some countries)</span>
-                                                    </div>
-                                                    <div class="u-s-m-b-10">
-
-                                                        <!--====== Radio Box ======-->
-                                                        <div class="radio-box">
-
-                                                            <input type="radio" id="direct-bank-transfer" name="payment">
-                                                            <div class="radio-box__state radio-box__state--primary">
-
-                                                                <label class="radio-box__label" for="direct-bank-transfer">Direct Bank Transfer</label></div>
-                                                        </div>
-                                                        <!--====== End - Radio Box ======-->
-
-                                                        <span class="gl-text u-s-m-t-6">Make your payment directly into our bank account. Please use your Order ID as the payment reference. Your order will not be shipped until the funds have cleared in our account.</span>
-                                                    </div>
-                                                    <div class="u-s-m-b-10">
-
-                                                        <!--====== Radio Box ======-->
-                                                        <div class="radio-box">
-
-                                                            <input type="radio" id="pay-with-check" name="payment">
-                                                            <div class="radio-box__state radio-box__state--primary">
-
-                                                                <label class="radio-box__label" for="pay-with-check">Pay With Check</label></div>
-                                                        </div>
-                                                        <!--====== End - Radio Box ======-->
-
-                                                        <span class="gl-text u-s-m-t-6">Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</span>
-                                                    </div>
-                                                    <div class="u-s-m-b-10">
-
-                                                        <!--====== Radio Box ======-->
-                                                        <div class="radio-box">
-
-                                                            <input type="radio" id="pay-with-card" name="payment">
-                                                            <div class="radio-box__state radio-box__state--primary">
-
-                                                                <label class="radio-box__label" for="pay-with-card">Pay With Credit / Debit Card</label></div>
-                                                        </div>
-                                                        <!--====== End - Radio Box ======-->
-
-                                                        <span class="gl-text u-s-m-t-6">International Credit Cards must be eligible for use within the United States.</span>
-                                                    </div>
-                                                    <div class="u-s-m-b-10">
-
-                                                        <!--====== Radio Box ======-->
-                                                        <div class="radio-box">
-
-                                                            <input type="radio" id="pay-pal" name="payment">
-                                                            <div class="radio-box__state radio-box__state--primary">
-
-                                                                <label class="radio-box__label" for="pay-pal">Pay Pal</label></div>
-                                                        </div>
-                                                        <!--====== End - Radio Box ======-->
-
-                                                        <span class="gl-text u-s-m-t-6">When you click "Place Order" below we'll take you to Paypal's site to set up your billing information.</span>
-                                                    </div>
-                                                    <div class="u-s-m-b-15">
-
-                                                        <!--====== Check Box ======-->
-                                                        <div class="check-box">
-
-                                                            <input type="checkbox" id="term-and-condition">
-                                                            <div class="check-box__state check-box__state--primary">
-
-                                                                <label class="check-box__label" for="term-and-condition">I consent to the</label></div>
-                                                        </div>
-                                                        <!--====== End - Check Box ======-->
-
-                                                        <a class="gl-link">Terms of Service.</a>
-                                                    </div>
-                                                    <div>
-
-                                                        <button class="btn btn--e-brand-b-2" type="submit">PLACE ORDER</button></div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--====== End - Order Summary ======-->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                        </div> }}
+                <div class="o-summary__section u-s-m-b-30">
+                  <div class="o-summary__box">
+                    <table class="o-summary__table">
+                      <tbody>
+                        <tr>
+                          <td>TAX</td>
+                          <td>₹1000</td>
+                        </tr>
+                        <tr>
+                          <td>DISCOUNT</td>
+                          <td>-₹1000</td>
+                        </tr>
+                        <tr>
+                          <td>SUBTOTAL</td>
+                          <td>₹{{totalPrice}}</td>
+                        </tr>
+                        <tr>
+                          <td>GRAND TOTAL</td>
+                          <td>₹{{totalPrice}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
-                <!--====== End - Section Content ======-->
-            </div>
-            <!--====== End - Section 3 ======-->
-        </div>
+                <div class="route-box__g1">
 
-{{>  footer}}
+                <a class="route-box__link" href="/products"><i
+                    class="fas fa-long-arrow-alt-left"
+                  ></i>
+
+                  <span>CONTINUE SHOPPING</span></a></div>
+            </div>
+                <div class="o-summary__section u-s-m-b-30">
+                  <div class="o-summary__box">
+                    <h1 class="checkout-f__h1">PAYMENT INFORMATION</h1>
+                    {{!-- <form class="checkout-f__payment"> --}}
+                      <div class="u-s-m-b-10">
+
+                        <!--====== Radio Box ======-->
+                        <div class="radio-box">
+
+                          <input
+                            type="radio"
+                            id="cash-on-delivery"
+                            name="payment"
+                            value="COD"
+                            required
+                          />
+                          <div
+                            class="radio-box__state radio-box__state--primary"
+                          >
+
+                            <label
+                              class="radio-box__label"
+                              for="cash-on-delivery"
+                            >Cash on Delivery</label></div>
+                        </div>
+                        <!--====== End - Radio Box ======-->
+
+                        <span class="gl-text u-s-m-t-6">Pay Upon Cash on
+                          delivery. (This service is only available for some
+                          countries)</span>
+                      </div>
+                        {{!-- <div class="u-s-m-b-10">
+
+                            <!--====== Radio Box ======-->
+                            <div class="radio-box">
+
+                            <input
+                                type="radio"
+                                id="direct-bank-transfer"
+                                name="payment"
+                            />
+                            <div
+                                class="radio-box__state radio-box__state--primary"
+                            >
+
+                                <label
+                                class="radio-box__label"
+                                for="direct-bank-transfer"
+                                >Direct Bank Transfer</label></div>
+                            </div>
+                            <!--====== End - Radio Box ======-->
+
+                            <span class="gl-text u-s-m-t-6">Make your payment
+                            directly into our bank account. Please use your Order
+                            ID as the payment reference. Your order will not be
+                            shipped until the funds have cleared in our account.</span>
+                        </div>
+                        <div class="u-s-m-b-10">
+
+                            <!--====== Radio Box ======-->
+                            <div class="radio-box">
+
+                            <input
+                                type="radio"
+                                id="pay-with-check"
+                                name="payment"
+                            />
+                            <div
+                                class="radio-box__state radio-box__state--primary"
+                            >
+
+                                <label
+                                class="radio-box__label"
+                                for="pay-with-check"
+                                >Pay With Check</label></div>
+                            </div>
+                            <!--====== End - Radio Box ======-->
+
+                            <span class="gl-text u-s-m-t-6">Please send a check to
+                            Store Name, Store Street, Store Town, Store State /
+                            County, Store Postcode.</span>
+                        </div>
+                            <div class="u-s-m-b-10">
+
+                                <!--====== Radio Box ======-->
+                                <div class="radio-box">
+
+                                <input
+                                    type="radio"
+                                    id="pay-with-card"
+                                    name="payment"
+                                />
+                                <div
+                                    class="radio-box__state radio-box__state--primary"
+                                >
+
+                                    <label
+                                    class="radio-box__label"
+                                    for="pay-with-card"
+                                    >Pay With Credit / Debit Card</label></div>
+                                </div>
+                                <!--====== End - Radio Box ======-->
+
+                                <span class="gl-text u-s-m-t-6">International Credit
+                                Cards must be eligible for use within the United
+                                States.</span>
+                            </div> --}}
+                      <div class="u-s-m-b-10">
+
+                        <!--====== Radio Box ======-->
+                        <div class="radio-box">
+
+                          <input type="radio" id="pay-pal" name="payment" />
+                          <div
+                            class="radio-box__state radio-box__state--primary"
+                          >
+
+                            <label class="radio-box__label" for="pay-pal">Pay
+                              Pal</label></div>
+                        </div>
+                        <!--====== End - Radio Box ======-->
+
+                        <span class="gl-text u-s-m-t-6">When you click "Place
+                          Order" below we'll take you to Paypal's site to set up
+                          your billing information.</span>
+                      </div>
+                      <div class="u-s-m-b-15">
+
+                        <!--====== Check Box ======-->
+                        <div class="check-box">
+
+                          <input type="checkbox" id="term-and-condition" />
+                          <div
+                            class="check-box__state check-box__state--primary"
+                          >
+
+                            <label
+                              class="check-box__label"
+                              for="term-and-condition"
+                            >I consent to the</label></div>
+                        </div>
+                        <!--====== End - Check Box ======-->
+
+                        <a class="gl-link">Terms of Service.</a>
+                      </div>
+                      <div>
+
+                        <button class="btn btn--e-brand-b-2" type="submit">PLACE
+                          ORDER</button></div>
+                  </div>
+                </div>
+              </div>
+              <!--====== End - Order Summary ======-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    <!--====== End - Section Content ======-->
+  </div>
+  <!--====== End - Section 3 ======-->
+</div>
+{{!-- {{>  footer}} --}}
+</form>
+
+<div id="thankYouSection" style="display: none;">
+<section class="h-100 gradient-custom">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-10 col-xl-8">
+        <div class="card" style="border-radius: 10px;">
+          <div class="card-header px-4 py-5">
+            <h5 class="text-muted mb-0">Thanks for your Order, <span style="color: #a8729a;">{{cart.user.name}}</span>!</h5>
+          </div>
+          <div class="card-body p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <p class="lead fw-normal mb-0" style="color: #a8729a;">Receipt</p>
+              
+            </div>
+            {{#each cart.items}}
+            <div class="card shadow-0 border mb-4">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-2">
+                    <img src="{{this.product.image}}"
+                      class="img-fluid" alt="Phone">
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0">{{this.product.name}}</p>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">{{this.product.category}}</p>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">{{this.product.brand}}</p>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">Qty: {{this.quantity}}</p>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">₹{{this.product.price}}</p>
+                  </div>
+                </div>
+                {{!-- <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;"> --}}
+                {{!-- <div class="row d-flex align-items-center"> --}}
+                  {{!-- <div class="col-md-2">
+                    <p class="text-muted mb-0 small">Track Order</p>
+                  </div> --}}
+                  {{!-- <div class="col-md-10"> --}}
+                    {{!-- <div class="progress" style="height: 6px; border-radius: 16px;">
+                      <div class="progress-bar" role="progressbar"
+                        style="width: 65%; border-radius: 16px; background-color: #a8729a;" aria-valuenow="65"
+                        aria-valuemin="0" aria-valuemax="100"></div>
+                    </div> --}}
+                    {{!-- <div class="d-flex justify-content-around mb-1">
+                      <p class="text-muted mt-1 mb-0 small ms-xl-5">Out for delivary</p>
+                      <p class="text-muted mt-1 mb-0 small ms-xl-5">Delivered</p>
+                    </div> --}}
+                  {{!-- </div> --}}
+                {{!-- </div> --}}
+              </div>
+            </div>
+            {{/each}}
+
+            <div class="d-flex justify-content-between pt-2">
+              <p class="fw-bold mb-0">Order Details</p>
+              <p class="text-muted mb-0"><span class="fw-bold me-4">Total :</span> ₹{{totalPrice}}</p>
+            </div>
+
+            <div class="d-flex justify-content-between pt-2">
+              <p class="text-muted mb-0">Invoice Number : 788152</p>
+              <p class="text-muted mb-0"><span class="fw-bold me-4">Discount :</span> -₹1000</p>
+            </div>
+
+            {{!-- <div class="d-flex justify-content-between">
+              <p class="text-muted mb-0">Invoice Date : 22 Dec,2019</p>
+              <p class="text-muted mb-0"><span class="fw-bold me-4">GST 18%</span> 123</p>
+            </div> --}}
+
+            <div class="d-flex justify-content-between mb-5">
+              <p class="text-muted mb-0">Recepits Voucher : 18KU-62IIK</p>
+              <p class="text-muted mb-0"><span class="fw-bold me-4">Delivery Charges : </span> ₹1000</p>
+            </div>
+          </div>
+          <div class="route-box__g1">
+
+                <a class="route-box__link" href="/products"><i
+                    class="fas fa-long-arrow-alt-left"
+                  ></i>
+
+                  <span>CONTINUE SHOPPING</span></a></div>
+          <div class="card-footer border-0 px-4 py-5"
+            style="background-color: #a8729a; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+            <h5 class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">Total
+              paid: <span class="h2 mb-0 ms-2">₹{{totalPrice}}</span></h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<script>
+  $("#checkoutForm").submit((e)=>{
+    e.preventDefault()
+    $.ajax({
+      url: "/postCheckout",
+      method: 'post',
+      data: $('#checkoutForm').serialize(),
+      success: (response)=>{
+        if(response.status){
+           $('#thankYouSection').show()
+           $('#checkoutForm').hide()
+        }
+      }
+    })
+  })
+</script>

@@ -22,8 +22,8 @@ const userSchema = mongoose.Schema(
       trim: true,
     },
     address: {
-      houseNo: {
-        type: Number,
+      houseName: {
+        type: String,
       },
       city: {
         type: String,trim: true,

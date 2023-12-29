@@ -1,21 +1,25 @@
 const mongoose = require("mongoose");
 
 const orderSchema = mongoose.Schema({
-  orderItems: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "OrderItems",
-      required: true,
-    },
-  ],
+  cart:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Carts"
+  },
   shippingAddress: {
+   houseName: {
+    type: String,
+    required: true
+   },
+   city: {
     type: String,
     required: true,
   },
-  city: {
-    type: String,
-    required: true,
+  pincode: {
+    type: Number,
+    required: true
+  }
   },
+  
   phone: {
     type: Number,
     required: true,
@@ -29,15 +33,16 @@ const orderSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
+  paymentType: {
+    type: String,
+    required: true
+  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Users",
   },
-  dateOrdered: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  
+}, {timestamps: true});
 
 const Order = mongoose.model("Orders", orderSchema);
 
