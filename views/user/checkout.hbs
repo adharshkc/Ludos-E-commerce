@@ -332,18 +332,17 @@
                         <!--====== Radio Box ======-->
                         <div class="radio-box">
 
-                          <input type="radio" id="pay-pal" name="payment" />
+                          <input type="radio" id="pay-pal" value="razorPay" name="payment" />
                           <div
                             class="radio-box__state radio-box__state--primary"
                           >
 
-                            <label class="radio-box__label" for="pay-pal">Pay
-                              Pal</label></div>
+                            <label class="radio-box__label" for="pay-pal">Online Payment</label></div>
                         </div>
                         <!--====== End - Radio Box ======-->
 
                         <span class="gl-text u-s-m-t-6">When you click "Place
-                          Order" below we'll take you to Paypal's site to set up
+                          Order" below we'll take you to payment site to set up
                           your billing information.</span>
                       </div>
                       <div class="u-s-m-b-15">
@@ -483,7 +482,6 @@
   </div>
 </section>
 </div>
-
 <script>
   $("#checkoutForm").submit((e)=>{
     e.preventDefault()
@@ -492,11 +490,53 @@
       method: 'post',
       data: $('#checkoutForm').serialize(),
       success: (response)=>{
-        if(response.status){
+        if(response.COD){
            $('#thankYouSection').show()
            $('#checkoutForm').hide()
+        }else{
+          razorpayPayment(response)
         }
       }
     })
   })
+
+  function razorpayPayment(order){
+    var options = {
+    "key": "rzp_test_AKdpI8abuLCQAc", // Enter the Key ID generated from the Dashboard
+    "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "Ludus",
+    "description": "Test Transaction",
+    "image": "https://example.com/your_logo",
+    "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "handler": function (response){
+        
+
+        verifyPayment(response, order)
+    },
+    "prefill": {
+        "name": "Gaurav Kumar",
+        "email": "gaurav.kumar@example.com",
+        "contact": "9000090000"
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+};
+var rzp1 = new Razorpay(options);
+ rzp1.open();
+}
+function verifyPayment(payment, order){
+  $.ajax({
+    url: '/verifyPayment',
+    data: {
+      payment,
+      order
+    },
+    method: 'post'
+  })
+}
 </script>

@@ -1,6 +1,9 @@
 const Cart = require("../models/cart");
 const cart = require("../helpers/cart");
-const Order = require("../models/order")
+const Order = require("../models/order");
+const orderHelper = require("../helpers/order");
+const crypto = require("crypto");
+
 // const deleteCart = require("../helpers/cart")
 
 /*************************************************CART*************************************************************/
@@ -13,10 +16,9 @@ const addToCart = async function (req, res) {
 };
 
 const addProductToCart = async function (req, res) {
-  cart.addItemsToCart(req.session.userid, req.params.id).then(()=>{
-
+  cart.addItemsToCart(req.session.userid, req.params.id).then(() => {
     res.redirect("/cart");
-  })
+  });
 };
 
 const getCart = async function (req, res) {
@@ -44,9 +46,9 @@ const getCart = async function (req, res) {
 
 const deleteCart = async function (req, res) {
   const userId = req.session.userid;
-  cart.deleteCartProduct(userId, req.params.id).then(()=>{
+  cart.deleteCartProduct(userId, req.params.id).then(() => {
     res.redirect("/cart");
-  })
+  });
 };
 
 const updateCart = async function (req, res) {
@@ -88,76 +90,133 @@ const updateCart = async function (req, res) {
   }
 };
 
-
-
 ///////////////////////////////////////////////////////////////CHECKOUT/////////////////////////////////////////////////////
-const getCheckout = async function(req, res){
+const getCheckout = async function (req, res) {
   if (req.session.user) {
-   let isUser= true
-  const userId = req.session.userid
-  const cart = await Cart.findOne({ user: userId }).populate("items.product").populate("user").lean();
-  
-  // if (cart) {
+    let isUser = true;
+    const userId = req.session.userid;
+    const cart = await Cart.findOne({ user: userId })
+      .populate("items.product")
+      .populate("user")
+      .lean();
+
+    // if (cart) {
     let totalPrice = 0;
     for (const item of cart.items) {
       totalPrice += item.quantity * item.product.price;
     }
-    const order = await Order.findOne({cart: cart._id}).lean()
-    if(order == null){
-
-      res.render('user/checkout',{isUser, cart: cart, totalPrice})
+    const order = await Order.findOne({ cart: cart._id }).lean();
+    if (order == null) {
+      res.render("user/checkout", { isUser, cart: cart, totalPrice });
     }
-    
-    res.render('user/checkout',{isUser, cart: cart, totalPrice, order})
-  // }
 
-}
-}
-
-const deleteProductCheckout = async function(req, res){
-  cart.deleteCartProduct(req.session.userid, req.params.id).then(()=>{
-    res.redirect('/checkout')
-  })
-}
-
-const postCheckout = async function(req, res){
-  console.log(req.body.payment)
-  const userId =req.session.userid
-  const cart = await Cart.findOne({userId}).populate("items.product")
-  let totalPrice = 0
-  for(const item of cart.items){
-    totalPrice += item.quantity * item.product.price
+    res.render("user/checkout", { isUser, cart: cart, totalPrice, order });
+    // }
   }
-  console.log(totalPrice)
-  
-  
-    try{
+};
 
+const deleteProductCheckout = async function (req, res) {
+  cart.deleteCartProduct(req.session.userid, req.params.id).then(() => {
+    res.redirect("/checkout");
+  });
+};
+
+const postCheckout = async function (req, res) {
+  console.log(req.body.payment);
+  const userId = req.session.userid;
+  const cart = await Cart.findOne({ userId }).populate("items.product");
+  let totalPrice = 0;
+  for (const item of cart.items) {
+    totalPrice += item.quantity * item.product.price;
+  }
+  console.log(totalPrice);
+
+  try {
+    if (req.body.payment == "COD") {
       const order = await Order.create({
         cart: cart._id,
         shippingAddress: {
           houseName: req.body.houseName,
           city: req.body.city,
-          pincode: req.body.pincode
+          pincode: req.body.pincode,
         },
         phone: req.body.phone,
         status: "placed",
-        totalPrice : totalPrice,
+        totalPrice: totalPrice,
         paymentType: req.body.payment,
-        user: userId
-      })
-      if(req.body.payment == 'COD'){
-        res.json({status: true, order})
-      }else{
-        
-      }
-    }catch(error){
-      res.json({status: false})
+        user: userId,
+      });
+      
+      res.json({ COD: true, order });
+    } else {
+      const order = await Order.create({
+        cart: cart._id,
+        shippingAddress: {
+          houseName: req.body.houseName,
+          city: req.body.city,
+          pincode: req.body.pincode,
+        },
+        phone: req.body.phone,
+        status: "pending",
+        totalPrice: totalPrice,
+        paymentType: req.body.payment,
+        user: userId,
+      });
+      orderHelper
+        .generateRazorpay(order._id, order.totalPrice)
+        .then((response) => {
+          res.json(response);
+        });
     }
+  } catch (error) {
+    res.json({ status: false });
+  }
   // }
+};
 
-}
+const verifyPayment = async function (req, res) {
+  console.log(req.body);
+  const paymentId = req.body["payment[razorpay_payment_id]"];
+  const orderId = req.body["payment[razorpay_order_id]"];
+  const signature = req.body["payment[razorpay_signature]"];
 
+  console.log(paymentId);
+  console.log(orderId);
+  console.log(signature);
+  console.log(process.env.KEY_SECRET);
+
+  let hmac = crypto.createHmac("sha256", process.env.KEY_SECRET);
+  hmac.update(paymentId + "|" + orderId);
+  const generatedSignature = hmac.digest("hex");
+  console.log(generatedSignature);
+
+  if (generatedSignature === signature) {
+    try {
+      const orderIdToUpdate = req.body["order[receipt]"];
+      const updatedOrder = await Order.findByIdAndUpdate(
+        orderIdToUpdate,
+        { status: "placed" },
+        { new: true }
+      );
+
+      if (!updatedOrder) {
+        return res.status(404).json({ status: "Order not found" });
+      }
+
+      console.log("Payment successful");
+      console.log(updatedOrder);
+      return res.json({ status: true });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ status: "Payment failed" });
+    }
+  } else {
+    console.log("Payment failed: Signatures don't match");
+    return res
+      .status(403)
+      .json({ status: "Payment failed: Signatures do not match" });
+  }
+};
 
 module.exports = {
   addToCart,
@@ -167,5 +226,6 @@ module.exports = {
   updateCart,
   getCheckout,
   deleteProductCheckout,
-  postCheckout
+  postCheckout,
+  verifyPayment,
 };
