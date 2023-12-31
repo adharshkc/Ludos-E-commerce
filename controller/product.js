@@ -88,6 +88,11 @@ const getAddProduct = function(req,res ){
   res.render("admin/add-product")
 }
 
+const adminProduct = async function(req, res){
+  const products = await Products.find().lean()
+  res.render("admin/products", {products: products})
+}
+
 /************************************************************PUT ADMIN EDIT PRODUCT**************************************************** */
 
 const editProduct = async function (req, res) {
@@ -126,4 +131,4 @@ const deleteProduct = async function (req, res) {
   }
 };
 
-module.exports = { addProduct, editProduct, showProduct, deleteProduct, singleProduct, getAddProduct };
+module.exports = { addProduct, editProduct, showProduct, deleteProduct, singleProduct, getAddProduct, adminProduct };

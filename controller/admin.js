@@ -1,9 +1,16 @@
 const { User, DeletedUser } = require("../models/user");
 
 const getUsers = async function (req, res) {
-  const users = await User.find({});
-  res.json(users);
+  const users = await User.find().lean();
+  res.render("admin/users", {users: users})
 };
+
+const admin = async function(req, res){
+  if(req.session.admin){
+    
+    res.render("admin/index")
+  }
+}
 
 const editUser = async function (req, res) {
   try {
@@ -44,6 +51,7 @@ const deleteUser = async function (req, res) {
 };
 
 module.exports = {
+  admin,
   getUsers,
   editUser,
   deleteUser,

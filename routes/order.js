@@ -9,8 +9,9 @@ const {
   deleteProductCheckout,
   postCheckout,
   verifyPayment,
+  adminOrders,
 } = require("../controller/order");
-const { checkAuth } = require("../middlewares/auth");
+const { checkAuth, checkAdmin } = require("../middlewares/auth");
 
 
 const router = express.Router();
@@ -27,5 +28,6 @@ router.get("/checkout", checkAuth, getCheckout);
 router.get("/deleteProductCheckout/:id", checkAuth, deleteProductCheckout);
 router.post("/postCheckout", checkAuth, postCheckout);
 router.post("/verifyPayment", checkAuth, verifyPayment);
+router.get("/admin/orders", checkAdmin,adminOrders)
 
 module.exports = router;

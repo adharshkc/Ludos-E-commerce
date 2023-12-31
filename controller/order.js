@@ -90,6 +90,12 @@ const updateCart = async function (req, res) {
   }
 };
 
+const adminOrders = async function(req, res){
+  const orders = await Order.find().lean().populate('user').populate('cart')
+  // console.log(orders.user.name)
+  res.render("admin/orders", {orders: orders})
+}
+
 ///////////////////////////////////////////////////////////////CHECKOUT/////////////////////////////////////////////////////
 const getCheckout = async function (req, res) {
   if (req.session.user) {
@@ -228,4 +234,5 @@ module.exports = {
   deleteProductCheckout,
   postCheckout,
   verifyPayment,
+  adminOrders
 };

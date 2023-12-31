@@ -1,40 +1,114 @@
-<div class="col-lg-9 col-md-12">
-  <div class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white">
-    <div class="dash__pad-2">
-      <h1 class="dash__h1 u-s-m-b-14">Edit Profile</h1>
-      <span class="dash__text u-s-m-b-30">Looks like you haven't updated your profile</span>
-      <div class="dash__link dash__link--secondary u-s-m-b-30">
-        <a data-modal="modal" data-modal-id="#dash-newsletter">Subscribe Newsletter</a>
-      </div>
-      <div class="row">
-        <div class="col-lg-12">
-          <form class="dash-edit-p">
-            <div class="u-s-m-b-30">
-              <label class="gl-label" for="reg-fname">NAME *</label>
-              <input class="input-text input-text--primary-style" type="text" id="reg-fname" placeholder="John" />
+<!--  Body Wrapper -->
+<div
+  class="page-wrapper"
+  id="main-wrapper"
+  data-layout="vertical"
+  data-navbarbg="skin6"
+  data-sidebartype="full"
+  data-sidebar-position="fixed"
+  data-header-position="fixed"
+>
+  {{> sidebar}}
+  <div class="body-wrapper">
+    {{> adminHeader}}
+    <div class="container-fluid">
+      <div class="container-fluid">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title fw-semibold mb-1">Add Product</h5>
+            <div class="card">
+              <div class="card-body">
+                <form>
+                  <div class="form-floating mb-3">
+                    <input
+                      class="form-control"
+                      id="productName"
+                      type="text"
+                      placeholder="Product Name"
+                      data-sb-validations="required"
+                    />
+                    <label for="productName">Product Name</label>
+                    <div
+                      class="invalid-feedback"
+                      data-sb-feedback="productName:required"
+                    >Product Name is required.</div>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input
+                      class="form-control"
+                      id="brand"
+                      type="text"
+                      placeholder="Brand"
+                      data-sb-validations="required"
+                    />
+                    <label for="brand">Brand</label>
+                    <div
+                      class="invalid-feedback"
+                      data-sb-feedback="brand:required"
+                    >Brand is required.</div>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input
+                      class="form-control"
+                      id="category"
+                      type="text"
+                      placeholder="Category"
+                      data-sb-validations="required"
+                    />
+                    <label for="category">Category</label>
+                    <div
+                      class="invalid-feedback"
+                      data-sb-feedback="category:required"
+                    >Category is required.</div>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input
+                      class="form-control"
+                      id="price"
+                      type="text"
+                      placeholder="Price"
+                      data-sb-validations="required"
+                    />
+                    <label for="price">Price</label>
+                    <div
+                      class="invalid-feedback"
+                      data-sb-feedback="price:required"
+                    >Price is required.</div>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input
+                      class="form-control"
+                      id="inStock"
+                      type="text"
+                      placeholder="In Stock"
+                      data-sb-validations="required"
+                    />
+                    <label for="inStock">In Stock</label>
+                    <div
+                      class="invalid-feedback"
+                      data-sb-feedback="inStock:required"
+                    >In Stock is required.</div>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input
+                      class="form-control"
+                      id="inStock"
+                      type="file"
+                      placeholder="Image"
+                      data-sb-validations="required"
+                    />
+                    <label for="inStock">Image</label>
+                    <div
+                      class="invalid-feedback"
+                      data-sb-feedback="image:required"
+                    >Image required.</div>
+                  </div>
+
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+              </div>
             </div>
-            <div class="u-s-m-b-30">
-              <label class="gl-label" for="reg-fname">BRAND *</label>
-              <input class="input-text input-text--primary-style" type="text" id="reg-fname" placeholder="John" />
-            </div>
-            <div class="u-s-m-b-30">
-              <label class="gl-label" for="reg-fname">CATEGORY *</label>
-              <input class="input-text input-text--primary-style" type="text" id="reg-fname" placeholder="John" />
-            </div>
-            <div class="u-s-m-b-30">
-              <label class="gl-label" for="reg-lname">PRICE *</label>
-              <input class="input-text input-text--primary-style" type="text" id="reg-lname" placeholder="Doe" />
-            </div>
-            <div class="u-s-m-b-30">
-              <label class="gl-label" for="reg-lname">STOCK *</label>
-              <input class="input-text input-text--primary-style" type="text" id="reg-lname" placeholder="Doe" />
-            </div>
-            <div class="u-s-m-b-30">
-              <label class="gl-label" for="reg-lname">IMAGE *</label>
-              <input class="input-text input-text--primary-style" type="file" id="reg-lname" placeholder="Doe" />
-            </div>
-            <button class="btn btn--e-brand-b-2" type="submit">SAVE</button>
-          </form>
+          </div>
         </div>
       </div>
     </div>

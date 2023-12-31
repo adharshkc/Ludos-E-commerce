@@ -1,0 +1,81 @@
+<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+    {{> sidebar}}
+    <div class="body-wrapper">
+    {{> adminHeader}}
+          <div class="container-fluid">
+        <div class="container-fluid">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title fw-semibold mb-4">Users</h5>
+              <div class="col-lg-8 d-flex align-items-stretch">
+            {{!-- <div class="card w-100"> --}}
+              <div class="card-body p-4">
+                {{!-- <h5 class="card-title fw-semibold mb-4">Recent Transactions</h5> --}}
+                <div class="table-responsive">
+                  <table class="table text-nowrap mb-0 align-middle">
+                    <thead class="text-dark fs-4">
+                      <tr>
+                        <th class="border-bottom-0">
+                          <h6 class="fw-semibold mb-0">Name</h6>
+                        </th>
+                        <th class="border-bottom-0">
+                          <h6 class="fw-semibold mb-0">Email</h6>
+                        </th>
+                        <th class="border-bottom-0">
+                          <h6 class="fw-semibold mb-0">Phone</h6>
+                        </th>
+                        <th class="border-bottom-0">
+                          <h6 class="fw-semibold mb-0">Role</h6>
+                        </th>
+                        <th class="border-bottom-0">
+                          <h6 class="fw-semibold mb-0">Block</h6>
+                        </th>
+                        <th class="border-bottom-0">
+                          <h6 class="fw-semibold mb-0">Delete</h6>
+                        </th>
+                      </tr>
+                    </thead>
+                    {{#each users}}
+                    <tbody>
+                      <tr>
+                        <td class="border-bottom-0"><h6 class="fw-semibold mb-0">{{this.name}}</h6></td>
+                        <td class="border-bottom-0">
+                            <h6 class="fw-semibold mb-1">{{this.email}}</h6>
+                            {{!-- <span class="fw-normal">Web Designer</span>                           --}}
+                        </td>
+                        <td class="border-bottom-0">
+                          <p class="mb-0 fw-normal">{{this.phone}}</p>
+                        </td>
+                        <td class="border-bottom-0">
+                          <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-primary rounded-3 fw-semibold">{{this.role}}</span>
+                          </div>
+                        </td>
+                        <td class="border-bottom-0">
+                          <a class="fw-semibold mb-0 fs-4"><i class="fas fa-ban" style="color: #000000"></i></a>
+                          
+                        </td>
+                      
+                        <td class="border-bottom-0">
+                          <a class="fw-semibold mb-0 fs-4"><i class="far fa-trash-can" style="color: #ea191d"></i></a>
+                        </td>
+                      </tr> 
+                     
+                           
+                                       
+                    </tbody>
+                    {{/each}}
+                  </table>
+                </div>
+              </div>
+            {{!-- </div> --}}
+          </div>
+          </div>
+        </div>
+      {{!-- </div> --}}
+    </div>
+
+    
+
+</div>

@@ -20,6 +20,8 @@ const userLogin = function (req, res) {
   if (req.session.user) {
     // let isUser = true;
     res.redirect("/");
+  }else if(req.session.admin){
+    res.redirect("/admin")
   }
   res.render("user/login", { layout: "../layouts/layout" });
 };
@@ -31,11 +33,18 @@ const user_signin = async function (req, res) {
   const user = await User.findOne({ email });
   // console.log(user);
   if (user && (await user.matchPassword(password))) {
-    req.session.user = true;
-    req.session.userid = user._id
-    console.log(req.session.userid)
-    console.log("user authenticated");
-    res.redirect("/");
+    if(user.role == 'admin'){
+      req.session.admin = true
+      req.session.adminid = user._id
+      res.redirect("/admin")
+    }else if(user.role == 'user'){
+
+      req.session.user = true;
+      req.session.userid = user._id
+      console.log(req.session.userid)
+      console.log("user authenticated");
+      res.redirect("/");
+    }
   } else {
     res.redirect("/login");
   }
@@ -82,9 +91,16 @@ const user_registration = async function (req, res) {
 
 const user_dashboard = async function (req, res) {
   const userId = req.session.userid
-  const user = await User.findOne({userId})
+  const user = await User.findOne({_id :userId}).lean()
   console.log(user)
-  res.render("user/profile", );
+  if (req.session.user) {
+    let isUser = true;
+    res.render("user/profile", {user, isUser} );
+    
+  }else{
+
+    res.render("user/profile", {user} );
+  }
 };
 
 const user_profile_edit = function (req, res) {
@@ -113,9 +129,6 @@ const cart = async function(req, res){
   
 }
 
-const postCart = async function(req, res){
-  
-}
 
 
 
@@ -139,5 +152,6 @@ module.exports = {
   cart,
   checkout,
   home,
+  
   logout,
 };
