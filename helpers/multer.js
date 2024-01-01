@@ -16,4 +16,4 @@ const upload = function(){
     return upload
 }
 
-module.exports = upload;
+module.exports = {upload};

@@ -14,7 +14,7 @@ const userRouter = require("./routes/user");
 const connectDb = require("./db/config");
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(bodyParser.json())
 

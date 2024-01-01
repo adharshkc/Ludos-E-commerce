@@ -1,6 +1,6 @@
 const Products = require("../models/product");
 const Cart = require("../models/cart");
-const upload = require("../helpers/multer");
+
 
 /************************************************************GET PRODUCTS PAGE**************************************************** */
 
@@ -61,22 +61,21 @@ const singleProduct = async function (req, res) {
 /************************************************************POST ADMIN ADD PRODUCT**************************************************** */
 
 const addProduct = async function (req, res) {
-  const { name, brand, category, price, countInStock } = req.body;
-  console.log("body",req.body);
-  console.log(req.file);
-  const uploadMiddleware = upload();
-  uploadMiddleware(req, res, (err) => {
-    if (err) {
-      res.status(400);
-    } else {
-      if (req.file === undefined) {
-        
-        res.status(400);
-      } else {
-        console.log(`file uploaded ${req.file.filename}`);
+  // const { name, brand, category, price, countInStock } = req.body;
+  // console.log("body",req.body);
+  // console.log(req.file);
+
+     const {upload} = require('../helpers/multer')
+     const uploadMiddleware = upload()
+     uploadMiddleware(req, res, (err) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send('Error uploading file.');
       }
-    }
-  });
+      const { name, brand, category, price, countInStock } = req.body;
+    console.log("Body:", req.body);
+    console.log(`File uploaded: ${req.file.filename}`);
+    })  
 
   // const addedProduct = await Products.create({
   //   name: name,

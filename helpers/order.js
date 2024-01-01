@@ -12,6 +12,7 @@ var instance = new Razorpay({
 module.exports = {
     generateRazorpay: (orderId, totalPrice)=>{
         return new Promise((resolve, reject)=>{
+          console.log(orderId)
             var options = {
                 amount: totalPrice*100,  // amount in the smallest currency unit
                 currency: "INR",

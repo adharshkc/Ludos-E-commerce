@@ -171,6 +171,7 @@ const postCheckout = async function (req, res) {
       orderHelper
         .generateRazorpay(order._id, order.totalPrice)
         .then((response) => {
+          console.log(response)
           res.json(response);
         });
     }
@@ -193,10 +194,10 @@ const verifyPayment = async function (req, res) {
 
   let hmac = crypto.createHmac("sha256", process.env.KEY_SECRET);
   hmac.update(paymentId + "|" + orderId);
-  const generatedSignature = hmac.digest("hex");
+  const generatedSignature = hmac.digest('hex');
   console.log(generatedSignature);
 
-  if (generatedSignature === signature) {
+  if (generatedSignature == signature) {
     try {
       const orderIdToUpdate = req.body["order[receipt]"];
       const updatedOrder = await Order.findByIdAndUpdate(
