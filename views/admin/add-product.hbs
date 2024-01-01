@@ -18,12 +18,13 @@
             <h5 class="card-title fw-semibold mb-1">Add Product</h5>
             <div class="card">
               <div class="card-body">
-                <form>
+                <form method="post" action="/admin/add_product" enctype="multipart/form-data"> 
                   <div class="form-floating mb-3">
                     <input
                       class="form-control"
                       id="productName"
                       type="text"
+                      name="name"
                       placeholder="Product Name"
                       data-sb-validations="required"
                     />
@@ -37,6 +38,7 @@
                     <input
                       class="form-control"
                       id="brand"
+                      name="brand"
                       type="text"
                       placeholder="Brand"
                       data-sb-validations="required"
@@ -51,6 +53,7 @@
                     <input
                       class="form-control"
                       id="category"
+                      name="category"
                       type="text"
                       placeholder="Category"
                       data-sb-validations="required"
@@ -65,6 +68,7 @@
                     <input
                       class="form-control"
                       id="price"
+                      name="price"
                       type="text"
                       placeholder="Price"
                       data-sb-validations="required"
@@ -79,6 +83,7 @@
                     <input
                       class="form-control"
                       id="inStock"
+                      name="countInStock"
                       type="text"
                       placeholder="In Stock"
                       data-sb-validations="required"
@@ -94,6 +99,7 @@
                       class="form-control"
                       id="inStock"
                       type="file"
+                      name="image"
                       placeholder="Image"
                       data-sb-validations="required"
                     />

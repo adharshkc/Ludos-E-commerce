@@ -1,54 +1,53 @@
 const Products = require("../models/product");
-const Cart = require("../models/cart")
+const Cart = require("../models/cart");
+const upload = require("../helpers/multer");
 
 /************************************************************GET PRODUCTS PAGE**************************************************** */
 
 const showProduct = async function (req, res) {
-  const products = await Products.find({}).lean()
+  const products = await Products.find({}).lean();
   if (req.session.user) {
     let isUser = true;
-    res.render('user/products', {products: products, isUser})
-    
+    res.render("user/products", { products: products, isUser });
   } else {
-    res.render('user/products', {products: products})
+    res.render("user/products", { products: products });
   }
 };
 
-
 /************************************************************ SINGLE PRODUCT PAGE**************************************************** */
 
-const singleProduct = async function(req, res){
+const singleProduct = async function (req, res) {
   const productId = req.params.id;
   // console.log(productId)
-  const product = await Products.findOne({_id: productId}).lean()
+  const product = await Products.findOne({ _id: productId }).lean();
   if (req.session.user) {
     let isUser = true;
-  res.render('user/product', {product, isUser})
-} else {
-  res.render('user/product', {product})
-}
-}
+    res.render("user/product", { product, isUser });
+  } else {
+    res.render("user/product", { product });
+  }
+};
 
 // const postProduct = async function(req, res){
 //   const cart = await Cart.findOne({ user: req.session.userid }); // Find the user's cart
 
 // if (cart) {
 //   const existingItemIndex = cart.items.findIndex(item => item.product.toString() === req.params.id);
-  
+
 //   if (existingItemIndex !== -1) {
 //     await Cart.updateOne(
 //       { user: req.session.userid, 'items.product': req.params.id },
 //       { $inc: { 'items.$.quantity': 1 } }
 //     );
 //   } else {
-   
+
 //     await Cart.updateOne(
 //       { user: req.session.userid },
 //       { $push: { items: { product: req.params.id, quantity: 1 } } }
 //     );
 //   }
 // } else {
-  
+
 //  const cart = await Cart.create({
 //     user: req.session.userid,
 //     items: [{ product: req.params.id, quantity: 1 }],
@@ -62,36 +61,50 @@ const singleProduct = async function(req, res){
 /************************************************************POST ADMIN ADD PRODUCT**************************************************** */
 
 const addProduct = async function (req, res) {
-  const { name, image, brand, price, category, description, countInStock } =
-    req.body;
-
-  const addedProduct = await Products.create({
-    name: name,
-    brand: brand,
-    category: category,
-    price: price,
-    description: description,
-    countInStock: countInStock,
-    image: image,
+  const { name, brand, category, price, countInStock } = req.body;
+  console.log("body",req.body);
+  console.log(req.file);
+  const uploadMiddleware = upload();
+  uploadMiddleware(req, res, (err) => {
+    if (err) {
+      res.status(400);
+    } else {
+      if (req.file === undefined) {
+        
+        res.status(400);
+      } else {
+        console.log(`file uploaded ${req.file.filename}`);
+      }
+    }
   });
-  if (addedProduct) {
-    console.log("product added successfully");
-    res.json("product added");
-    // res.send(addProduct)
-  } else {
-    res.status(404);
-    res.json("error adding product");
-  }
+
+  // const addedProduct = await Products.create({
+  //   name: name,
+  //   brand: brand,
+  //   category: category,
+  //   price: price,
+
+  //   countInStock: countInStock,
+  //   image: image,
+  // });
+  // if (addedProduct) {
+  //   console.log("product added successfully");
+  //   res.json("product added");
+  //   // res.send(addProduct)
+  // } else {
+  //   res.status(404);
+  //   res.json("error adding product");
+  // }
 };
 
-const getAddProduct = function(req,res ){
-  res.render("admin/add-product")
-}
+const getAddProduct = function (req, res) {
+  res.render("admin/add-product");
+};
 
-const adminProduct = async function(req, res){
-  const products = await Products.find().lean()
-  res.render("admin/products", {products: products})
-}
+const adminProduct = async function (req, res) {
+  const products = await Products.find().lean();
+  res.render("admin/products", { products: products });
+};
 
 /************************************************************PUT ADMIN EDIT PRODUCT**************************************************** */
 
@@ -117,11 +130,11 @@ const editProduct = async function (req, res) {
 /************************************************************POST ADMIN DELETE PRODUCTS**************************************************** */
 
 const deleteProduct = async function (req, res) {
-    console.log("delete")
+  console.log("delete");
   try {
-    console.log(req.params.id)
+    console.log(req.params.id);
     const deleteProduct = await Products.findByIdAndDelete(req.params.id);
-    console.log(deleteProduct)
+    console.log(deleteProduct);
     if (deleteProduct) {
       res.json("user deleted successfully");
     }
@@ -131,4 +144,12 @@ const deleteProduct = async function (req, res) {
   }
 };
 
-module.exports = { addProduct, editProduct, showProduct, deleteProduct, singleProduct, getAddProduct, adminProduct };
+module.exports = {
+  addProduct,
+  editProduct,
+  showProduct,
+  deleteProduct,
+  singleProduct,
+  getAddProduct,
+  adminProduct,
+};
