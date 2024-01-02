@@ -2,6 +2,7 @@ const express = require("express");
 const { User } = require("../models/user");
 const Products = require("../models/product");
 const Cart = require("../models/cart");
+const { logger } = require('../utils/logger');
 
 
 
@@ -31,14 +32,15 @@ const userLogin = function (req, res) {
 const user_signin = async function (req, res) {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
-  // console.log(user);
+  // logger.info(user)
   if (user && (await user.matchPassword(password))) {
     if(user.role == 'admin'){
       req.session.admin = true
       req.session.adminid = user._id
       res.redirect("/admin")
     }else if(user.role == 'user'){
-
+      console.log('error')
+      
       req.session.user = true;
       req.session.userid = user._id
       console.log(req.session.userid)

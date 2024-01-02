@@ -23,6 +23,7 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "nodemon": "^3.0.2",
-    "razorpay": "^2.9.2"
+    "razorpay": "^2.9.2",
+    "winston": "^3.11.0"
   }
 }

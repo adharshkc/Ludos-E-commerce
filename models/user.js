@@ -5,23 +5,33 @@ const userSchema = mongoose.Schema(
   {
     name: {
       type: String,
+      trim: true,
       required: [true, "Please enter your name"],
+      minLength: [3, "Name is too short"],
+      maxLength: [20, "Name is very big"]
     },
     email: {
       type: String,
       required: [true, "Please enter your email"],
+      minLength: [3, "please enter a valid email"],
+      maxLength: [20, "Please enter a valid email"],
       trim: true,
+      unique: true
     },
     password: {
       type: String,
       required: [true, "Please enter your password"],
       minLength: [4, "Password should be greater than 4 characters"],
+      maxLength: [10, "Password should not exceeds 10 characters"],
+      trim: true
     },
     phone: {
       type: Number,
       trim: true,
+      required: true,
+      maxLength: [10, "invalid phone number"]
     },
-    address: {
+    address: [{
       houseName: {
         type: String,
       },
@@ -32,11 +42,15 @@ const userSchema = mongoose.Schema(
         type: Number,
         trim: true,
       },
-    },
-    role: {
-      type: String,phone: Number,
-      default: "user",
-    },
+      type: {
+        type: String,
+        default: "Home"
+      }
+    }],
+    isAdmin:{
+      type: Boolean,
+      default: false
+    }
   },
   { timestamps: true }
 );
