@@ -8,7 +8,7 @@ const userSchema = mongoose.Schema(
       trim: true,
       required: [true, "Please enter your name"],
       minLength: [3, "Name is too short"],
-      maxLength: [20, "Name is very big"]
+      maxLength: [20, "Name is very big"],
     },
     email: {
       type: String,
@@ -16,41 +16,44 @@ const userSchema = mongoose.Schema(
       minLength: [3, "please enter a valid email"],
       maxLength: [20, "Please enter a valid email"],
       trim: true,
-      unique: true
+      unique: true,
     },
     password: {
       type: String,
       required: [true, "Please enter your password"],
       minLength: [4, "Password should be greater than 4 characters"],
       maxLength: [10, "Password should not exceeds 10 characters"],
-      trim: true
+      trim: true,
     },
     phone: {
       type: Number,
       trim: true,
       required: true,
-      maxLength: [10, "invalid phone number"]
+      maxLength: [10, "invalid phone number"],
     },
-    address: [{
-      houseName: {
-        type: String,
+    address: [
+      {
+        houseName: {
+          type: String,
+        },
+        city: {
+          type: String,
+          trim: true,
+        },
+        pincode: {
+          type: Number,
+          trim: true,
+        },
+        type: {
+          type: String,
+          default: "Home",
+        },
       },
-      city: {
-        type: String,trim: true,
-      },
-      pincode: {
-        type: Number,
-        trim: true,
-      },
-      type: {
-        type: String,
-        default: "Home"
-      }
-    }],
-    isAdmin:{
-      type: Boolean,
-      default: false
-    }
+    ],
+    role: {
+      type: String,
+      default: "user",
+    },
   },
   { timestamps: true }
 );
@@ -75,10 +78,9 @@ const deletedUserSchema = mongoose.Schema({
   },
   status: {
     type: String,
-    default: "deleted"
-
-  }
-});
+    default: "deleted",
+  },
+},{timestamps: true});
 
 const User = mongoose.model("Users", userSchema);
 const DeletedUser = mongoose.model("DeletedUsers", deletedUserSchema);

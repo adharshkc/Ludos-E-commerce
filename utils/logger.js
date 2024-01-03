@@ -18,9 +18,9 @@ if (process.env.NODE_ENV === 'production') {
     format: combine(
       timestamp({ format: "HH:mm:ss" }),
       myFormat,
-      format.colorize(),
+      // format.colorize(),
       format.json(),
-      format.prettyPrint()
+
     ),
     transports: [new transports.Console()],
   });

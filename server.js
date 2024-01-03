@@ -12,6 +12,7 @@ const orderRouter = require("./routes/order");
 const productRouter = require("./routes/product");
 const userRouter = require("./routes/user");
 const connectDb = require("./db/config");
+const passport = require("passport");
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -25,7 +26,7 @@ app.use((req, res, next) => {
   next();
 });
 
-
+//session
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -35,6 +36,10 @@ app.use(
     store: new MongoDBStore({mongooseConnection: connectDb})
   })
 );
+
+//passport session
+app.use(passport.authenticate('session'))
+
 app.engine(
   "hbs",
   hbs.engine({
