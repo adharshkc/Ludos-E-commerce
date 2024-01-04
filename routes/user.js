@@ -12,6 +12,8 @@ const {
   editAddress,
   cart,
   userAccount,
+  editUser,
+  add_address,
 } = require("../controller/user");
 // const { cart } = require("../controller/order");
 const { checkAuth } = require("../middlewares/auth");
@@ -26,11 +28,12 @@ router.post("/user_registration", user_registration);
 router.get("/add_cart");
 router.get("/cart",checkAuth, cart);
 router.get("/checkout");
-// router.post("/user_account", checkAuth, userAccount);
-router.get("/user_profile", checkAuth, user_dashboard);
-router.get("/user_edit_profile", user_profile_edit)
-router.get("/user_edit_address", editAddress)
-router.get("/user_checkout", checkout)
+router.get("/user/profile", checkAuth, user_dashboard);
+router.get("/user/edit_profile",checkAuth, user_profile_edit)
+router.post("/user/editUser",checkAuth, editUser)
+router.get("/user/add_address", checkAuth, add_address)
+router.get("/user/edit_address", checkAuth, editAddress)
+router.get("/user/checkout", checkout)
 router.get("/logout", logout);
 
 module.exports = router;

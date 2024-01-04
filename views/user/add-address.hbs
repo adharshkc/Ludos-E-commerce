@@ -1,0 +1,156 @@
+{{> header}}
+
+<div class="app-content">
+
+  <!--====== Section 1 ======-->
+  <div class="u-s-p-y-1">
+
+    <!--====== Section Content ======-->
+    <div class="section__content">
+      <div class="container">
+        <div class="breadcrumb">
+          <div class="breadcrumb__wrap">
+            <ul class="breadcrumb__list">
+              <li class="has-separator">
+
+                <a href="/">Home</a></li>
+              <li class="is-marked">
+
+                <a href="#">My Account</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--====== End - Section 1 ======-->
+
+  <!--====== Section 2 ======-->
+  <div class="u-s-p-b-60">
+
+    <!--====== Section Content ======-->
+    <div class="section__content">
+      <div class="dash">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-3 col-md-12">
+
+              <!--====== Dashboard Features ======-->
+               <div
+                class="dash__box dash__box--bg-white dash__box--shadow u-s-m-b-30"
+              >
+                <div class="px-3">
+
+                  <h5 class="font-weight-bold">Hello, {{user.name}}</h5>
+                  <ul class="dash__f-list">
+                    
+                    <li>
+
+                      <a class="dash-active" href="/user/profile">My Profile</a></li>
+
+                  </ul>
+                </div>
+              </div>
+              <!--====== End - Dashboard Features ======-->
+            </div>
+            <div class="col-lg-9 col-md-12">
+              <div
+                class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white"
+              >
+                <div class="dash__pad-2">
+                  <h1 class="dash__h1 u-s-m-b-14">Add new Address</h1>
+
+                  <span class="dash__text u-s-m-b-30">We need an address where
+                    we could deliver products.</span>
+                  <form class="dash-address-manipulation">
+                    <div class="gl-inline">
+                      <div class="u-s-m-b-30">
+
+                        <label class="gl-label" for="address-fname">FIRST NAME *</label>
+
+                       <span>{{user.name}}</span></div>
+                      <div class="u-s-m-b-30">
+
+                        <label class="gl-label" for="address-lname">PHONE *</label>
+
+                        <input
+                          class="input-text input-text--primary-style"
+                          type="text"
+
+                          id="address-lname"
+                          placeholder="Phone"
+                        /></div>
+                    </div>
+                    <div class="gl-inline">
+                      <div class="u-s-m-b-30">
+
+                        <label class="gl-label" for="address-phone">HOUSE NAME *</label>
+
+                        <input
+                          class="input-text input-text--primary-style"
+                          type="text"
+                          placeholder="House name"
+                          id="address-phone"
+                        /></div>
+                      <div class="u-s-m-b-30">
+
+                        <label class="gl-label" for="address-street">STREET
+                           *</label>
+
+                        <input
+                          class="input-text input-text--primary-style"
+                          type="text"
+                          id="address-street"
+                          placeholder=" Street"
+                        /></div>
+                    </div>
+                    <div class="gl-inline">
+                      <div class="u-s-m-b-30">
+
+                        <!--====== Select Box ======-->
+
+                        <label class="gl-label" for="address-country">COUNTRY *</label><select
+                          class="select-box select-box--primary-style"
+                          id="address-country"
+                        >
+                          {{!-- <option selected value="">Choose Country</option> --}}
+                          <option value="uae">India</option>
+                        </select>
+                        <!--====== End - Select Box ======-->
+                      </div>
+                     <div class="u-s-m-b-30">
+
+                        <label class="gl-label" for="address-street">ZIP/POSTAL
+                          CODE *</label>
+
+                        <input
+                          class="input-text input-text--primary-style"
+                          type="text"
+                          id="address-postal"
+                          placeholder="Zip/Postal Code"
+                        /></div>
+                    </div>
+                    
+
+                    <div>
+
+                          <button
+                            class="btn btn--e-brand-b-2 btn-light btn-color-light"
+                            style="color: white;"
+                            type="submit"
+                          >
+                            SAVE
+                          </button>
+                        </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--====== End - Section Content ======-->
+  </div>
+  <!--====== End - Section 2 ======-->
+</div>

@@ -3,15 +3,14 @@ const { User } = require("../models/user");
 const { logger } = require("../utils/logger");
 
 module.exports = {
-  findExistUser: async function (userData) {
-    const email = userData.email;
-    const user = await User.findOne({ email }).lean();
+  findUser: async function (userData) {
+    const user = await User.findOne({ email: userData }).lean();
     if (user) return user;
   },
   loginUser: async function (userData) {
     const email = userData.email;
     const password = userData.password;
-    const user = await User.findOne({ email }).lean();
+    const user = await User.findOne({ email });
     if (user && (await user.matchPassword(password))) {
       return user;
     }
@@ -30,9 +29,14 @@ module.exports = {
       return newUser;
     }
   },
-
-  userDashboard : async function(userid){
-    const user = await User.findOne({id: userid}).lean()
-    return user;
-  }
+  editUser: async function (userData, id) {
+    const { name, phone } = userData;
+    console.log(userData);
+    const user = await User.findByIdAndUpdate(
+      id,
+      { name, phone },
+      { new: true }
+    );
+    if (user) return user;
+  },
 };

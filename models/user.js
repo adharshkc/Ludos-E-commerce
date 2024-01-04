@@ -1,6 +1,18 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
+const addressSchema = mongoose.Schema({
+  email: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Users",
+    required: true,
+  },
+  housename: String,
+  street: String,
+  city: String,
+  pincode: String,
+});
+
 const userSchema = mongoose.Schema(
   {
     name: {
@@ -31,25 +43,7 @@ const userSchema = mongoose.Schema(
       required: true,
       maxLength: [10, "invalid phone number"],
     },
-    address: [
-      {
-        houseName: {
-          type: String,
-        },
-        city: {
-          type: String,
-          trim: true,
-        },
-        pincode: {
-          type: Number,
-          trim: true,
-        },
-        type: {
-          type: String,
-          default: "Home",
-        },
-      },
-    ],
+    address: [addressSchema],
     role: {
       type: String,
       default: "user",
@@ -69,19 +63,25 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-const deletedUserSchema = mongoose.Schema({
-  name: String,
 
-  email: {
-    type: String,
-    required: true,
+
+const deletedUserSchema = mongoose.Schema(
+  {
+    name: String,
+
+    email: {
+      type: String,
+      required: true,
+    },
+    status: {
+      type: String,
+      default: "deleted",
+    },
   },
-  status: {
-    type: String,
-    default: "deleted",
-  },
-},{timestamps: true});
+  { timestamps: true }
+);
 
 const User = mongoose.model("Users", userSchema);
+const Address = mongoose.model("AddressSchema", addressSchema)
 const DeletedUser = mongoose.model("DeletedUsers", deletedUserSchema);
-module.exports = { User, DeletedUser };
+module.exports = { User, DeletedUser, Address };

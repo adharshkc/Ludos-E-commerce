@@ -13,12 +13,14 @@ const productRouter = require("./routes/product");
 const userRouter = require("./routes/user");
 const connectDb = require("./db/config");
 const passport = require("passport");
+require('./config/passport-config/localStrategy')
 
 const app = express();
 const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(bodyParser.json())
 
+//header cache remove
 app.use((req, res, next) => {
   res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
   res.header('Expires', '-1');
@@ -37,9 +39,11 @@ app.use(
   })
 );
 
+app.use(passport.initialize())
 //passport session
-app.use(passport.authenticate('session'))
+app.use(passport.session())
 
+//handlebars
 app.engine(
   "hbs",
   hbs.engine({

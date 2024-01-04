@@ -3,7 +3,7 @@
 <div class="app-content">
 
             <!--====== Section 1 ======-->
-            <div class="u-s-p-y-6">
+            {{!-- <div class="u-s-p-y-6">
 
                 <!--====== Section Content ======-->
                 <div class="section__content">
@@ -22,7 +22,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <!--====== End - Section 1 ======-->
 
 
@@ -40,73 +40,58 @@
                                     <div class="dash__box dash__box--bg-white dash__box--shadow u-s-m-b-30">
                                         <div class="dash__pad-1">
 
-                                            <span class="dash__text u-s-m-b-16">{{user.name}}</span>
+                                            <h4 >Hello, {{user.name}}</h4>
                                             <ul class="dash__f-list">
                                                 {{!-- <li>
 
                                                     <a href="dashboard.html">Manage My Account</a></li> --}}
-                                                <li>
+                                                {{!-- <li>
 
-                                                    <a class="dash-active" href="#">Hello {{user.name}}</a></li>
+                                                    <a class="dash-active" href="#">Hello {{user.name}}</a></li> --}}
                                                
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="dash__box dash__box--bg-white dash__box--shadow dash__box--w">
-                                        <div class="dash__pad-1">
-                                            <ul class="dash__w-list">
-                                                <li>
-                                                    <div class="dash__w-wrap">
-
-                                                        {{!-- <span class="dash__w-icon dash__w-icon-style-1"><i class="fas fa-cart-arrow-down"></i></span> --}}
-
-                                                        <span class="dash__w-text">4</span>
-
-                                                        <span class="dash__w-name">Orders Placed</span></div>
-                                                </li>
-                                                <li>
-                                                    <div class="dash__w-wrap">
-
-                                                        {{!-- <span class="dash__w-icon dash__w-icon-style-2"><i class="fas fa-times"></i></span> --}}
-
-                                                        <span class="dash__w-text">0</span>
-
-                                                        <span class="dash__w-name">Cancel Orders</span></div>
-                                                </li>
-                                               
-                                            </ul>
-                                        </div>
-                                    </div>
+                                    
                                     <!--====== End - Dashboard Features ======-->
                                 </div>
                                 <div class="col-lg-9 col-md-12">
                                     <div class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white u-s-m-b-30">
                                         <div class="dash__pad-2">
-                                            <h1 class="dash__h1 u-s-m-b-14">My Profile</h1>
+                                            <h1 class="dash__h1 u-s-m-b-14 font-weight-bold">My Profile</h1>
 
                                             <span class="dash__text u-s-m-b-30">Look all your info, you could customize your profile.</span>
                                             <div class="row">
                                                 <div class="col-lg-4 u-s-m-b-30">
-                                                    <h2 class="dash__h2 u-s-m-b-8">Full Name</h2>
+                                                    <h1 class="dash__h2 u-s-m-b-8 font-weight-bold">Full Name :</h1>
 
-                                                    <span class="dash__text">{{user.name}}</span>
+                                                    <h5 class="">{{user.name}}</h5>
                                                 </div>
                                                 <div class="col-lg-4 u-s-m-b-30">
-                                                    <h2 class="dash__h2 u-s-m-b-8">E-mail</h2>
+                                                     <h1 class="dash__h2 u-s-m-b-8 font-weight-bold">Email :</h1>
 
-                                                    <span class="dash__text">{{user.email}}</span>
+                                                    <h5 class="">{{user.email}}</h5>
                                                     <div class="dash__link dash__link--secondary">
 
-                                                        <a href="#">Change</a></div>
+                                                        <a href="/user/edit_profile" class=" font-weight-bold">Change</a></div>
                                                 </div>
                                                 <div class="col-lg-4 u-s-m-b-30">
-                                                    <h2 class="dash__h2 u-s-m-b-8">Phone</h2>
+                                                     <h1 class="dash__h2 u-s-m-b-8 font-weight-bold">Phone :</h1>
 
-                                                    <span class="dash__text">Please enter your mobile</span>
+                                                    <h5 class="">{{user.phone}}</h5>
                                                     <div class="dash__link dash__link--secondary">
 
-                                                        <a href="#">Add</a></div>
+                                                        <a href="/user/edit_profile" class=" font-weight-bold">Change</a></div>
                                                 </div>
+                                                {{!-- <div class="col-lg-4 u-s-m-b-30">
+                                                    <h2 class="dash__h2 u-s-m-b-8 font-weight-bold">Address :</h2>
+                                                    
+                                                    <div class="dash__link dash__link--secondary">
+
+                                                        <a href="/user/edit_profile" class=" font-weight-bold">Add</a></div>
+                                                </div> --}}
+                                                
+
                                                 {{!-- <div class="col-lg-4 u-s-m-b-30">
                                                     <h2 class="dash__h2 u-s-m-b-8">Birthday</h2>
 
@@ -123,10 +108,10 @@
 
                                                     <div class="u-s-m-b-16">
 
-                                                        <a class="dash__custom-link btn--e-transparent-brand-b-2" href="dash-edit-profile.html">Edit Profile</a></div>
+                                                        <a class="dash__custom-link btn--e-transparent-brand-b-2" href="/user/edit_profile">Edit Profile</a></div>
                                                     <div>
 
-                                                        <a class="dash__custom-link btn--e-brand-b-2" href="#">Change Password</a></div>
+                                                        {{!-- <a class="dash__custom-link btn--e-brand-b-2" href="#">Change Password</a></div> --}}
                                                 </div>
                                             </div>
                                         </div>

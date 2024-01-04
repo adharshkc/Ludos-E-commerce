@@ -28,40 +28,30 @@ const userLogin = function (req, res) {
 
 /**********************************************POST LOGIN****************************************************************** */
 
-const user_signin = async function (req, res) {
-  // const { email, password } = req.body;
-  // const user = await User.findOne({ email });
-  // logger.info(user)
-  // if (user && (await user.matchPassword(password))) {
-  //   if(user.role == 'admin'){
-  //     req.session.admin = true
-  //     req.session.adminid = user._id
-  //     res.redirect("/admin")
-  //   }else if(user.role == 'user'){
-  //     console.log('error')
-
-  //     req.session.user = true;
-  //     req.session.userid = user._id
-  //     console.log(req.session.userid)
-  //     console.log("user authenticated");
-  //     res.redirect("/");
-  //   }
-  // } else {
-  //   res.redirect("/login");
-  // }
-  const userData = { email: req.body.email, password: req.body.password };
-  const user = await userHelper.loginUser(userData);
-  if (user.role == "admin") {
-    req.session.admin = true;
-    req.session.adminid = user._id;
-    res.redirect("/admin");
-  } else if (user.role == "user") {
-    req.session.user = true;
-    req.session.userid = user._id;
-    res.redirect("/");
-  } else {
-    res.render("/login", { errorMessage: "user not found" });
-  }
+const user_signin = async function (req, res, next) {
+  passport.authenticate("local", function (err, user, info) {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return res.render("user/login", { errorMessage: "user not found" });
+    }
+    req.logIn(user, function (err) {
+      if (err) {
+        return next(err);
+      }
+      if (user.role == "admin") {
+        req.session.admin = true;
+        req.session.adminid = user._id;
+        res.redirect("/admin");
+      } else if (user.role == "user") {
+        req.session.user = true;
+        req.session.userid = user._id;
+        req.session.email = user.email;
+        res.redirect("/");
+      }
+    });
+  })(req, res, next);
 };
 
 /**********************************************GET REGISTER****************************************************************** */
@@ -69,7 +59,9 @@ const user_signin = async function (req, res) {
 const userRegister = function (req, res) {
   if (req.session.user) {
     let isUser = true;
-    res.render("user/index", { layout: "../layouts/layout", isUser });
+    res.redirect("/");
+  } else if (req.session.admin) {
+    res.redirect("/admin");
   }
   res.render("user/register");
 };
@@ -77,7 +69,8 @@ const userRegister = function (req, res) {
 /**********************************************POST REGISTER****************************************************************** */
 
 const user_registration = async function (req, res) {
-  const user = await userHelper.findExistUser(req.body);
+  const email = req.body.email;
+  const user = await userHelper.findUser(email);
   if (user) {
     logger.info("user already exists");
     res.render("user/register", { errorMessage: "user already exists" });
@@ -97,8 +90,8 @@ const user_registration = async function (req, res) {
 
 const user_dashboard = async function (req, res) {
   try {
-    const userId = req.session.userid;
-    const user = await userHelper.userDashboard(userId);
+    const userId = req.session.email;
+    const user = await userHelper.findUser(userId);
     if (req.session.user) {
       let isUser = true;
       res.render("user/profile", { user, isUser });
@@ -106,22 +99,60 @@ const user_dashboard = async function (req, res) {
       res.render("user/profile", { user });
     }
   } catch (err) {
+    logger.error({ message: err.message });
+  }
+};
+
+const user_profile_edit = async function (req, res) {
+  try {
+    const userId = req.session.email;
+    const user = await userHelper.findUser(userId);
+
+    let isUser = true;
+    res.render("user/edit-profile", { user, isUser });
+  } catch (err) {
     logger.error({ message: err });
   }
 };
 
-const user_profile_edit = function (req, res) {
-  res.render("user/edit-profile");
-};
-
 const editUser = async function (req, res) {
-  const { name, phone, houseNo, city, pincode } = req.body;
-  const editedUser = await User.findByIdAndUpdate({ name, phone, address });
+  try {
+    const userData = req.body;
+    const id = req.session.userid;
+    const user = await userHelper.editUser(userData, id);
+    if (user) {
+      res.redirect("/user/edit_profile");
+    }
+  } catch (error) {}
 };
 
-const editAddress = function (req, res) {
-  res.render("user/edit-address");
+const add_address = async function(req, res){
+  try {
+    const email = req.session.email;
+    const user = await userHelper.findUser(email)
+    let isUser = true
+    res.render("user/add-address", { user, isUser });
+  } catch (error) {
+    logger.error({ message: err });
+  }
+}
+
+const addAddress = async function (req, res) {};
+
+const editAddress = async function (req, res) {
+  try {
+    const userId = req.session.email;
+    const user = await userHelper.findUser(userId);
+
+    let isUser = true;
+    res.render("user/edit-address", { user, isUser });
+  } catch (err) {
+    logger.error({ message: err });
+  }
 };
+
+
+
 
 /**************************************************************GET POST CART**********************************************************/
 const cart = async function (req, res) {
@@ -156,6 +187,9 @@ module.exports = {
   userRegister,
   user_dashboard,
   user_profile_edit,
+  editUser,
+  addAddress,
+  add_address,
   editAddress,
   cart,
   checkout,
