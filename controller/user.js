@@ -15,7 +15,7 @@ const home = async function (req, res) {
   }
 };
 
-/**********************************************GET LOGIN****************************************************************** */
+/**********************************************AUTHENTICATION****************************************************************** */
 const userLogin = function (req, res) {
   if (req.session.user) {
     // let isUser = true;
@@ -25,8 +25,6 @@ const userLogin = function (req, res) {
   }
   res.render("user/login", { layout: "../layouts/layout" });
 };
-
-/**********************************************POST LOGIN****************************************************************** */
 
 const user_signin = async function (req, res, next) {
   passport.authenticate("local", function (err, user, info) {
@@ -54,8 +52,6 @@ const user_signin = async function (req, res, next) {
   })(req, res, next);
 };
 
-/**********************************************GET REGISTER****************************************************************** */
-
 const userRegister = function (req, res) {
   if (req.session.user) {
     let isUser = true;
@@ -65,8 +61,6 @@ const userRegister = function (req, res) {
   }
   res.render("user/register");
 };
-
-/**********************************************POST REGISTER****************************************************************** */
 
 const user_registration = async function (req, res) {
   const email = req.body.email;
@@ -79,6 +73,7 @@ const user_registration = async function (req, res) {
     if (newUser) {
       req.session.user = true;
       req.session.userid = newUser._id;
+      req.session.email = newUser.email;
       res.redirect("/");
     } else {
       res.render("user/register", { errroMessage: "error creating user" });
@@ -86,7 +81,7 @@ const user_registration = async function (req, res) {
   }
 };
 
-/**********************************************EDIT USER****************************************************************** */
+/**********************************************USER DASHBOARD****************************************************************** */
 
 const user_dashboard = async function (req, res) {
   try {
@@ -107,7 +102,6 @@ const user_profile_edit = async function (req, res) {
   try {
     const userId = req.session.email;
     const user = await userHelper.findUser(userId);
-
     let isUser = true;
     res.render("user/edit-profile", { user, isUser });
   } catch (err) {
@@ -126,33 +120,55 @@ const editUser = async function (req, res) {
   } catch (error) {}
 };
 
-const add_address = async function(req, res){
+const add_address = async function (req, res) {
   try {
     const email = req.session.email;
-    const user = await userHelper.findUser(email)
-    let isUser = true
+    const user = await userHelper.findUser(email);
+    let isUser = true;
     res.render("user/add-address", { user, isUser });
   } catch (error) {
     logger.error({ message: err });
   }
-}
+};
 
-const addAddress = async function (req, res) {};
-
-const editAddress = async function (req, res) {
+const addAddress = async function (req, res) {
   try {
-    const userId = req.session.email;
-    const user = await userHelper.findUser(userId);
-
-    let isUser = true;
-    res.render("user/edit-address", { user, isUser });
-  } catch (err) {
+    const data = req.body;
+    const userId = req.session.userid;
+    const address = await userHelper.addAddress(data, userId);
+  } catch (error) {
     logger.error({ message: err });
   }
 };
 
+const edit_address = async function (req, res) {
+  try {
+    const userId = req.session.userid;
+    const addressId = req.params.id;
+    const data = await userHelper.getAddress(userId, addressId);
+    const address = data.address;
+    const user = data.user;
+    let isUser = true;
+    res.render("user/edit-address", { user, address, isUser });
+  } catch (err) {
+    logger.error({ message: `couldn't get the address ${err}` });
+  }
+};
 
+const editAddress = async function (req, res) {
+  try {
+    const userId = req.session.userid;
+    const addressId = req.params.id;
+    const address = req.body;
+    const updatedAddress = userHelper.editAddress(userId, addressId, address);
+  } catch (error) {
+    logger.error({ message: `couldn't get the address ${err}` });
+  }
+};
 
+const delete_address = async function (req, res) {
+  const userId = req.session.userid;
+};
 
 /**************************************************************GET POST CART**********************************************************/
 const cart = async function (req, res) {
@@ -190,6 +206,7 @@ module.exports = {
   editUser,
   addAddress,
   add_address,
+  edit_address,
   editAddress,
   cart,
   checkout,

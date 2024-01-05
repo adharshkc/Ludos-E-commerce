@@ -163,7 +163,7 @@
                         </div>
                         {{!-- <div class="gl-inline"> --}}
 
-                          <div class="col-lg-9 col-md-12">
+                          {{!-- <div class="col-lg-9 col-md-12">   --}}
                             <div
                               class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white u-s-m-b-30"
                             >
@@ -173,6 +173,7 @@
                                 </div>
                               </div>
                             </div>
+                                  {{#if user.address}}
                             <div
                               class="dash__box dash__box--shadow dash__box--bg-white dash__box--radius u-s-m-b-30"
                             >
@@ -181,31 +182,34 @@
                                   <thead>
                                     <tr>
                                       <th>Action</th>
-                                      <th>Full Name</th>
                                       <th>Address</th>
-                                      <th>Region</th>
-                                      <th>Phone Number</th>
-                                      <th>Status</th>
+                                      <th>Street</th>
+                                      <th>City</th>
+                                      <th>Zip/Postal</th>
+                                      <th>Delete</th>
                                     </tr>
                                   </thead>
+                                  {{#each user.address}}
                                   <tbody>
                                     <tr>
                                       <td>
                                         <a
                                           class="address-book-edit btn--e-transparent-platinum-b-2"
-                                          href="dash-address-edit.html"
+                                          href="/user/edit_address/{{this._id}}"
                                         >Edit</a>
                                       </td>
-                                      <td>Doe John</td>
-                                      <td>1484 Abner Road</td>
-                                      <td>Eau Claire WI - Wisconsin</td>
-                                      <td>(+0) 7154419563</td>
-                                      <td></td>
+                                      <td>{{this.houseName}}</td>
+                                      <td>{{this.street}}</td>
+                                      <td>{{this.city}}</td>
+                                      <td>{{this.pincode}}</td>
+                                      <td><a href=""><i class="fa-solid fa-trash"></i></a></td>
                                     </tr>
                                   </tbody>
+                                  {{/each}}
                                 </table>
                               </div>
                             </div>
+                            {{/if}}
                             <div class="mb-5">
                               <a
                                 class=""
@@ -215,7 +219,7 @@
 
                                 Add New Address</a>
                             </div>
-                          </div>
+                          {{!-- </div> --}}
                         {{!-- </div> --}}
                         <div>
 

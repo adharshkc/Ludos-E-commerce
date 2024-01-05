@@ -42,88 +42,62 @@
 
                   <span class="dash__text u-s-m-b-30">We need an address where
                     we could deliver products.</span>
-                  <form class="dash-address-manipulation">
+                  <form class="dash-address-manipulation" action="/user/editAddress/{{address._id}}" method="post">
                     <div class="gl-inline">
                       <div class="u-s-m-b-30">
 
-                        <label class="gl-label" for="address-fname">FIRST NAME *</label>
+                        <label class="gl-label" for="address-fname">FIRST NAME :</label>
 
-                        <input
-                          class="input-text input-text--primary-style"
-                          type="text"
-                          id="address-fname"
-                          placeholder="John Doe"
-                        /></div>
+                       <span>{{user.name}}</span></div>
                       <div class="u-s-m-b-30">
 
-                        <label class="gl-label" for="address-lname">LAST NAME *</label>
+                        <label class="gl-label" for="address-lname">PHONE :</label>
 
-                        <input
-                          class="input-text input-text--primary-style"
-                          type="text"
-                          id="address-lname"
-                          placeholder="Doe"
-                        /></div>
+                       <span>{{user.phone}}</span></div>
                     </div>
                     <div class="gl-inline">
                       <div class="u-s-m-b-30">
 
-                        <label class="gl-label" for="address-phone">PHONE *</label>
+                        <label class="gl-label" for="address-phone">HOUSE NAME *</label>
 
                         <input
                           class="input-text input-text--primary-style"
                           type="text"
+                          name="houseName"
+                          value="{{address.houseName}}"
+                          placeholder="House name"
                           id="address-phone"
-                          placeholder="(+0) 900901904"
                         /></div>
                       <div class="u-s-m-b-30">
 
                         <label class="gl-label" for="address-street">STREET
-                          ADDRESS *</label>
+                           *</label>
 
                         <input
                           class="input-text input-text--primary-style"
                           type="text"
+                          name="street"
+                          value="{{address.street}}"
                           id="address-street"
-                          placeholder="4247 Ashford Drive Virginia"
+                          placeholder=" Street"
                         /></div>
                     </div>
                     <div class="gl-inline">
                       <div class="u-s-m-b-30">
 
-                        <label class="gl-label" for="address-phone">COUNTRY *</label>
+                        <label class="gl-label" for="address-street">CITY
+                           *</label>
 
                         <input
                           class="input-text input-text--primary-style"
                           type="text"
-                          id="address-phone"
-                          placeholder=""
-                        /></div>
-                      <div class="u-s-m-b-30">
-
-                        <label
-                          class="gl-label"
-                          for="address-street"
-                        >STATE*</label>
-
-                        <input
-                          class="input-text input-text--primary-style"
-                          type="text"
+                          name="city"
+                          value="{{address.city}}"
                           id="address-street"
-                          placeholder=""
-                        /></div>
-                    </div>
-                    <div class="gl-inline">
-                      <div class="u-s-m-b-30">
-
-                        <label class="gl-label" for="address-city">TOWN/CITY *</label>
-
-                        <input
-                          class="input-text input-text--primary-style"
-                          type="text"
-                          id="address-city"
-                        /></div>
-                      <div class="u-s-m-b-30">
+                          placeholder=" City"
+                        />
+                      </div>
+                     <div class="u-s-m-b-30">
 
                         <label class="gl-label" for="address-street">ZIP/POSTAL
                           CODE *</label>
@@ -131,15 +105,25 @@
                         <input
                           class="input-text input-text--primary-style"
                           type="text"
+                          name="pincode"
+                          value="{{address.pincode}}"
                           id="address-postal"
-                          placeholder="20006"
+                          placeholder="Zip/Postal Code"
                         /></div>
                     </div>
+                    
 
-                    <button
-                      class="btn btn--e-brand-b-2"
-                      type="submit"
-                    >SAVE</button>
+                    <div>
+
+                           <button
+                            class="btn btn--e-brand-b-2 btn-light btn-color-light"
+                            data-toggle="modal" data-target="#successModal"
+                            style="color: white;"
+                            type="submit"
+                          >
+                            SAVE
+                          </button>
+                        </div>
                   </form>
                 </div>
               </div>
@@ -151,6 +135,25 @@
     <!--====== End - Section Content ======-->
   </div>
   <!--====== End - Section 2 ======-->
+</div>
+
+<div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="successModalLabel">Address Updated Successfully</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Your address has been updated successfully.
+      </div>
+      <div class="modal-footer">
+        <a href="/user/edit_profile" class="btn btn-secondary">Okay</a>
+      </div>
+    </div>
+  </div>
 </div>
 
 {{> footer}}

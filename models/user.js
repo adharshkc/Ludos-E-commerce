@@ -2,12 +2,12 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
 const addressSchema = mongoose.Schema({
-  email: {
+  user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Users",
     required: true,
   },
-  housename: String,
+  houseName: String,
   street: String,
   city: String,
   pincode: String,
@@ -26,7 +26,7 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, "Please enter your email"],
       minLength: [3, "please enter a valid email"],
-      maxLength: [20, "Please enter a valid email"],
+      maxLength: [64, "Please enter a valid email"],
       trim: true,
       unique: true,
     },
@@ -82,6 +82,6 @@ const deletedUserSchema = mongoose.Schema(
 );
 
 const User = mongoose.model("Users", userSchema);
-const Address = mongoose.model("AddressSchema", addressSchema)
+const Address = mongoose.model("Address", addressSchema)
 const DeletedUser = mongoose.model("DeletedUsers", deletedUserSchema);
 module.exports = { User, DeletedUser, Address };
