@@ -94,5 +94,16 @@ module.exports = {
      {new: true}
      )
      console.log(user)
+  },
+  deleteAddress : async function(userId, addressId){
+    const deleteAddress = await Address.findByIdAndDelete(
+      addressId,
+    )
+    const delUserAddress = await User.findByIdAndUpdate(
+      {_id: userId},
+      {$pull: {address: {_id: addressId}}},
+      {new: true}
+    )
+    return delUserAddress;
   }
 };

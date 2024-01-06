@@ -15,7 +15,8 @@ const {
   editUser,
   add_address,
   addAddress,
-  editAddress
+  editAddress,
+  delete_address
 } = require("../controller/user");
 // const { cart } = require("../controller/order");
 const { checkAuth } = require("../middlewares/auth");
@@ -38,6 +39,7 @@ router.get("/user/add_address", checkAuth, add_address);
 router.post("/user/addAddress", checkAuth, addAddress);
 router.get("/user/edit_address/:id", checkAuth, edit_address);
 router.post("/user/editAddress/:id", checkAuth, editAddress);
+router.get("/user/delete_address/:id", delete_address)
 router.get("/user/checkout", checkout);
 router.get("/logout", logout);
 

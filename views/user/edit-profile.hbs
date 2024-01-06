@@ -91,13 +91,20 @@
 
                   <span class="dash__text u-s-m-b-30">Looks like you haven't
                     update your profile</span>
-                  
+
                   <div class="row">
                     <div class="col-lg-12">
-                      <form class="dash-edit-p" method="post" action="/user/editUser">
+                      <form
+                        class="dash-edit-p"
+                        method="post"
+                        action="/user/editUser"
+                      >
                         <div class="gl-inline">
                           <div class="u-s-m-b-30">
-                            <label class="gl-label font-weight-bold" for="reg-fname">
+                            <label
+                              class="gl-label font-weight-bold"
+                              for="reg-fname"
+                            >
                               NAME *</label>
 
                             <input
@@ -110,7 +117,9 @@
                             />
                           </div>
                           <div class="u-s-m-b-30">
-                            <h2 class="dash__h2 u-s-m-b-8 font-weight-bold">Phone</h2>
+                            <h2
+                              class="dash__h2 u-s-m-b-8 font-weight-bold"
+                            >Phone</h2>
 
                             <span class="dash__text">Please enter your mobile</span>
                             <input
@@ -126,7 +135,7 @@
                                   </div> }}
 
                         </div>
-                        
+
                         <div class="gl-inline">
                           {{!-- <div class="u-s-m-b-30">
                             <h2 class="dash__h2 u-s-m-b-8 font-weight-bold">E-mail</h2>
@@ -161,35 +170,35 @@
                                   />--}}
 
                         </div>
-                        {{!-- <div class="gl-inline"> --}}
+                        {{! <div class="gl-inline"> }}
 
-                          {{!-- <div class="col-lg-9 col-md-12">   --}}
-                            <div
-                              class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white u-s-m-b-30"
-                            >
-                              <div class="dash__pad-2">
-                                <div class="dash__address-header">
-                                  <h1 class="dash__h1">Address Book</h1>
-                                </div>
-                              </div>
+                        {{! <div class="col-lg-9 col-md-12">   }}
+                        <div
+                          class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white u-s-m-b-30"
+                        >
+                          <div class="dash__pad-2">
+                            <div class="dash__address-header">
+                              <h1 class="dash__h1">Address Book</h1>
                             </div>
-                                  {{#if user.address}}
-                            <div
-                              class="dash__box dash__box--shadow dash__box--bg-white dash__box--radius u-s-m-b-30"
-                            >
-                              <div class="dash__table-2-wrap gl-scroll">
-                                <table class="dash__table-2">
-                                  <thead>
-                                    <tr>
-                                      <th>Action</th>
-                                      <th>Address</th>
-                                      <th>Street</th>
-                                      <th>City</th>
-                                      <th>Zip/Postal</th>
-                                      <th>Delete</th>
-                                    </tr>
-                                  </thead>
-                                  {{#each user.address}}
+                          </div>
+                        </div>
+                        {{#if user.address}}
+                          <div
+                            class="dash__box dash__box--shadow dash__box--bg-white dash__box--radius u-s-m-b-30"
+                          >
+                            <div class="dash__table-2-wrap gl-scroll">
+                              <table class="dash__table-2">
+                                <thead>
+                                  <tr>
+                                    <th>Action</th>
+                                    <th>Address</th>
+                                    <th>Street</th>
+                                    <th>City</th>
+                                    <th>Zip/Postal</th>
+                                    <th>Delete</th>
+                                  </tr>
+                                </thead>
+                                {{#each user.address}}
                                   <tbody>
                                     <tr>
                                       <td>
@@ -202,25 +211,75 @@
                                       <td>{{this.street}}</td>
                                       <td>{{this.city}}</td>
                                       <td>{{this.pincode}}</td>
-                                      <td><a href=""><i class="fa-solid fa-trash"></i></a></td>
+                                      <td><a
+                                          href=""
+                                          data-toggle="modal"
+                                          data-target="#deleteAddressModal"
+                                        ><i
+                                            class="fa-solid fa-trash"
+                                          ></i></a></td>
                                     </tr>
                                   </tbody>
-                                  {{/each}}
-                                </table>
-                              </div>
+                                  <div
+                                    class="modal fade"
+                                    id="deleteAddressModal"
+                                    tabindex="-1"
+                                    role="dialog"
+                                    aria-labelledby="deleteAddressModalLabel"
+                                    aria-hidden="true"
+                                  >
+                                    <div class="modal-dialog" role="document">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5
+                                            class="modal-title"
+                                            id="deleteAddressModalLabel"
+                                          >Confirm Deletion</h5>
+                                          <button
+                                            type="button"
+                                            class="close"
+                                            data-dismiss="modal"
+                                            aria-label="Close"
+                                          >
+                                            <span
+                                              aria-hidden="true"
+                                            >&times;</span>
+                                          </button>
+                                        </div>
+                                        <div class="modal-body">
+                                          Are you sure you want to delete this
+                                          address?
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button
+                                            type="button"
+                                            class="btn btn-secondary"
+                                            data-dismiss="modal"
+                                          >Cancel</button>
+                                          <a
+                                            href="/user/delete_address/{{this._id}}"
+                                            class="btn btn-danger"
+                                          >Delete</a>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                {{/each}}
+                              </table>
                             </div>
-                            {{/if}}
-                            <div class="mb-5">
-                              <a
-                                class=""
-                                style="color: red;"
-                                href="/user/add_address"
-                              ><i class="fas fa-plus u-s-m-r-8"></i>
+                          </div>
+                        {{/if}}
+                        <div class="mb-5">
+                          <a
+                            class=""
+                            style="color: red;"
+                            href="/user/add_address"
+                          ><i class="fas fa-plus u-s-m-r-8"></i>
 
-                                Add New Address</a>
-                            </div>
-                          {{!-- </div> --}}
-                        {{!-- </div> --}}
+                            Add New Address</a>
+                        </div>
+                        {{! </div> }}
+                        {{! </div> }}
                         <div>
 
                           <button
@@ -245,6 +304,45 @@
     <!--====== End - Section Content ======-->
   </div>
   <!--====== End - Section 2 ======-->
+</div>
+
+<div
+  class="modal fade"
+  id="deleteAddressModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="deleteAddressModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteAddressModalLabel">Confirm Deletion</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this address?
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+        >Cancel</button>
+        <a
+          href="/user/delete_address/{{user.address._id}}"
+          class="btn btn-danger"
+        >Delete</a>
+      </div>
+    </div>
+  </div>
 </div>
 
 {{> footer}}

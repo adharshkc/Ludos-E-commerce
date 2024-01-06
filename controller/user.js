@@ -168,6 +168,13 @@ const editAddress = async function (req, res) {
 
 const delete_address = async function (req, res) {
   const userId = req.session.userid;
+  const adderssId = req.params.id
+  const deleteAddress = userHelper.deleteAddress(userId, adderssId)
+  if(deleteAddress){
+    res.redirect("/user/edit_profile")
+  }else{
+    logger.error({ message: `couldn't get the address ${err}` });
+  }
 };
 
 /**************************************************************GET POST CART**********************************************************/
@@ -208,6 +215,7 @@ module.exports = {
   add_address,
   edit_address,
   editAddress,
+  delete_address,
   cart,
   checkout,
   home,
