@@ -10,6 +10,8 @@ const {
   user_profile_edit,
   checkout,
   edit_address,
+  addToCart,
+  addProductToCart,
   cart,
   userAccount,
   editUser,
@@ -31,6 +33,8 @@ router.get("/register", userRegister);
 router.post("/user_registration", user_registration);
 router.get("/add_cart");
 router.get("/cart", checkAuth, cart);
+router.get("/addToCart/:id", checkAuth, addToCart);
+router.get("/addProductToCart/:id", checkAuth, addProductToCart);
 router.get("/checkout");
 router.get("/user/profile", checkAuth, user_dashboard);
 router.get("/user/edit_profile", checkAuth, user_profile_edit);

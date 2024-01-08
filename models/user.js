@@ -34,7 +34,6 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, "Please enter your password"],
       minLength: [4, "Password should be greater than 4 characters"],
-      maxLength: [10, "Password should not exceeds 10 characters"],
       trim: true,
     },
     phone: {
@@ -48,6 +47,20 @@ const userSchema = mongoose.Schema(
       type: String,
       default: "user",
     },
+    cart: [
+      {
+        product_id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Products",
+          index: true,
+        },
+        quantity: {
+          type: Number,
+          required: true,
+          default: 1, 
+        },
+      },
+    ],
   },
   { timestamps: true }
 );
@@ -62,8 +75,6 @@ userSchema.pre("save", async function () {
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
-
-
 
 const deletedUserSchema = mongoose.Schema(
   {
@@ -82,6 +93,6 @@ const deletedUserSchema = mongoose.Schema(
 );
 
 const User = mongoose.model("Users", userSchema);
-const Address = mongoose.model("Address", addressSchema)
+const Address = mongoose.model("Address", addressSchema);
 const DeletedUser = mongoose.model("DeletedUsers", deletedUserSchema);
 module.exports = { User, DeletedUser, Address };

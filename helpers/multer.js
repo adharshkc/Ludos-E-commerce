@@ -13,7 +13,7 @@ const upload = function(){
         storage: storage,
         limits: {fileSize: 1000000}
     }).single('image')
-    return upload
+    return upload;
 }
 
 module.exports = {upload};

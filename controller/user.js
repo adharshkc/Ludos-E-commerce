@@ -168,31 +168,52 @@ const editAddress = async function (req, res) {
 
 const delete_address = async function (req, res) {
   const userId = req.session.userid;
-  const adderssId = req.params.id
-  const deleteAddress = userHelper.deleteAddress(userId, adderssId)
-  if(deleteAddress){
-    res.redirect("/user/edit_profile")
-  }else{
+  const adderssId = req.params.id;
+  const deleteAddress = userHelper.deleteAddress(userId, adderssId);
+  if (deleteAddress) {
+    res.redirect("/user/edit_profile");
+  } else {
     logger.error({ message: `couldn't get the address ${err}` });
   }
 };
 
-/**************************************************************GET POST CART**********************************************************/
+/**************************************************************CART SECTION**********************************************************/
 const cart = async function (req, res) {
-  if (req.session.user) {
-    const userId = req.session.userid;
-    let isUser = true;
-    const cart = await Cart.findOne({ user: userId })
-      .populate("items.product")
-      .lean();
+  const userId = req.session.userid;
+  let isUser = true;
+  const cart = await userHelper.getCart(userId);
+  if(cart){
 
     res.render("user/cart", {
       layout: "../layouts/layout",
       isUser,
-      cart: cart,
+      cart: cart.cart,
+      totalPrice: cart.totalPrice
     });
   }
 };
+
+const addToCart = async function(req, res){
+  console.log("hitting cart")
+
+  const userId = req.session.userid;
+  const cart = await userHelper.addItemsToCart(userId, req.params.id)
+  console.log(cart)
+}
+
+const addProductToCart = async function(req, res){
+  try{
+    const userId = req.session.userid;
+    const cart = await userHelper.addItemsToCart(userId, req.params.id)
+    if(cart){
+      res.redirect("/cart")
+    }
+
+  }catch(err){
+    logger.error({message: err})
+  }
+ 
+}
 
 const checkout = function (req, res) {
   res.render("user/checkout");
@@ -217,6 +238,8 @@ module.exports = {
   editAddress,
   delete_address,
   cart,
+  addToCart,
+  addProductToCart,
   checkout,
   home,
 

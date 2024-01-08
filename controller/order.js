@@ -8,14 +8,14 @@ const crypto = require("crypto");
 
 /*************************************************CART*************************************************************/
 
-const addToCart = async function (req, res) {
-  const userId = req.session.userid;
-  cart.addItemsToCart(req.session.userid, req.params.id);
+// const addToCart = async function (req, res) {
+//   const userId = req.session.userid;
+//   cart.addItemsToCart(req.session.userid, req.params.id);
 
-  res.redirect("/products");
-};
+//   res.redirect("/products");
+// };
 
-const addProductToCart = async function (req, res) {
+const   addProductToCart = async function (req, res) {
   cart.addItemsToCart(req.session.userid, req.params.id).then(() => {
     res.redirect("/cart");
   });
@@ -226,7 +226,7 @@ const verifyPayment = async function (req, res) {
 };
 
 module.exports = {
-  addToCart,
+  // addToCart,
   getCart,
   addProductToCart,
   deleteCart,

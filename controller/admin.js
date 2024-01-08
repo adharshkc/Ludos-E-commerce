@@ -6,6 +6,7 @@ const getUsers = async function (req, res) {
 };
 
 const admin = async function(req, res){
+  
   if(req.session.admin){
     
     res.render("admin/index")
