@@ -182,42 +182,61 @@ const cart = async function (req, res) {
   const userId = req.session.userid;
   let isUser = true;
   const cart = await userHelper.getCart(userId);
-  if(cart){
-
+  if (cart) {
     res.render("user/cart", {
       layout: "../layouts/layout",
       isUser,
       cart: cart.cart,
-      totalPrice: cart.totalPrice
+      totalPrice: cart.totalPrice,
     });
   }
 };
 
-const addToCart = async function(req, res){
-  console.log("hitting cart")
-
+const addToCart = async function (req, res) {
+  
   const userId = req.session.userid;
-  const cart = await userHelper.addItemsToCart(userId, req.params.id)
-  console.log(cart)
-}
-
-const addProductToCart = async function(req, res){
-  try{
-    const userId = req.session.userid;
-    const cart = await userHelper.addItemsToCart(userId, req.params.id)
-    if(cart){
-      res.redirect("/cart")
-    }
-
-  }catch(err){
-    logger.error({message: err})
-  }
- 
-}
-
-const checkout = function (req, res) {
-  res.render("user/checkout");
+  const cart = await userHelper.addItemsToCart(userId, req.params.id);
+  console.log(cart);
 };
+
+const addProductToCart = async function (req, res) {
+  try {
+    console.log("hitting cart");
+    const userId = req.session.userid;
+    const cart = await userHelper.addItemsToCart(userId, req.params.id);
+    if (cart) {
+      res.redirect("/cart");
+    }
+  } catch (err) {
+    logger.error({ message: err });
+  }
+};
+
+const updateCart = async function (req, res) {
+  try {
+    let { proId, count } = req.body;
+    count = parseInt(count)
+    console.log(count)
+    const userId = req.session.userid;
+    const updatedCart = await userHelper.updateCart(proId, count, userId);
+    if (updatedCart) {
+      const totalPrice = await userHelper.getCart(userId);
+      console.log(totalPrice.totalPrice);
+      res.json({totalPrice: totalPrice.totalPrice, updatedCart})
+    }
+  } catch (error) {
+    logger.error({  message:"update cart failed", error });
+  }
+};
+
+const deleteCart = async function(req, res){
+  try {
+    const newDeletedCart = await userHelper.cartDelete(req.session.userid, req.params.id)
+    res.redirect('/cart')
+  } catch (error) {
+    
+  }
+}
 
 const logout = async function (req, res) {
   req.session.destroy();
@@ -240,8 +259,9 @@ module.exports = {
   cart,
   addToCart,
   addProductToCart,
+  updateCart,
+  deleteCart,
   checkout,
   home,
-
   logout,
 };

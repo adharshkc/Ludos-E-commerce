@@ -13,6 +13,8 @@ const {
   addToCart,
   addProductToCart,
   cart,
+  updateCart,
+  deleteCart,
   userAccount,
   editUser,
   add_address,
@@ -22,6 +24,7 @@ const {
 } = require("../controller/user");
 // const { cart } = require("../controller/order");
 const { checkAuth } = require("../middlewares/auth");
+
 
 
 const router = express.Router();
@@ -35,7 +38,8 @@ router.get("/add_cart");
 router.get("/cart", checkAuth, cart);
 router.get("/addToCart/:id", checkAuth, addToCart);
 router.get("/addProductToCart/:id", checkAuth, addProductToCart);
-router.get("/checkout");
+router.post("/updateCart", checkAuth, updateCart)
+router.get("/deleteCartProduct/:id", checkAuth, deleteCart)
 router.get("/user/profile", checkAuth, user_dashboard);
 router.get("/user/edit_profile", checkAuth, user_profile_edit);
 router.post("/user/editUser", checkAuth, editUser);
@@ -44,7 +48,6 @@ router.post("/user/addAddress", checkAuth, addAddress);
 router.get("/user/edit_address/:id", checkAuth, edit_address);
 router.post("/user/editAddress/:id", checkAuth, editAddress);
 router.get("/user/delete_address/:id", delete_address)
-router.get("/user/checkout", checkout);
 router.get("/logout", logout);
 
 module.exports = router;

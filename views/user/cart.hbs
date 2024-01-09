@@ -54,8 +54,8 @@
                 <tbody>
                   <!--====== Row ======-->
                   <tr>
-                    <td>
-                      <div class="table-p__box">
+                    <td class="table-p__box">
+                      {{!-- <div class="table-p__box"> --}}
                         <div class="table-p__img-wrap">
 
                           <img
@@ -82,7 +82,7 @@
                               <span>Color: Red</span></li>
                           </ul>
                         </div>
-                      </div>
+                      {{!-- </div> --}}
                     </td>
                     <td>
                       <span class="table-p__price">₹{{this.product_id.price}}</span></td>
@@ -179,11 +179,11 @@
                           </tr>
                           <tr>
                             <td>SUBTOTAL</td>
-                            <td>₹{{totalPrice}}</td>
+                            <td id="subTotal">₹{{totalPrice}}</td>
                           </tr>
                           <tr>
                             <td>GRAND TOTAL</td>
-                            <td>₹{{totalPrice}}</td>
+                            <td id="grandTotal">₹{{totalPrice}}</td>
                           </tr>
                         </tbody>
                       </table>
@@ -231,7 +231,13 @@
       },
       method: 'post',
       success: (respose)=>{
-        
+        if(respose.updatedCart && response.updatedCart.length == 0){
+          
+        }
+
+        $('#subTotal').text('₹ '+respose.totalPrice)
+        $('#grandTotal').text('₹ '+respose.totalPrice)
+
       }
     })
   }
