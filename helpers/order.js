@@ -13,7 +13,7 @@ module.exports = {
     console.log("checkout");
   },
 
-  createOrder: async function (userId, cart, body) {
+  createOrder: async function (userId, cart, body, payStatus ) {
     const productsToAdd = cart.map((product) => ({
       product_id: product.product_id._id,
       quantity: product.quantity,
@@ -34,8 +34,8 @@ module.exports = {
       status: "placed",
       totalPrice: totalPrice,
       payment: {
-        paymentType: "COD",
-        paymentStatus: "pending",
+        paymentType: body.payment,
+        paymentStatus: payStatus,
       },
     });
     console.log("order created")
@@ -54,24 +54,29 @@ module.exports = {
     }
   },
 
-  generateRazorpay: (orderId, totalPrice) => {
-    return new Promise((resolve, reject) => {
-      console.log(orderId);
-      var options = {
-        amount: totalPrice * 100, // amount in the smallest currency unit
-        currency: "INR",
-        receipt: orderId,
-      };
-      instance.orders.create(options, function (err, order) {
-        if (err) {
-          console.log(err);
-        } else {
-          // console.log("your order",order);
-          resolve(order);
-        }
-      });
-    });
-  },
+  // generateRazorpay: (orderId, totalPrice) => {
+  //   return new Promise((resolve, reject) => {
+  //     console.log(orderId);
+  //     var options = {
+  //       amount: totalPrice * 100, // amount in the smallest currency unit
+  //       currency: "INR",
+  //       receipt: orderId,
+  //     };
+  //     instance.orders.create(options, function (err, order) {
+  //       if (err) {
+  //         console.log(err);
+  //       } else {
+  //         // console.log("your order",order);
+  //         resolve(order);
+  //       }
+  //     });
+  //   });
+  // },
+
+  generateRazorPay: async function(orderId, totalPrice){
+    
+  }
+
   // verifyPayment: function(details){
   //     return new Promise((resolve, reject)=>{
   //         const crypto = require('crypto')

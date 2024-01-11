@@ -2,7 +2,7 @@ const Cart = require("../models/cart");
 const cart = require("../helpers/cart");
 const Order = require("../models/order");
 const crypto = require("crypto");
-const {logger} = require("../utils/logger")
+const { logger } = require("../utils/logger");
 const orderHelper = require("../helpers/order");
 const userHelper = require("../helpers/user");
 
@@ -129,8 +129,8 @@ const getCheckout = async function (req, res) {
   const user = await userHelper.getCart(userId);
   if (user.cart) {
     const totalPrice = user.totalPrice;
-    const address = user.cart.address[0]
-    res.render("user/checkout", { isUser, user: user, totalPrice,  address });
+    const address = user.cart.address[0];
+    res.render("user/checkout", { isUser, user: user, totalPrice, address });
   }
 };
 
@@ -145,7 +145,6 @@ const deleteProductCheckout = async function (req, res) {
 //   const userId = req.session.userid;
 //   const cart = await Cart.findOne({ userId }).populate("items.product");
 //   let totalPrice = 0;
-  
 
 //   try {
 //     if (req.body.payment == "COD") {
@@ -191,24 +190,29 @@ const deleteProductCheckout = async function (req, res) {
 //   // }
 // };
 
-
-const postCheckout = async function(req, res){
+const postCheckout = async function (req, res) {
   try {
     const userId = req.session.userid;
-    const user = await userHelper.getCart(userId)
+    const user = await userHelper.getCart(userId);
     const cart = user.cart.cart;
-    if(user){
-      if(req.body.payment == 'COD'){
-        const newOrder = await orderHelper.createOrder(userId, cart, req.body)
-        console.log("new order",newOrder)
-        res.json(newOrder)
+    if (user) {
+      if (req.body.payment == "COD") {
+        const paystatus = 'placed'
+        const newOrder = await orderHelper.createOrder(userId, cart, req.body, paystatus);
+        console.log("new order", newOrder);
+        res.json(newOrder);
         // console.log(newOrder.payment.paymentType)
+      } else if (req.body.payment == "razorPay") {
+        const paystatus = 'pending'
+        const order = await orderHelper.createOrder(userId, cart, req.body, payStatus)
+        const orderInstance = await orderHelper.generateRazorpay(order._id, order.totalPrice)
+        res.json(orderInstance)
       }
     }
   } catch (error) {
-    logger.error({message: "error post checkout", error})
+    logger.error({ message: "error post checkout", error });
   }
-}
+};
 
 const verifyPayment = async function (req, res) {
   console.log(req.body);
