@@ -118,7 +118,7 @@ module.exports = {
     const cart = await User.findOne({ _id: userId })
       .populate("cart.product_id")
       .lean();
-    if (cart) {
+    if (cart.cart) {
       let totalPrice = 0;
       for (const cartItem of cart.cart) {
         if (cartItem.product_id && cartItem.product_id.price) {
@@ -127,6 +127,8 @@ module.exports = {
       }
 
       return { cart, totalPrice };
+    }else{
+      return {cart}
     }
   },
 
@@ -135,19 +137,6 @@ module.exports = {
     if (!user) {
       console.log("user not found");
     }
-    // if(user){
-    //   const result = await User.updateOne(
-    //     { _id: userId, 'cart.product_id': proId},
-    //     {
-    //       $inc: {'cart.$.quantity': 1},
-    //       $addToSet:
-    //         {cart: {product_id: proId, quantity: 1}}
-
-    //     }
-    //   )
-    //   return result
-    // }
-
     const existingItemIndex = user.cart.findIndex(
       (cartItem) => cartItem.product_id.toString() == proId
     );
@@ -168,27 +157,22 @@ module.exports = {
         logger.error({ message: "cart not found" });
       }
 
-      const cartItem = await user.cart.find(item => item.product_id == proId);
-      console.log("quantity "+cartItem.quantity)
+      const cartItem = await user.cart.find((item) => item.product_id == proId);
       const currentQuantity = cartItem ? cartItem.quantity : 0;
-      console.log("current quantity"+ currentQuantity)
-      console.log("current quantity + count"+currentQuantity + count)
       const updatedCount = Math.max(currentQuantity + count, 1);
-      console.log("updated count"+updatedCount);
       const updatedCart = await User.updateOne(
         { _id: userId, "cart.product_id": proId },
         { $set: { "cart.$.quantity": updatedCount } }
+      );
+
+      if (updatedCount == 0) {
+        const newCart = await User.updateOne(
+          { _id: userId },
+          { $pull: { cart: { product_id: proId } } },
+          { new: true }
         );
-        
-        if (updatedCount == 0) {
-          
-          const newCart =  await User.updateOne(
-            { _id: userId },
-            { $pull: { cart: { product_id: proId } } },
-            {new: true}
-            );
       } else {
-        logger.error("error deleting cart")
+        logger.error("error deleting cart");
       }
 
       const updatedUserCart = await User.findOne({ _id: userId });
@@ -197,25 +181,36 @@ module.exports = {
       logger.error("cart updation failed");
     }
   },
-  cartDelete: async function(userId, proId){
+  cartDelete: async function (userId, proId) {
+    try {
+      console.log(userId);
+      console.log("deleted ");
+      const cart = await User.findOne({ _id: userId });
+      console.log(cart);
+      if (cart) {
+        const deletedCart = await User.updateOne(
+          { _id: userId },
+          { $pull: { cart: { product_id: proId } } },
+          { new: true }
+        );
+        return deletedCart;
+      } else {
+        console.log("cart not found");
+      }
+    } catch (error) {}
+  },
+  deleteCartAfterOrder: async function(userId){
     try {
       console.log(userId)
-      console.log("deleted ")
-      const cart = await User.findOne({_id: userId})
+      const cart = await User.findOneAndUpdate(
+        { _id: userId },
+        { $unset: { cart: 1 } },
+        { new: true },
+      );
       console.log(cart)
-      if(cart){
-        const deletedCart = await User.updateOne(
-          {_id: userId},
-          {$pull: {cart: {product_id: proId}}},
-          {new: true}
-        )
-        return deletedCart;
-      }else{
-        console.log("cart not found")
-      }
-
+      return cart
     } catch (error) {
-      
+      console.log(error)
     }
   }
 };

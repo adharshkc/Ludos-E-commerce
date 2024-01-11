@@ -1,8 +1,10 @@
 const Cart = require("../models/cart");
 const cart = require("../helpers/cart");
 const Order = require("../models/order");
-const orderHelper = require("../helpers/order");
 const crypto = require("crypto");
+const {logger} = require("../utils/logger")
+const orderHelper = require("../helpers/order");
+const userHelper = require("../helpers/user");
 
 // const deleteCart = require("../helpers/cart")
 
@@ -90,34 +92,45 @@ const crypto = require("crypto");
 //   }
 // };
 
-const adminOrders = async function(req, res){
-  const orders = await Order.find().lean().populate('user').populate('cart')
+const adminOrders = async function (req, res) {
+  const orders = await Order.find().lean().populate("user").populate("cart");
   // console.log(orders.user.name)
-  res.render("admin/orders", {orders: orders})
-}
+  res.render("admin/orders", { orders: orders });
+};
 
 ///////////////////////////////////////////////////////////////CHECKOUT/////////////////////////////////////////////////////
+// const getCheckout = async function (req, res) {
+//   if (req.session.user) {
+//     let isUser = true;
+//     const userId = req.session.userid;
+//     const cart = await Cart.findOne({ user: userId })
+//       .populate("items.product")
+//       .populate("user")
+//       .lean();
+
+//     // if (cart) {
+//     let totalPrice = 0;
+//     for (const item of cart.items) {
+//       totalPrice += item.quantity * item.product.price;
+//     }
+//     const order = await Order.findOne({ cart: cart._id }).lean();
+//     if (order == null) {
+//       res.render("user/checkout", { isUser, cart: cart, totalPrice });
+//     }
+
+//     res.render("user/checkout", { isUser, cart: cart, totalPrice, order });
+//     // }
+//   }
+// };
+
 const getCheckout = async function (req, res) {
-  if (req.session.user) {
-    let isUser = true;
-    const userId = req.session.userid;
-    const cart = await Cart.findOne({ user: userId })
-      .populate("items.product")
-      .populate("user")
-      .lean();
-
-    // if (cart) {
-    let totalPrice = 0;
-    for (const item of cart.items) {
-      totalPrice += item.quantity * item.product.price;
-    }
-    const order = await Order.findOne({ cart: cart._id }).lean();
-    if (order == null) {
-      res.render("user/checkout", { isUser, cart: cart, totalPrice });
-    }
-
-    res.render("user/checkout", { isUser, cart: cart, totalPrice, order });
-    // }
+  const userId = req.session.userid;
+  let isUser = true;
+  const user = await userHelper.getCart(userId);
+  if (user.cart) {
+    const totalPrice = user.totalPrice;
+    const address = user.cart.address[0]
+    res.render("user/checkout", { isUser, user: user, totalPrice,  address });
   }
 };
 
@@ -127,59 +140,75 @@ const deleteProductCheckout = async function (req, res) {
   });
 };
 
-const postCheckout = async function (req, res) {
-  console.log(req.body.payment);
-  const userId = req.session.userid;
-  const cart = await Cart.findOne({ userId }).populate("items.product");
-  let totalPrice = 0;
-  for (const item of cart.items) {
-    totalPrice += item.quantity * item.product.price;
-  }
-  console.log(totalPrice);
+// const postCheckout = async function (req, res) {
+//   console.log(req.body.payment);
+//   const userId = req.session.userid;
+//   const cart = await Cart.findOne({ userId }).populate("items.product");
+//   let totalPrice = 0;
+  
 
+//   try {
+//     if (req.body.payment == "COD") {
+//       const order = await Order.create({
+//         userid: req.session.userid,
+//         shippingAddress: {
+//           houseName: req.body.houseName,
+//           city: req.body.city,
+//           pincode: req.body.pincode,
+//         },
+//         phone: req.body.phone,
+//         status: "placed",
+//         totalPrice: totalPrice,
+//         paymentType: req.body.payment,
+//         user: userId,
+//       });
+
+//       res.json({ COD: true, order });
+//     } else {
+//       const order = await Order.create({
+//         cart: cart._id,
+//         shippingAddress: {
+//           houseName: req.body.houseName,
+//           city: req.body.city,
+//           pincode: req.body.pincode,
+//         },
+//         phone: req.body.phone,
+//         status: "pending",
+//         totalPrice: totalPrice,
+//         paymentType: req.body.payment,
+//         user: userId,
+//       });
+//       orderHelper
+//         .generateRazorpay(order._id, order.totalPrice)
+//         .then((response) => {
+//           console.log(response);
+//           res.json(response);
+//         });
+//     }
+//   } catch (error) {
+//     res.json({ status: false });
+//   }
+//   // }
+// };
+
+
+const postCheckout = async function(req, res){
   try {
-    if (req.body.payment == "COD") {
-      const order = await Order.create({
-        cart: cart._id,
-        shippingAddress: {
-          houseName: req.body.houseName,
-          city: req.body.city,
-          pincode: req.body.pincode,
-        },
-        phone: req.body.phone,
-        status: "placed",
-        totalPrice: totalPrice,
-        paymentType: req.body.payment,
-        user: userId,
-      });
-      
-      res.json({ COD: true, order });
-    } else {
-      const order = await Order.create({
-        cart: cart._id,
-        shippingAddress: {
-          houseName: req.body.houseName,
-          city: req.body.city,
-          pincode: req.body.pincode,
-        },
-        phone: req.body.phone,
-        status: "pending",
-        totalPrice: totalPrice,
-        paymentType: req.body.payment,
-        user: userId,
-      });
-      orderHelper
-        .generateRazorpay(order._id, order.totalPrice)
-        .then((response) => {
-          console.log(response)
-          res.json(response);
-        });
+    const userId = req.session.userid;
+    const user = await userHelper.getCart(userId)
+    const cart = user.cart.cart;
+    if(user){
+      if(req.body.payment == 'COD'){
+        const newOrder = await orderHelper.createOrder(userId, cart, req.body)
+        console.log("new order",newOrder)
+        res.json(newOrder)
+        // console.log(newOrder.payment.paymentType)
+      }
     }
   } catch (error) {
-    res.json({ status: false });
+    logger.error({message: "error post checkout", error})
   }
-  // }
-};
+}
 
 const verifyPayment = async function (req, res) {
   console.log(req.body);
@@ -194,7 +223,7 @@ const verifyPayment = async function (req, res) {
 
   let hmac = crypto.createHmac("sha256", process.env.KEY_SECRET);
   hmac.update(paymentId + "|" + orderId);
-  const generatedSignature = hmac.digest('hex');
+  const generatedSignature = hmac.digest("hex");
   console.log(generatedSignature);
 
   if (generatedSignature == signature) {
@@ -227,13 +256,10 @@ const verifyPayment = async function (req, res) {
 
 module.exports = {
   // addToCart,
-  getCart,
-  addProductToCart,
-  deleteCart,
-  updateCart,
+
   getCheckout,
   deleteProductCheckout,
   postCheckout,
   verifyPayment,
-  adminOrders
+  adminOrders,
 };

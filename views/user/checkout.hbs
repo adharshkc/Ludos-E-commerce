@@ -29,30 +29,43 @@
   <!--====== End - Section 2 ======-->
 
   <!--====== Section 3 ======-->
-<form class="" id="checkoutForm" >
+<form class="" id="checkoutForm" method="post" action='' >
   <div class="u-s-p-b-60">
 
     <!--====== Section Content ======-->
     <div class="section__content">
       <div class="container">
         <div class="checkout-f">
+          
           <div class="row justify-content-center">
             <div class="col-lg-6">
-              <h1 class="checkout-f__h1">DELIVERY INFORMATION</h1>
-                <div class="u-s-m-b-30">
-                  
+              <h1 class="checkout-f__h1 mb-4">DELIVERY INFORMATION</h1>
+              
+              <div class="p-1">
+                   
+                   
+                      <div class="u-s-m-b-10">
 
+                        <!--====== Radio Box ======-->
+                        
+                        <!--====== End - Radio Box ======-->
+
+                       
+                      </div>
+                      
+                  </div>
+                <div class="u-s-m-b-30">
                   <!--====== E-MAIL ======-->
                   <div class="u-s-m-b-15">
 
-                    <label class="gl-label" for="billing-email">E-MAIL *</label>
+                    <label class="gl-label" for="billing-email">NAME *</label>
 
                     <input
                       class="input-text input-text--primary-style"
                       type="text"
-                      name="email"
+                      name="name"
                       id="billing-email"
-                      value="{{cart.user.email}}"
+                      value="{{user.cart.name}}"
                       data-bill=""
                     /></div>
                   <!--====== End - E-MAIL ======-->
@@ -66,7 +79,7 @@
                       class="input-text input-text--primary-style"
                       type="text"
                       name="phone"
-                      value="{{cart.user.phone}}"
+                      value="{{user.cart.phone}}"
                       id="billing-phone"
                       data-bill=""
                     /></div>
@@ -84,13 +97,26 @@
                       name="houseName"
                       required
                       id="billing-street"
-                      value="{{order.shippingAddress.houseName}}"
+                      value="{{address.houseName}}"
                      
                       data-bill=""
                     /></div>
                   
 
                   <!--====== Town / City ======-->
+                  <div class="u-s-m-b-15">
+
+                    <label class="gl-label" for="billing-town-city">STREET*</label>
+
+                    <input
+                      class="input-text input-text--primary-style"
+                      type="text"
+                      required
+                      name="street"
+                      value="{{address.street}}"
+                      id="billing-town-city"
+                      data-bill=""
+                    /></div>
                   <div class="u-s-m-b-15">
 
                     <label class="gl-label" for="billing-town-city">TOWN/CITY *</label>
@@ -100,7 +126,7 @@
                       type="text"
                       required
                       name="city"
-                      value="{{order.shippingAddress.city}}"
+                      value="{{address.city}}"
                       id="billing-town-city"
                       data-bill=""
                     /></div>
@@ -118,7 +144,7 @@
                       name="pincode"
                       required
                       
-                      value="{{order.shippingAddress.pincode}}"
+                      value="{{address.pincode}}"
                       data-bill=""
                     /></div>
                   <!--====== End - ZIP/POSTAL ======-->
@@ -138,14 +164,14 @@
               <div class="o-summary">
                 <div class="o-summary__section u-s-m-b-30">
                   <div class="o-summary__item-wrap gl-scroll">
-                    {{#each cart.items}}
+                    {{#each user.cart.cart}}
                       <div class="o-card">
                         <div class="o-card__flex">
                           <div class="o-card__img-wrap">
 
                             <img
                               class="u-img-fluid"
-                              src="{{this.product.image}}"
+                              src="{{this.product_id.image}}"
                               alt=""
                             /></div>
                           <div class="o-card__info-wrap">
@@ -153,18 +179,18 @@
                             <span class="o-card__name">
 
                               <a
-                                href="/product/{{this.product._id}}"
-                              >{{this.product.name}}</a></span>
+                                href="/product/{{this.product_id._id}}"
+                              >{{this.product_id.name}}</a></span>
 
                             <span class="o-card__quantity">Quantity x
                               {{this.quantity}}</span>
 
                             <span
                               class="o-card__price"
-                            >₹{{this.product.price}}</span></div>
+                            >₹{{this.product_id.price}}</span></div>
                         </div>
 
-                        <a href="/deleteProductCheckout/{{this.product._id}}" class="o-card__del far fa-trash-alt"></a>
+                        <a href="/deleteProductCheckout/{{this.product._id}}" class="delProduct" class="o-card__del far fa-trash-alt"></a>
                       </div>
                     {{/each}}
                   </div>
@@ -350,7 +376,7 @@
                         <!--====== Check Box ======-->
                         <div class="check-box">
 
-                          <input type="checkbox" id="term-and-condition" />
+                          <input type="checkbox" id="term-and-condition" required/>
                           <div
                             class="check-box__state check-box__state--primary"
                           >
@@ -366,7 +392,7 @@
                       </div>
                       <div>
 
-                        <button class="btn btn--e-brand-b-2" type="submit">PLACE
+                        <button class="btn btn--e-brand-b-2" style="color: rgb(255, 255, 255);" type="submit">PLACE
                           ORDER</button></div>
                   </div>
                 </div>
@@ -383,44 +409,43 @@
   <!--====== End - Section 3 ======-->
 </div>
 {{!-- {{>  footer}} --}}
-</form>
-
 <div id="thankYouSection" style="display: none;">
-<section class="h-100 gradient-custom">
+<section class="h-100 gradient-custom" >
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col-lg-10 col-xl-8">
         <div class="card" style="border-radius: 10px;">
-          <div class="card-header px-4 py-5">
-            <h5 class="text-muted mb-0">Thanks for your Order, <span style="color: #a8729a;">{{cart.user.name}}</span>!</h5>
+          <div class="card-header px-4 py-5 bg-dark" style=" ">
+            <h5 class="text-white mb-0">Thanks for your Order, <span style="color: #ede0e9;">{{user.cart.name}}</span>!</h5>
           </div>
-          <div class="card-body p-4">
+          
+          <div class="card-body p-4 bg-dark">
             <div class="d-flex justify-content-between align-items-center mb-4">
-              <p class="lead fw-normal mb-0" style="color: #a8729a;">Receipt</p>
+              <p class="lead fw-normal mb-0" style="color: #ffffff;">Receipt</p>
               
             </div>
-            {{#each cart.items}}
-            <div class="card shadow-0 border mb-4">
-              <div class="card-body">
+            {{#each user.cart.cart}}
+            <div class="card shadow-0 border mb-4 bg-dark">
+              <div class="card-body ">
                 <div class="row">
                   <div class="col-md-2">
-                    <img src="{{this.product.image}}"
+                    <img src="{{this.product_id.image}}"
                       class="img-fluid" alt="Phone">
                   </div>
                   <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                    <p class="text-muted mb-0">{{this.product.name}}</p>
+                    <p class="text-white mb-0">{{this.product_id.name}}</p>
                   </div>
                   <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                    <p class="text-muted mb-0 small">{{this.product.category}}</p>
+                    <p class="text-white mb-0 small">{{this.product_id.category}}</p>
                   </div>
                   <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                    <p class="text-muted mb-0 small">{{this.product.brand}}</p>
+                    <p class="text-white mb-0 small">{{this.product_id.brand}}</p>
                   </div>
                   <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                    <p class="text-muted mb-0 small">Qty: {{this.quantity}}</p>
+                    <p class="text-white mb-0 small">Qty: {{this.quantity}}</p>
                   </div>
                   <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                    <p class="text-muted mb-0 small">₹{{this.product.price}}</p>
+                    <p class="text-white mb-0 small">₹{{this.product_id.price}}</p>
                   </div>
                 </div>
                 {{!-- <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;"> --}}
@@ -445,13 +470,13 @@
             {{/each}}
 
             <div class="d-flex justify-content-between pt-2">
-              <p class="fw-bold mb-0">Order Details</p>
-              <p class="text-muted mb-0"><span class="fw-bold me-4">Total :</span> ₹{{totalPrice}}</p>
+              <p class=" text-white fw-bold mb-0">Order Details</p>
+              <p class="text-white mb-0"><span class="fw-bold me-4">Total :</span> ₹{{totalPrice}}</p>
             </div>
 
             <div class="d-flex justify-content-between pt-2">
-              <p class="text-muted mb-0">Invoice Number : 788152</p>
-              <p class="text-muted mb-0"><span class="fw-bold me-4">Discount :</span> -₹1000</p>
+              <p class="text-white mb-0">Invoice Number : 788152</p>
+              <p class="text-white mb-0"><span class="fw-bold me-4">Discount :</span> -₹1000</p>
             </div>
 
             {{!-- <div class="d-flex justify-content-between">
@@ -460,9 +485,10 @@
             </div> --}}
 
             <div class="d-flex justify-content-between mb-5">
-              <p class="text-muted mb-0">Recepits Voucher : 18KU-62IIK</p>
-              <p class="text-muted mb-0"><span class="fw-bold me-4">Delivery Charges : </span> ₹1000</p>
+              <p class="text-white mb-0">Recepits Voucher : 18KU-62IIK</p>
+              <p class="text-white mb-0"><span class="fw-bold me-4">Delivery Charges : </span> ₹1000</p>
             </div>
+            
           </div>
           <div class="route-box__g1">
 
@@ -473,8 +499,14 @@
                   <span>CONTINUE SHOPPING</span></a></div>
           <div class="card-footer border-0 px-4 py-5"
             style="background-color: #a8729a; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
-            <h5 class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">Total
-              paid: <span class="h2 mb-0 ms-2">₹{{totalPrice}}</span></h5>
+            <div>
+
+            <h5 class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">Grand Total
+              : <span class="h2 mb-0 ms-2 text-white">₹{{totalPrice}}</span></h5>
+            </div>
+            {{!-- <div class="mt-5">
+               <h5 class="text-white mb-0">Your product is Arriving on Monday 10 am!!</h5>
+            </div> --}}
           </div>
         </div>
       </div>
@@ -482,7 +514,11 @@
   </div>
 </section>
 </div>
+</form>
+
 <script>
+  
+  
   $("#checkoutForm").submit((e)=>{
     e.preventDefault()
     $.ajax({
@@ -490,7 +526,7 @@
       method: 'post',
       data: $('#checkoutForm').serialize(),
       success: (response)=>{
-        if(response.COD){
+        if(response.payment.paymentType == "COD"){
            $('#thankYouSection').show()
            $('#checkoutForm').hide()
         }else{
