@@ -1,4 +1,3 @@
-const Cart = require("../models/cart");
 const cart = require("../helpers/cart");
 const Order = require("../models/order");
 const crypto = require("crypto");
@@ -127,10 +126,13 @@ const getCheckout = async function (req, res) {
   const userId = req.session.userid;
   let isUser = true;
   const user = await userHelper.getCart(userId);
-  if (user.cart) {
+  console.log(user.cart.cart);
+  if (user.cart.cart) {
     const totalPrice = user.totalPrice;
     const address = user.cart.address[0];
     res.render("user/checkout", { isUser, user: user, totalPrice, address });
+  } else {
+    res.redirect("/cart");
   }
 };
 
@@ -140,56 +142,6 @@ const deleteProductCheckout = async function (req, res) {
   });
 };
 
-// const postCheckout = async function (req, res) {
-//   console.log(req.body.payment);
-//   const userId = req.session.userid;
-//   const cart = await Cart.findOne({ userId }).populate("items.product");
-//   let totalPrice = 0;
-
-//   try {
-//     if (req.body.payment == "COD") {
-//       const order = await Order.create({
-//         userid: req.session.userid,
-//         shippingAddress: {
-//           houseName: req.body.houseName,
-//           city: req.body.city,
-//           pincode: req.body.pincode,
-//         },
-//         phone: req.body.phone,
-//         status: "placed",
-//         totalPrice: totalPrice,
-//         paymentType: req.body.payment,
-//         user: userId,
-//       });
-
-//       res.json({ COD: true, order });
-//     } else {
-//       const order = await Order.create({
-//         cart: cart._id,
-//         shippingAddress: {
-//           houseName: req.body.houseName,
-//           city: req.body.city,
-//           pincode: req.body.pincode,
-//         },
-//         phone: req.body.phone,
-//         status: "pending",
-//         totalPrice: totalPrice,
-//         paymentType: req.body.payment,
-//         user: userId,
-//       });
-//       orderHelper
-//         .generateRazorpay(order._id, order.totalPrice)
-//         .then((response) => {
-//           console.log(response);
-//           res.json(response);
-//         });
-//     }
-//   } catch (error) {
-//     res.json({ status: false });
-//   }
-//   // }
-// };
-
 const postCheckout = async function (req, res) {
   try {
     const userId = req.session.userid;
@@ -197,54 +149,81 @@ const postCheckout = async function (req, res) {
     const cart = user.cart.cart;
     if (user) {
       if (req.body.payment == "COD") {
-        const paystatus = 'placed'
-        const newOrder = await orderHelper.createOrder(userId, cart, req.body, paystatus);
+        const statuses = {
+          orderStatus: "placed",
+          payStatus: "pending",
+        };
+        const newOrder = await orderHelper.createOrder(
+          userId,
+          cart,
+          req.body,
+          statuses
+        );
         console.log("new order", newOrder);
         res.json(newOrder);
         // console.log(newOrder.payment.paymentType)
       } else if (req.body.payment == "razorPay") {
-        const paystatus = 'pending'
-        const order = await orderHelper.createOrder(userId, cart, req.body, payStatus)
-        const orderInstance = await orderHelper.generateRazorpay(order._id, order.totalPrice)
-        res.json(orderInstance)
+        const statuses = {
+          orderStatus: "pending",
+          payStatus: "pending",
+        };
+        const order = await orderHelper.createOrder(
+          userId,
+          cart,
+          req.body,
+          statuses
+        );
+        if (order) {
+          try {
+            const orderInstance = await orderHelper.generateRazorPay(
+              order._id,
+              order.totalPrice
+            );
+            console.log(orderInstance);
+            res.json(orderInstance);
+          } catch (error) {
+            console.log(error);
+          }
+        }
       }
     }
   } catch (error) {
-    logger.error({ message: "error post checkout", error });
+    console.log(error);
+    // logger.error({ message: "error post checkout", error });
   }
 };
 
 const verifyPayment = async function (req, res) {
   console.log(req.body);
+  const userId = req.session.userid;
   const paymentId = req.body["payment[razorpay_payment_id]"];
   const orderId = req.body["payment[razorpay_order_id]"];
   const signature = req.body["payment[razorpay_signature]"];
 
-  console.log(paymentId);
-  console.log(orderId);
-  console.log(signature);
-  console.log(process.env.KEY_SECRET);
-
   let hmac = crypto.createHmac("sha256", process.env.KEY_SECRET);
-  hmac.update(paymentId + "|" + orderId);
+  hmac.update(orderId + "|" + paymentId);
   const generatedSignature = hmac.digest("hex");
-  console.log(generatedSignature);
 
   if (generatedSignature == signature) {
     try {
       const orderIdToUpdate = req.body["order[receipt]"];
-      const updatedOrder = await Order.findByIdAndUpdate(
+      // const updatedOrder = await Order.findByIdAndUpdate(
+      //   orderIdToUpdate,
+      //   { status: "placed" },
+      //   { new: true }
+      // );
+      const statuses = {
+        orderStatus: "placed",
+        payStatus: "success",
+      };
+      const updatedOrder = await orderHelper.updateOrder(
         orderIdToUpdate,
-        { status: "placed" },
-        { new: true }
+        statuses,
+        userId,
+        orderId
       );
-
-      if (!updatedOrder) {
-        return res.status(404).json({ status: "Order not found" });
-      }
-
       console.log("Payment successful");
-      console.log(updatedOrder);
+      // console.log(updatedOrder);
       return res.json({ status: true });
     } catch (err) {
       console.error(err);
@@ -258,6 +237,28 @@ const verifyPayment = async function (req, res) {
   }
 };
 
+const success = async function (req, res) {
+  res.render("user/success");
+};
+
+const failed = async function (req, res) {
+  res.render("user/failed");
+};
+
+const orders = async function (req, res) {
+  const userId = req.session.userid;
+  let isUser = true;
+  const orders = await orderHelper.getOrder(userId); 
+  res.render("user/orders", { orders, isUser });
+};
+
+const singleOrder = async function (req, res) {
+  const orderId = req.params.id;
+  const order = await orderHelper.getSingleOrder(orderId);
+  // console.log(order.products.product_id.name)
+  res.render("user/single-order", {order:order});
+};
+
 module.exports = {
   // addToCart,
 
@@ -266,4 +267,8 @@ module.exports = {
   postCheckout,
   verifyPayment,
   adminOrders,
+  success,
+  failed,
+  orders,
+  singleOrder,
 };

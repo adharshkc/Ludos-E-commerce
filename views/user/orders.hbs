@@ -1,0 +1,53 @@
+{{> header}}
+
+<div class="container mt-3 mt-md-5" style="background-color: rgb(255, 240, 252);">
+  <h2 class="text-charcoal hidden-sm-down">Your Orders</h2>
+  {{!-- <h5 class="text-charcoal hidden-md-up">Your Orders</h5> --}}
+  {{#if noOrder}}
+  <div>
+    <h1> Order Something</h1>
+  </div>
+  {{else}}
+    {{#each orders}}
+    <div class="row">
+        <div class="col-12">
+        <div class="list-group mb-5">
+            <div class="list-group-item p-3 bg-snow" style="position: relative;">
+            <div class="row w-100 no-gutters">
+                <div class="col-6 col-md">
+                <h6 class="text-charcoal mb-0 w-100">Order Number</h6>
+                <a
+                    href=""
+                    class="text-pebble mb-0 w-100 mb-2 mb-md-0"
+                >{{this.orderid}}</a>
+                </div>
+                <div class="col-6 col-md">
+                <h6 class="text-charcoal mb-0 w-100">Date</h6>
+                <p class="text-pebble mb-0 w-100 mb-2 mb-md-0">{{this.orderedDate}}</p>
+                </div>
+                <div class="col-6 col-md">
+                <h6 class="text-charcoal mb-0 w-100">Total</h6>
+                <p class="text-pebble mb-0 w-100 mb-2 mb-md-0">₹{{this.totalPrice}}</p>
+                </div>
+                <div class="col-6 col-md">
+                <h6 class="text-charcoal mb-0 w-100">Order Status</h6>
+                <p class="text-pebble mb-0 w-100 mb-2 mb-md-0">{{this.status}}</p>
+                </div>
+                <div class="col-12 col-md-3">
+                <a href="/user/order/{{this._id}}" class="btn btn-primary w-100">View Order</a>
+                </div>
+            </div>
+
+            </div>
+            
+        </div>
+        </div>
+
+    
+        
+    </div>
+    {{/each}}
+    {{/if}}
+</div>
+
+<div class="p-3 hidden-md-up"></div>

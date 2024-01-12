@@ -7,6 +7,9 @@ const orderSchema = mongoose.Schema(
       ref: "Users",
       required: true,
     },
+    orderid:{
+      type: String
+    },
     shippingAddress: {
       houseName: {
         type: String,

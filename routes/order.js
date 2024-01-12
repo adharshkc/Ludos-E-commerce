@@ -10,6 +10,10 @@ const {
   postCheckout,
   verifyPayment,
   adminOrders,
+  success,
+  failed,
+  orders,
+  singleOrder
 } = require("../controller/order");
 const { checkAuth, checkAdmin } = require("../middlewares/auth");
 
@@ -28,6 +32,10 @@ router.get("/checkout", checkAuth, getCheckout);
 router.get("/deleteProductCheckout/:id", checkAuth, deleteProductCheckout);
 router.post("/postCheckout", checkAuth, postCheckout);
 router.post("/verifyPayment", checkAuth, verifyPayment);
+router.get("/user/success", checkAuth, success)
+router.get("/user/failed", checkAuth, failed)
 router.get("/admin/orders", checkAdmin,adminOrders)
+router.get("/orders", checkAuth, orders)
+router.get("/user/order/:id", checkAuth, singleOrder)
 
 module.exports = router;

@@ -177,6 +177,9 @@ const delete_address = async function (req, res) {
   }
 };
 
+
+
+
 /**************************************************************CART SECTION**********************************************************/
 const cart = async function (req, res) {
   const userId = req.session.userid;

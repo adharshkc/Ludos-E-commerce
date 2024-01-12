@@ -20,7 +20,7 @@ const {
   add_address,
   addAddress,
   editAddress,
-  delete_address
+  delete_address,
 } = require("../controller/user");
 // const { cart } = require("../controller/order");
 const { checkAuth } = require("../middlewares/auth");

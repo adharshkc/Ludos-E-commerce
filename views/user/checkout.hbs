@@ -490,13 +490,21 @@
             </div>
             
           </div>
-          <div class="route-box__g1">
+          <div class="route-box__g1 d-flex justify-content-between">
 
                 <a class="route-box__link" href="/products"><i
                     class="fas fa-long-arrow-alt-left"
                   ></i>
 
-                  <span>CONTINUE SHOPPING</span></a></div>
+                  <span>CONTINUE SHOPPING</span></a>
+          
+
+                <a class="route-box__link pl-1" href="/orders"> <span>Go to Orders </span><i
+                    class="fas fa-long-arrow-alt-right"
+                  ></i>
+
+                  </a>
+                  </div>
           <div class="card-footer border-0 px-4 py-5"
             style="background-color: #a8729a; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
             <div>
@@ -526,10 +534,11 @@
       method: 'post',
       data: $('#checkoutForm').serialize(),
       success: (response)=>{
-        if(response.payment.paymentType == "COD"){
+        if(response.payment){
            $('#thankYouSection').show()
            $('#checkoutForm').hide()
         }else{
+          console.log(response)
           razorpayPayment(response)
         }
       }
@@ -537,8 +546,9 @@
   })
 
   function razorpayPayment(order){
+    
     var options = {
-    "key": "rzp_test_AKdpI8abuLCQAc", // Enter the Key ID generated from the Dashboard
+    "key": "rzp_test_WLGOQKTeqLucQb", // Enter the Key ID generated from the Dashboard
     "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
     "currency": "INR",
     "name": "Ludus",
@@ -562,8 +572,9 @@
         "color": "#3399cc"
     }
 };
-var rzp1 = new Razorpay(options);
- rzp1.open();
+
+  var rzp1 = new Razorpay(options);
+  rzp1.open();
 }
 function verifyPayment(payment, order){
   $.ajax({
@@ -572,7 +583,15 @@ function verifyPayment(payment, order){
       payment,
       order
     },
-    method: 'post'
+    method: 'post',
+    success: (response)=>{
+      if(response.status == true){
+        location.href = "/user/success"
+      }else{
+        
+        location.href = "/user/failed"
+      }
+    }
   })
 }
 </script>

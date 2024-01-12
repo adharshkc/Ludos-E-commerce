@@ -1,4 +1,5 @@
 const { User, DeletedUser } = require("../models/user");
+const orderHelper = require("../helpers/order")
 
 const getUsers = async function (req, res) {
   const users = await User.find().lean();
@@ -7,10 +8,12 @@ const getUsers = async function (req, res) {
 
 const admin = async function(req, res){
   
-  if(req.session.admin){
+  const orders = await orderHelper.getAllOrder()
+  console.log(orders.orderid)
+
     
-    res.render("admin/index")
-  }
+    res.render("admin/index",{orders: orders})
+  
 }
 
 const editUser = async function (req, res) {

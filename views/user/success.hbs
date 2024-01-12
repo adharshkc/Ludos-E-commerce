@@ -1,0 +1,48 @@
+<style>
+  .success-animation { margin:150px auto;} .checkmark { width: 100px; height:
+  100px; border-radius: 50%; display: block; stroke-width: 2; stroke: #4bb71b;
+  stroke-miterlimit: 10; box-shadow: inset 0px 0px 0px #4bb71b; animation: fill
+  .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+  position:relative; top: 5px; right: 5px; margin: 0 auto; } .checkmark__circle
+  { stroke-dasharray: 166; stroke-dashoffset: 166; stroke-width: 2;
+  stroke-miterlimit: 10; stroke: #4bb71b; fill: #fff; animation: stroke 0.6s
+  cubic-bezier(0.65, 0, 0.45, 1) forwards; }
+  .orderButton{
+      
+  width: 200px;
+  height: 60px;
+  border: none;
+  border-radius: 5px;
+  background: #10e84a;
+  font-weight: bold;
+  font-size: 1.1em;
+  color: #2e2a2a;
+  box-shadow: 0 6px 6px rgb(163, 199, 253);
+  outline: none;
+  }
+   .checkmark__check {
+  transform-origin: 50% 50%; stroke-dasharray: 48; stroke-dashoffset: 48;
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards; }
+  @keyframes stroke { 100% { stroke-dashoffset: 0; } } @keyframes scale { 0%,
+  100% { transform: none; } 50% { transform: scale3d(1.1, 1.1, 1); } }
+  @keyframes fill { 100% { box-shadow: inset 0px 0px 0px 30px #4bb71b; } }
+</style>
+
+<div class="success-animation">
+   
+    <h1 style="text-align: center; margin-bottom: 1%;">Your order placed successfully</h1>
+  <svg
+    class="checkmark"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 52 52"
+  ><circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" /><path
+      class="checkmark__check"
+      fill="none"
+      d="M14.1 27.2l7.1 7.2 16.7-16.8"
+    /></svg>
+    <h4 style="text-align: center; padding-top: 2%;">Thank You for Shopping with Us</h4>
+    <a href="/orders" style="display: flex; justify-content: center; margin-top: 3%;">
+        <button class="orderButton ">Get Order Details</button>
+    </a>
+    
+</div>
