@@ -3,6 +3,8 @@ const Order = require("../models/order");
 const userHelper = require("./user");
 const User = require("../models/user");
 const Product = require("../models/product");
+const Coupons = require("../models/coupon");
+const { logger } = require("../utils/logger");
 
 var instance = new Razorpay({
   key_id: process.env.KEY_ID,
@@ -10,8 +12,11 @@ var instance = new Razorpay({
 });
 
 module.exports = {
-  getOrder: async function (userId) {
-    const order = await Order.find({userid: userId}).lean()
+
+
+/*****************************************************************ORDERS**************************************************************/
+getOrder: async function (userId) {
+  const order = await Order.find({userid: userId}).lean()
     
     return order
   },
@@ -45,8 +50,7 @@ module.exports = {
         product_id: product.product_id._id,
         quantity: product.quantity,
       }));
-      const userCart = await userHelper.getCart(userId);
-      const totalPrice = userCart.totalPrice;
+      // const userCart = await userHelper.getCart(userId);
       const orderId = Math.floor((Math.random()* 1000000000)+1)
 
       const order = await Order.create({
@@ -61,7 +65,7 @@ module.exports = {
         products: productsToAdd,
         phone: body.phone,
         status: statuses.orderStatus,
-        totalPrice: totalPrice,
+        totalPrice: body.totalPrice,
         payment: {
           paymentType: body.payment,
           paymentStatus: statuses.payStatus,
@@ -129,4 +133,46 @@ module.exports = {
     const updatedCart = await userHelper.deleteCartAfterOrder(userId);
     return updatedOrder;
   },
+
+  /*****************************************************************COUPONS**************************************************************/
+  getCoupon: async function(price){
+    const coupons = await Coupons.find().lean()
+    const matchCoupon = coupons.filter((coupon)=>{
+      if(coupon.totalPrice<=price){
+        return coupon
+      }else{
+        
+        return null
+      }
+    })
+    console.log(matchCoupon)
+     return matchCoupon;
+  },
+  
+  showCoupon : async function(couponId){
+    const coupon = await Coupons.findOne({couponId})
+    return coupon;
+  },
+
+  updateCoupon: async function(couponId, userId){
+    try {
+      
+      const updatedCoupon = await Coupons.findByIdAndUpdate(
+        couponId,
+        {
+          $set:{
+            lastUpdatedUser: userId,
+            lastUpdated: new Date()
+          },
+          $push: { usedUsers: userId },
+        },
+        {new: true}
+      )
+
+      console.log(updatedCoupon)
+    } catch (error) {
+      logger.error({message: "error updating coupon"+ error.message})
+    }
+  }
+  
 };

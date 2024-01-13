@@ -195,44 +195,52 @@
                     {{/each}}
                   </div>
                 </div>
-                {{! <div class="o-summary__section u-s-m-b-30">
-                                            <div class="o-summary__box">
-                                                <h1 class="checkout-f__h1">SHIPPING & BILLING</h1>
-                                                <div class="ship-b">
+                {{#if coupon}}
+                <div class="msg">
 
-                                                    <span class="ship-b__text">Ship to:</span>
-                                                    <div class="ship-b__box u-s-m-b-10">
-                                                        <p class="ship-b__p">4247 Ashford Drive Virginia VA-20006 USA (+0) 900901904</p>
-
-                                                        <a class="ship-b__edit btn--e-transparent-platinum-b-2" data-modal="modal" data-modal-id="#edit-ship-address">Edit</a>
-                                                    </div>
-                                                    <div class="ship-b__box">
-
-                                                        <span class="ship-b__text">Bill to default billing address</span>
-
-                                                        <a class="ship-b__edit btn--e-transparent-platinum-b-2" data-modal="modal" data-modal-id="#edit-ship-address">Edit</a></div>
-                                                </div>
-                                            </div>
-                                        </div> }}
+                  <span class="msg__text">You are elegible to use a coupon
+                    <a class="gl-link" href="#have-coupon" data-toggle="collapse">Click Here to Apply</a>
+                  </span>
+                  <div class="collapse" id="have-coupon" data-parent="#checkout-msg-group">
+                    <div class="c-f u-s-m-b-16">
+                      <span class="msg__text u-s-m-b-16">Get <span style="color: red;">₹{{coupon.discount}}</span> off now!</span>
+                      <div class="c-f__form">
+                        <div class="u-s-m-b-16">
+                          <div class="u-s-m-b-15">
+                            <label for="coupon"></label>
+                            <input class="input-text input-text--primary-style" type="text" id="coupon" value="{{coupon.code}}" placeholder="">
+                          </div>
+                          <div class="u-s-m-b-15">
+                            <a href="javascript:void(0);" class="btn btn--e-transparent-brand-b-2" type="button" id="applyCouponBtn">APPLY</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {{else}}
+                <span class="msg__text">You are not elegible to use any coupon
+                </span>
+                {{/if}}
                 <div class="o-summary__section u-s-m-b-30">
                   <div class="o-summary__box">
                     <table class="o-summary__table">
                       <tbody>
-                        <tr>
+                        {{!-- <tr>
                           <td>TAX</td>
                           <td>₹1000</td>
-                        </tr>
-                        <tr>
-                          <td>DISCOUNT</td>
-                          <td>-₹1000</td>
-                        </tr>
+                        </tr> --}}
                         <tr>
                           <td>SUBTOTAL</td>
                           <td>₹{{totalPrice}}</td>
                         </tr>
                         <tr>
+                          <td>DISCOUNT</td>
+                          <td id="grandDiscount">-₹0</td>
+                        </tr>
+                        <tr>
                           <td>GRAND TOTAL</td>
-                          <td>₹{{totalPrice}}</td>
+                          <td id="grandTotal">₹{{totalPrice}}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -471,7 +479,7 @@
 
             <div class="d-flex justify-content-between pt-2">
               <p class=" text-white fw-bold mb-0">Order Details</p>
-              <p class="text-white mb-0"><span class="fw-bold me-4">Total :</span> ₹{{totalPrice}}</p>
+              <p class="text-white mb-0" id="totalPrice"><span class="fw-bold me-4">Total :</span> ₹{{totalPrice}}</p>
             </div>
 
             <div class="d-flex justify-content-between pt-2">
@@ -525,14 +533,33 @@
 </form>
 
 <script>
+  $(document).ready(function(){
+    $('#applyCouponBtn').click(function(event){
+      event.preventDefault()
+      const couponId = "{{coupon._id}}";
+      $.ajax({
+        type: 'POST',
+        url: '/user/applyCoupon',
+        data: {couponId: couponId},
+        success: function(response){
+          $("#grandTotal").text(`₹${response.totalPrice}`)
+          $("#grandDiscount").text(`-₹${response.discount}`)
+
+        }
+      })
+    })
+  })
+  
   
   
   $("#checkoutForm").submit((e)=>{
     e.preventDefault()
+    const totalPrice = $("#grandTotal").text().replace('₹', '');
+    const couponId = "{{coupon._id}}"
     $.ajax({
       url: "/postCheckout",
       method: 'post',
-      data: $('#checkoutForm').serialize(),
+      data: $('#checkoutForm').serialize() + "&totalPrice=" + totalPrice + "&couponId=" + couponId,
       success: (response)=>{
         if(response.payment){
            $('#thankYouSection').show()

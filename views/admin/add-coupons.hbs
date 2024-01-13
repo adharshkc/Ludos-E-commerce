@@ -1,0 +1,106 @@
+<!--  Body Wrapper -->
+<div
+  class="page-wrapper"
+  id="main-wrapper"
+  data-layout="vertical"
+  data-navbarbg="skin6"
+  data-sidebartype="full"
+  data-sidebar-position="fixed"
+  data-header-position="fixed"
+>
+  {{> sidebar}}
+  <div class="body-wrapper">
+    {{> adminHeader}}
+    <div class="container-fluid">
+      <div class="container-fluid">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title fw-semibold mb-1">Add Coupon</h5>
+            <div class="card">
+              <div class="card-body">
+                <form method="post" action="/admin/PostAddCoupon"> 
+                  <div class="form-floating mb-3">
+                    <input
+                      class="form-control"
+                      id="CouponName"
+                      type="text"
+                      name="name"
+                      placeholder="Coupon Name"
+                      data-sb-validations="required"
+                    />
+                    <label for="CouponName">Coupon Name</label>
+                    <div
+                      class="invalid-feedback"
+                      data-sb-feedback="CouponName:required"
+                    > Name is required.</div>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input
+                      class="form-control"
+                      id="brand"
+                      name="code"
+                      type="text"
+                      placeholder="Code"
+                      data-sb-validations="required"
+                    />
+                    <label for="brand">Coupon Code</label>
+                    <div
+                      class="invalid-feedback"
+                      data-sb-feedback="brand:required"
+                    >Code is required.</div>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input
+                      class="form-control"
+                      id="category"
+                      name="totalPrice"
+                      type="text"
+                      placeholder="Category"
+                      data-sb-validations="required"
+                    />
+                    <label for="category">Total Amount</label>
+                    <div
+                      class="invalid-feedback"
+                      data-sb-feedback="category:required"
+                    >Amount is required.</div>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input
+                      class="form-control"
+                      id="category"
+                      name="discount"
+                      type="text"
+                      placeholder="Category"
+                      data-sb-validations="required"
+                    />
+                    <label for="category">Discount</label>
+                    <div
+                      class="invalid-feedback"
+                      data-sb-feedback="category:required"
+                    >Discount is required.</div>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input
+                      class="form-control"
+                      id="price"
+                      name="date"
+                      type="date"
+                      placeholder="Price"
+                      data-sb-validations="required"
+                    />
+                    <label for="price">Expiry Date</label>
+                    <div
+                      class="invalid-feedback"
+                      data-sb-feedback="price:required"
+                    >Date is required.</div>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

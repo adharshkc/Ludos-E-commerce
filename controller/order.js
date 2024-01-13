@@ -98,39 +98,23 @@ const adminOrders = async function (req, res) {
 };
 
 ///////////////////////////////////////////////////////////////CHECKOUT/////////////////////////////////////////////////////
-// const getCheckout = async function (req, res) {
-//   if (req.session.user) {
-//     let isUser = true;
-//     const userId = req.session.userid;
-//     const cart = await Cart.findOne({ user: userId })
-//       .populate("items.product")
-//       .populate("user")
-//       .lean();
-
-//     // if (cart) {
-//     let totalPrice = 0;
-//     for (const item of cart.items) {
-//       totalPrice += item.quantity * item.product.price;
-//     }
-//     const order = await Order.findOne({ cart: cart._id }).lean();
-//     if (order == null) {
-//       res.render("user/checkout", { isUser, cart: cart, totalPrice });
-//     }
-
-//     res.render("user/checkout", { isUser, cart: cart, totalPrice, order });
-//     // }
-//   }
-// };
 
 const getCheckout = async function (req, res) {
   const userId = req.session.userid;
   let isUser = true;
   const user = await userHelper.getCart(userId);
-  console.log(user.cart.cart);
+  let coupon = await orderHelper.getCoupon(user.totalPrice) 
   if (user.cart.cart) {
     const totalPrice = user.totalPrice;
     const address = user.cart.address[0];
-    res.render("user/checkout", { isUser, user: user, totalPrice, address });
+    if(coupon.length<1){
+      res.render("user/checkout", {isUser, user: user, totalPrice, address})
+    }else{
+       coupon = coupon[0]
+      // const discount = coupon[0].discount
+      res.render("user/checkout", { isUser, user: user, totalPrice, address, coupon });
+
+    }
   } else {
     res.redirect("/cart");
   }
@@ -144,6 +128,7 @@ const deleteProductCheckout = async function (req, res) {
 
 const postCheckout = async function (req, res) {
   try {
+    
     const userId = req.session.userid;
     const user = await userHelper.getCart(userId);
     const cart = user.cart.cart;
@@ -159,7 +144,7 @@ const postCheckout = async function (req, res) {
           req.body,
           statuses
         );
-        console.log("new order", newOrder);
+        const updateCoupon = await orderHelper.updateCoupon(req.body.couponId,userId)
         res.json(newOrder);
         // console.log(newOrder.payment.paymentType)
       } else if (req.body.payment == "razorPay") {
@@ -245,6 +230,19 @@ const failed = async function (req, res) {
   res.render("user/failed");
 };
 
+const postCoupon = async function(req, res){
+  const userId = req.session.userid
+  console.log(userId)
+  const coupon = await orderHelper.showCoupon(req.body)
+  if(coupon){
+    const discount = coupon.discount
+    const price = await userHelper.getCart(userId)
+    const totalPrice = price.totalPrice - discount
+    console.log(totalPrice)
+    res.json({totalPrice, discount})
+  }
+}
+
 const orders = async function (req, res) {
   const userId = req.session.userid;
   let isUser = true;
@@ -269,6 +267,7 @@ module.exports = {
   adminOrders,
   success,
   failed,
+  postCoupon,
   orders,
   singleOrder,
 };
