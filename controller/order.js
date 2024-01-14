@@ -92,7 +92,7 @@ const userHelper = require("../helpers/user");
 // };
 
 const adminOrders = async function (req, res) {
-  const orders = await Order.find().lean().populate("user").populate("cart");
+  const orders = await orderHelper.getAllOrder()
   // console.log(orders.user.name)
   res.render("admin/orders", { orders: orders });
 };
@@ -257,6 +257,11 @@ const singleOrder = async function (req, res) {
   res.render("user/single-order", {order:order});
 };
 
+const deleteOrder = async function(req, res){
+  const deletedOrder = await orderHelper.deleteOrder(req.params.id)
+  res.redirect("/admin/orders")
+}
+
 module.exports = {
   // addToCart,
 
@@ -270,4 +275,5 @@ module.exports = {
   postCoupon,
   orders,
   singleOrder,
+  deleteOrder
 };

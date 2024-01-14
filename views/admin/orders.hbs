@@ -7,7 +7,7 @@
         <div class="container-fluid">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title fw-semibold mb-4">Users</h5>
+              <h5 class="card-title fw-semibold mb-4">Orders</h5>
               <div class="col-lg-8 d-flex align-items-stretch">
             {{!-- <div class="card w-100"> --}}
               <div class="card-body p-4">
@@ -40,13 +40,13 @@
                     {{#each orders}}
                     <tbody>
                       <tr>
-                        <td class="border-bottom-0"><h6 class="fw-semibold mb-0">{{this.user.name}}</h6></td>
+                        <td class="border-bottom-0"><h6 class="fw-semibold mb-0">{{this.userid.name}}</h6></td>
                         <td class="border-bottom-0">
                             <h6 class="fw-semibold mb-1">{{this.phone}}</h6>
                             {{!-- <span class="fw-normal">Web Designer</span>                           --}}
                         </td>
                         <td class="border-bottom-0">
-                          <p class="mb-0 fw-normal">{{this.paymentType}}</p>
+                          <p class="mb-0 fw-normal">{{this.payment.paymentType}}</p>
                         </td>
                         <td class="border-bottom-0">
                           <div class="d-flex align-items-center gap-2">
@@ -57,7 +57,7 @@
                           <h6 class="fw-semibold mb-0 fs-4">{{this.status}}</h6>
                         </td>
                          <td class="border-bottom-0">
-                          <a href="" class="fw-semibold mb-0 fs-4"><i class="fas fa-ban" style="color: red;"></i></a>
+                          <a href="/admin/orders/delete/{{this._id}}" class="fw-semibold mb-0 fs-4"><i class="fas fa-ban" style="color: red;"></i></a>
                         </td>
                       </tr> 
                      

@@ -166,4 +166,9 @@ module.exports = {
       logger.error({ message: "error updating coupon" + error.message });
     }
   },
+
+  deleteOrder: async function(orderId){
+    const order=await Order.findByIdAndDelete(orderId)
+    return order;
+  }
 };

@@ -14,7 +14,8 @@ const {
   failed,
   orders,
   postCoupon,
-  singleOrder
+  singleOrder,
+  deleteOrder
 } = require("../controller/order");
 const { checkAuth, checkAdmin } = require("../middlewares/auth");
 
@@ -23,7 +24,7 @@ const router = express.Router();
 
 router.get("/admin_panel/orders");
 router.put("/admin_panel/orders/edit/:id");
-router.delete("/admin_panel/orders/delete_orders/:id");
+router.get("/admin/orders/delete/:id", checkAdmin, deleteOrder);
 router.get("/checkout", checkAuth, getCheckout);
 router.get("/deleteProductCheckout/:id", checkAuth, deleteProductCheckout);
 router.post("/postCheckout", checkAuth, postCheckout);
