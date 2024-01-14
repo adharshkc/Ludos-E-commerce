@@ -7,7 +7,6 @@ const {
   deleteProduct,
   singleProduct,
   getAddProduct,
-  postProduct,
   adminProduct,
 } = require("../controller/product");
 const { checkAuth, checkAdmin } = require("../middlewares/auth");
@@ -17,7 +16,6 @@ const router = express.Router();
 router.get("/products", showProduct);
 router.get("/product/:id", singleProduct)
 router.get("/admin/addProduct",checkAdmin, getAddProduct);
-// router.post("/postProduct/:id",checkAuth, postProduct)
 router.post("/admin/add_product",checkAdmin, addProduct);
 router.get("/admin/editProduct/:id", checkAdmin, edit_product)
 router.post("/admin/edit_product/:id",checkAdmin, editProduct);

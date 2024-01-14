@@ -42,6 +42,10 @@ const userSchema = mongoose.Schema(
       required: true,
       maxLength: [10, "invalid phone number"],
     },
+    status: {
+      type: String,
+      default: 'active'
+    },
     address: [addressSchema],
     role: {
       type: String,

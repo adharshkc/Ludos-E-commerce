@@ -1,5 +1,6 @@
 const Coupons = require("../models/coupon");
 const Product = require("../models/product");
+const { User, DeletedUser } = require("../models/user");
 
 module.exports = {
   addCoupon: async function (body) {
@@ -23,5 +24,17 @@ module.exports = {
       image: `/images/${fileName}`,
     });
     return productAdd
+  },
+
+  deleteUser: async function(userId){
+    const user = await User.findByIdAndDelete(userId);
+    if(user){
+      const deletedUser = await DeletedUser.create({
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+      })
+      return user;
+    }
   },
 };
