@@ -1,0 +1,127 @@
+<!--  Body Wrapper -->
+<div
+  class="page-wrapper"
+  id="main-wrapper"
+  data-layout="vertical"
+  data-navbarbg="skin6"
+  data-sidebartype="full"
+  data-sidebar-position="fixed"
+  data-header-position="fixed"
+>
+  {{> sidebar}}
+  <div class="body-wrapper">
+    {{> adminHeader}}
+    <div class="container-fluid">
+      <div class="container-fluid">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title fw-semibold mb-1">Edit Product</h5>
+            <div class="card">
+              <div class="card-body">
+                <form method="post" action="/admin/edit_product/{{product._id}}" > 
+                  <div class="form-floating mb-3">
+                    <input
+                      class="form-control"
+                      id="productName"
+                      type="text"
+                      name="name"
+                      value="{{product.name}}"
+                      placeholder="Product Name"
+                      data-sb-validations="required"
+                    />
+                    <label for="productName">Product Name</label>
+                    <div
+                      class="invalid-feedback"
+                      data-sb-feedback="productName:required"
+                    >Product Name is required.</div>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input
+                      class="form-control"
+                      id="brand"
+                      value="{{product.brand}}"
+                      name="brand"
+                      type="text"
+                      placeholder="Brand"
+                      data-sb-validations="required"
+                    />
+                    <label for="brand">Brand</label>
+                    <div
+                      class="invalid-feedback"
+                      data-sb-feedback="brand:required"
+                    >Brand is required.</div>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input
+                      class="form-control"
+                      id="category"
+                      name="category"
+                      value="{{product.category}}"
+                      type="text"
+                      placeholder="Category"
+                      data-sb-validations="required"
+                    />
+                    <label for="category">Category</label>
+                    <div
+                      class="invalid-feedback"
+                      data-sb-feedback="category:required"
+                    >Category is required.</div>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input
+                      class="form-control"
+                      id="price"
+                      name="price"
+                      value="{{product.price}}"
+                      type="text"
+                      placeholder="Price"
+                      data-sb-validations="required"
+                    />
+                    <label for="price">Price</label>
+                    <div
+                      class="invalid-feedback"
+                      data-sb-feedback="price:required"
+                    >Price is required.</div>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input
+                      class="form-control"
+                      id="inStock"
+                      name="countInStock"
+                      value="{{product.countInStock}}"
+                      type="text"
+                      placeholder="In Stock"
+                      data-sb-validations="required"
+                    />
+                    <label for="inStock">In Stock</label>
+                    <div
+                      class="invalid-feedback"
+                      data-sb-feedback="inStock:required"
+                    >In Stock is required.</div>
+                  </div>
+                  {{!-- <div class="form-floating mb-3">
+                    <input
+                      class="form-control"
+                      id="inStock"
+                      type="file"
+                      name="image"
+                      placeholder="Image"
+                      data-sb-validations="required"
+                    />
+                    <label for="inStock">Image</label>
+                    <div
+                      class="invalid-feedback"
+                      data-sb-feedback="image:required"
+                    >Image required.</div>
+                  </div> --}}
+
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

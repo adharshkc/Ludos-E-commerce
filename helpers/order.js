@@ -12,36 +12,35 @@ var instance = new Razorpay({
 });
 
 module.exports = {
+  /*****************************************************************ORDERS**************************************************************/
+  getOrder: async function (userId) {
+    const order = await Order.find({ userid: userId }).lean();
 
-
-/*****************************************************************ORDERS**************************************************************/
-getOrder: async function (userId) {
-  const order = await Order.find({userid: userId}).lean()
-    
-    return order
+    return order;
   },
 
-  getAllOrder: async function(){
-    const orders = await Order.find().populate('userid').lean()
-    orders.forEach(order => {
+  getAllOrder: async function () {
+    const orders = await Order.find().populate("userid").lean();
+    orders.forEach((order) => {
       if (order.userid && order.userid.name) {
         console.log(order.userid.name);
       }
     });
-    return orders
+    return orders;
   },
 
-  getSingleOrder : async function(orderId){
-    const order = await Order.findOne({_id: orderId}).populate('products.product_id').lean()
-    const names = order.products.map((product) =>{ 
-      
-      product.product_id})
-    
-    const proName = await Product.findOne({_id: names})
-    console.log(proName)
-    console.log(names)
-    return order
+  getSingleOrder: async function (orderId) {
+    const order = await Order.findOne({ _id: orderId })
+      .populate("products.product_id")
+      .lean();
+    const names = order.products.map((product) => {
+      product.product_id;
+    });
 
+    const proName = await Product.findOne({ _id: names });
+    console.log(proName);
+    console.log(names);
+    return order;
   },
 
   createOrder: async function (userId, cart, body, statuses) {
@@ -51,7 +50,7 @@ getOrder: async function (userId) {
         quantity: product.quantity,
       }));
       // const userCart = await userHelper.getCart(userId);
-      const orderId = Math.floor((Math.random()* 1000000000)+1)
+      const orderId = Math.floor(Math.random() * 1000000000 + 1);
 
       const order = await Order.create({
         userid: userId,
@@ -135,44 +134,36 @@ getOrder: async function (userId) {
   },
 
   /*****************************************************************COUPONS**************************************************************/
-  getCoupon: async function(price){
-    const coupons = await Coupons.find().lean()
-    const matchCoupon = coupons.filter((coupon)=>{
-      if(coupon.totalPrice<=price){
-        return coupon
-      }else{
-        
-        return null
-      }
-    })
-    console.log(matchCoupon)
+  getCoupon: async function (price) {
+    const coupons = await Coupons.find().lean();
+    const matchCoupon = coupons.map(coupon => coupon);
+
+    // console.log(typeof couponPrices)
      return matchCoupon;
   },
-  
-  showCoupon : async function(couponId){
-    const coupon = await Coupons.findOne({couponId})
+
+  showCoupon: async function (couponId) {
+    const coupon = await Coupons.findOne({ couponId });
     return coupon;
   },
 
-  updateCoupon: async function(couponId, userId){
+  updateCoupon: async function (couponId, userId) {
     try {
-      
       const updatedCoupon = await Coupons.findByIdAndUpdate(
         couponId,
         {
-          $set:{
+          $set: {
             lastUpdatedUser: userId,
-            lastUpdated: new Date()
+            lastUpdated: new Date(),
           },
           $push: { usedUsers: userId },
         },
-        {new: true}
-      )
+        { new: true }
+      );
 
-      console.log(updatedCoupon)
+      console.log(updatedCoupon);
     } catch (error) {
-      logger.error({message: "error updating coupon"+ error.message})
+      logger.error({ message: "error updating coupon" + error.message });
     }
-  }
-  
+  },
 };

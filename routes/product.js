@@ -2,6 +2,7 @@ const express = require("express");
 const {
   addProduct,
   editProduct,
+  edit_product,
   showProduct,
   deleteProduct,
   singleProduct,
@@ -18,8 +19,9 @@ router.get("/product/:id", singleProduct)
 router.get("/admin/addProduct",checkAdmin, getAddProduct);
 // router.post("/postProduct/:id",checkAuth, postProduct)
 router.post("/admin/add_product",checkAdmin, addProduct);
-router.put("/admin_panel/products/edit/:id",checkAdmin, editProduct);
-router.delete("/admin_panel/products/delete/:id", checkAdmin, deleteProduct)
+router.get("/admin/editProduct/:id", checkAdmin, edit_product)
+router.post("/admin/edit_product/:id",checkAdmin, editProduct);
+router.get("/admin/deleteProduct/:id", checkAdmin, deleteProduct)
 router.get("/admin/products",checkAdmin, adminProduct );
 
 module.exports = router;

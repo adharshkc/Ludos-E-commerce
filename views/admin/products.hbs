@@ -18,7 +18,7 @@
                     <thead class="text-dark fs-4">
                       <tr>
                         <th class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0">Name</h6>
+                          <h6 class="fw-semibold mb-0">Image</h6>
                         </th>
                         <th class="border-bottom-0">
                           <h6 class="fw-semibold mb-0">Name</h6>
@@ -34,6 +34,12 @@
                         </th>
                         <th class="border-bottom-0">
                           <h6 class="fw-semibold mb-0">Price</h6>
+                        </th>
+                        <th class="border-bottom-0">
+                          <h6 class="fw-semibold mb-0">Edit</h6>
+                        </th>
+                        <th class="border-bottom-0">
+                          <h6 class="fw-semibold mb-0">Delete</h6>
                         </th>
                       </tr>
                     </thead>
@@ -64,7 +70,10 @@
                           <h6 class="fw-semibold mb-0 fs-4">₹{{this.price}}</h6>
                         </td>
                         <td class="border-bottom-0">
-                          <a href="" class="fw-semibold mb-0 fs-4"><i class="far fa-pen-to-square"></i></a>
+                          <a href="/admin/editProduct/{{this._id}}" class="fw-semibold mb-0 fs-4"><i class="far fa-pen-to-square"></i></a>
+                        </td>
+                        <td class="border-bottom-0">
+                          <a href="/admin/deleteProduct/{{this._id}}" class="fw-semibold mb-0 fs-4"><i class="far fa-trash-can" style="color: #ea191d"></i></a>
                         </td>
                       </tr> 
                       {{!-- <tr>

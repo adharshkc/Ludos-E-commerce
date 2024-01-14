@@ -1,11 +1,12 @@
 const Products = require("../models/product");
 const Cart = require("../models/cart");
-
+const adminHelper = require("../helpers/admin");
+const productHelper = require("../helpers/product")
 
 /************************************************************GET PRODUCTS PAGE**************************************************** */
 
 const showProduct = async function (req, res) {
-  const products = await Products.find({}).lean();
+  const products = await productHelper.getAllProduct()
   if (req.session.user) {
     let isUser = true;
     res.render("user/products", { products: products, isUser });
@@ -19,7 +20,7 @@ const showProduct = async function (req, res) {
 const singleProduct = async function (req, res) {
   const productId = req.params.id;
   // console.log(productId)
-  const product = await Products.findOne({ _id: productId }).lean();
+  const product = await productHelper.getProduct(productId)
   if (req.session.user) {
     let isUser = true;
     res.render("user/product", { product, isUser });
@@ -61,39 +62,23 @@ const singleProduct = async function (req, res) {
 /************************************************************POST ADMIN ADD PRODUCT**************************************************** */
 
 const addProduct = async function (req, res) {
-  // const { name, brand, category, price, countInStock } = req.body;
-  // console.log("body",req.body);
-  // console.log(req.file);
+  console.log(req.body.image);
+  const { upload } = require("../helpers/multer");
+  const uploadMiddleware = upload();
 
-     const {upload} = require('../helpers/multer')
-     const uploadMiddleware = upload()
-     uploadMiddleware(req, res, (err) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).send('Error uploading file.');
-      }
-      const { name, brand, category, price, countInStock } = req.body;
-    console.log("Body:", req.body);
-    console.log(`File uploaded: ${req.file.filename}`);
-    })  
-
-  // const addedProduct = await Products.create({
-  //   name: name,
-  //   brand: brand,
-  //   category: category,
-  //   price: price,
-
-  //   countInStock: countInStock,
-  //   image: image,
-  // });
-  // if (addedProduct) {
-  //   console.log("product added successfully");
-  //   res.json("product added");
-  //   // res.send(addProduct)
-  // } else {
-  //   res.status(404);
-  //   res.json("error adding product");
-  // }
+  uploadMiddleware(req, res, async(err) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error uploading file.");
+    }
+    
+    const fileName = req.file.filename
+    const addedProduct = await adminHelper.addProduct(req.body, fileName);
+    if(addedProduct){
+      res.redirect('/admin/products')
+    }
+    
+  });
 };
 
 const getAddProduct = function (req, res) {
@@ -101,25 +86,26 @@ const getAddProduct = function (req, res) {
 };
 
 const adminProduct = async function (req, res) {
-  const products = await Products.find().lean();
+  const products = await productHelper.getAllProduct();
   res.render("admin/products", { products: products });
 };
 
-/************************************************************PUT ADMIN EDIT PRODUCT**************************************************** */
+/************************************************************ ADMIN EDIT PRODUCT**************************************************** */
+
+const edit_product = async function(req, res){
+  const proId = req.params.id
+  const product = await productHelper.getProduct(proId)
+  res.render('admin/edit-product', {product: product})
+}
 
 const editProduct = async function (req, res) {
   try {
-    const editedProduct = await Products.findByIdAndUpdate(
-      req.params.id,
-      req.body
-    );
+
+    const editedProduct = await productHelper.editProduct(req.params.id, req.body)
+    
     if (editedProduct) {
-      res.json("product edited");
-      console.log("product edited");
-    } else {
-      res.json("error editing product");
-      console.log("error editing product");
-    }
+      res.redirect('/admin/products')
+    } 
   } catch (err) {
     res.status(404);
     console.log(err);
@@ -132,10 +118,9 @@ const deleteProduct = async function (req, res) {
   console.log("delete");
   try {
     console.log(req.params.id);
-    const deleteProduct = await Products.findByIdAndDelete(req.params.id);
-    console.log(deleteProduct);
-    if (deleteProduct) {
-      res.json("user deleted successfully");
+    const deletedProduct = await productHelper.deleteProduct(req.params.id)
+    if (deletedProduct) {
+      res.redirect('/admin/products')
     }
   } catch (err) {
     res.status(404);
@@ -147,6 +132,7 @@ module.exports = {
   addProduct,
   editProduct,
   showProduct,
+  edit_product,
   deleteProduct,
   singleProduct,
   getAddProduct,
