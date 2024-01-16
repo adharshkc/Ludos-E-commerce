@@ -81,6 +81,16 @@ const user_registration = async function (req, res) {
   }
 };
 
+const googleLogin =  function(){
+  console.log("get")
+  passport.authenticate('google', { scope: ['profile', 'email'] })
+}
+
+const callbackUrl = function (req, res) {
+  console.log("post");
+    res.redirect('/');
+};
+
 /**********************************************USER DASHBOARD****************************************************************** */
 
 const user_dashboard = async function (req, res) {
@@ -251,6 +261,8 @@ module.exports = {
   user_signin,
   user_registration,
   userRegister,
+  googleLogin,
+  callbackUrl,
   user_dashboard,
   user_profile_edit,
   editUser,

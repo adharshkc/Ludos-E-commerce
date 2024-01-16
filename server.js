@@ -14,6 +14,7 @@ const userRouter = require("./routes/user");
 const connectDb = require("./db/config");
 const passport = require("passport");
 require('./config/passport-config/localStrategy')
+require('./config/passport-config/googleAuth')
 
 const app = express();
 const port = process.env.PORT || 3000;

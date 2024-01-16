@@ -24,13 +24,14 @@ passport.use(
 );
 
 passport.serializeUser(function (user, done) {
-  done(null, { _id: user._id });
+  done(null, { email: user.email });
 });
 
-passport.deserializeUser(async function (_id, done) {
+passport.deserializeUser(async function (email, done) {
   try {
     // const userId = sessionUser.id
-    const user = await User.findById(_id);
+    console.log(email)
+    const user = await User.findById(email);
     // console.log(user);
     done(null, user);
   } catch (err) {

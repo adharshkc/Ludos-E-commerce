@@ -10,10 +10,14 @@ const getUsers = async function (req, res) {
 const admin = async function(req, res){
   
   const orders = await orderHelper.getAllOrder()
+  const result = await adminHelper.totalAmount()
+  const daily = await adminHelper.dailyOrderAmount()
+  const totalAmount = result[0].totalAmount
+  const dailyAmount = daily[0].totalAmount
   console.log(orders.orderid)
 
     
-    res.render("admin/index",{orders: orders})
+    res.render("admin/index",{orders: orders,totalAmount: totalAmount, dailyAmount: dailyAmount})
   
 }
 
@@ -37,6 +41,8 @@ const getAddCoupon = async function(req, res){
 const addCoupon = async function(req, res){
   const addedCoupon = adminHelper.addCoupon(req.body)
 }
+
+
 
 module.exports = {
   admin,

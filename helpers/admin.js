@@ -1,4 +1,5 @@
 const Coupons = require("../models/coupon");
+const Order = require("../models/order");
 const Product = require("../models/product");
 const { User, DeletedUser } = require("../models/user");
 
@@ -37,4 +38,36 @@ module.exports = {
       return user;
     }
   },
+
+  totalAmount: async function(){
+    const result = await Order.aggregate([
+      {
+        $group: {
+          _id: null,
+          totalAmount: { $sum: "$totalPrice" }
+        }
+      }
+    ]);
+    return result
+  },
+
+  dailyOrderAmount: async function(){
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0 for the start of the day
+
+    const result = await Order.aggregate([
+      {
+        $match: {
+          orderedDate: { $gte: today }
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          totalAmount: { $sum: "$totalPrice" }
+        }
+      }
+    ]);
+    return result
+  }
 };
