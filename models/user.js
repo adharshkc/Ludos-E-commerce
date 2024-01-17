@@ -32,14 +32,17 @@ const userSchema = mongoose.Schema(
     },
     password: {
       type: String,
-      required: [true, "Please enter your password"],
+      // required: [true, "Please enter your password"],
       minLength: [4, "Password should be greater than 4 characters"],
       trim: true,
+    },
+    googleId:{
+      type: String
     },
     phone: {
       type: Number,
       trim: true,
-      required: true,
+      // required: true,
       maxLength: [10, "invalid phone number"],
     },
     status: {
@@ -60,7 +63,7 @@ const userSchema = mongoose.Schema(
         },
         quantity: {
           type: Number,
-          required: true,
+          // required: true,
           default: 1, 
         },
       },

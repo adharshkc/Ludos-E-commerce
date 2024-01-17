@@ -86,9 +86,17 @@ const googleLogin =  function(){
   passport.authenticate('google', { scope: ['profile', 'email'] })
 }
 
-const callbackUrl = function (req, res) {
-  console.log("post");
-    res.redirect('/');
+const callbackUrl = async function (req, res) {
+  console.log(req.user)
+  if(req.user){
+    const user = await userHelper.findUser(req.user.email)
+    if(user){
+      req.session.user = true;
+      req.session.userid = user._id;
+       res.redirect('/');
+
+    }
+  }
 };
 
 /**********************************************USER DASHBOARD****************************************************************** */
