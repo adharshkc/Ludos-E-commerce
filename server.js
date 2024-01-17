@@ -6,13 +6,13 @@ const session = require("express-session");
 const MongoDBStore = require('connect-mongodb-session')(session);
 const morgan = require("morgan")
 const bodyParser = require('body-parser')
+const passport = require("passport");
 
 const adminRouter = require("./routes/admin");
 const orderRouter = require("./routes/order");
 const productRouter = require("./routes/product");
 const userRouter = require("./routes/user");
 const connectDb = require("./db/config");
-const passport = require("passport");
 require('./config/passport-config/localStrategy')
 require('./config/passport-config/googleAuth')
 
