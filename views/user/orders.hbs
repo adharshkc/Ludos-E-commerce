@@ -1,7 +1,7 @@
 {{> header}}
 
 <div class="container mt-3 mt-md-5" style="background-color: rgb(255, 240, 252);">
-  <h2 class="text-charcoal hidden-sm-down">Your Orders</h2>
+  <h2 class="text-charcoal hidden-sm-down">My Orders</h2>
   {{!-- <h5 class="text-charcoal hidden-md-up">Your Orders</h5> --}}
   {{#if noOrder}}
   <div>
@@ -19,7 +19,7 @@
                 <a
                     href=""
                     class="text-pebble mb-0 w-100 mb-2 mb-md-0"
-                >{{this.orderid}}</a>
+                >{{this.products.product_id.name}}</a>
                 </div>
                 <div class="col-6 col-md">
                 <h6 class="text-charcoal mb-0 w-100">Date</h6>

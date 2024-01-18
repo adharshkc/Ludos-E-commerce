@@ -233,10 +233,12 @@
       success: (respose)=>{
         if(respose.updatedCart && response.updatedCart.length == 0){
           
-        }
-
+        }else{
         $('#subTotal').text('₹ '+respose.totalPrice)
         $('#grandTotal').text('₹ '+respose.totalPrice)
+
+        }
+
 
       }
     })

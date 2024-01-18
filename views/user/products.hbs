@@ -63,12 +63,13 @@
                        
                         <a
                         href="/addToCart/{{this._id}}"
-                        
+                          id="myToolTip"
                           class="btn--e-brand custom-hover addToCartButton"
-                          data-modal="modal"
+                          data-toggle="modal"
+                          data-target="#myModal"
                           onMouseOver="this.style.color='#fff'"
                           data-modal-id="#add-to-cart"
-                        >Add To Cart</a></div>
+                        >add to cart</a></div>
                     </div>
                     <div class="product-m__content">
                       <div class="product-m__category">
@@ -147,39 +148,45 @@
 </div>
 
 
-
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          {{!-- <button type="button" class="close" data-dismiss="modal">&times;</button> --}}
+          <h4 class="modal-title" style="color: green;"> Item Added To Cart </h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   $(document).ready(function() {
- 
   const addToCartButton = document.querySelectorAll('.addToCartButton');
 
-  
-  addToCartButton.forEach(function(button){
-    button.addEventListener("click", function(event){
+  addToCartButton.forEach(function(button) {
+    button.addEventListener("click", function(event) {
+      event.preventDefault();
 
-    event.preventDefault(); 
+      const addToCartUrl = this.getAttribute('href');
 
-   
-    const addToCartUrl = this.getAttribute('href');
-
-    $.ajax({
-      type: 'GET', 
-      url: addToCartUrl, 
-      success: function(response) {
-        console.log('Item added to cart!');
-        window.location.href = '/products'; 
-        
-      },
-      error: function(error) {
-        console.error('Error adding item to cart:', error);
-      }
+      $.ajax({
+        type: 'GET',
+        url: addToCartUrl,
+        success: function(response) {
+         
+        },
+        error: function(error) {
+          console.error('Error adding item to cart:', error);
+        }
+      });
     });
-    });
-    })
-  })
+  });
+});
 
 </script>
 

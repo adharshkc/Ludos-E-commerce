@@ -11,6 +11,10 @@ module.exports = {
       .lean();
     if (user) return user;
   },
+  findUserById: async function(id){
+    const user = await User.findOne({_id: id})
+    return user
+  },
   loginUser: async function (userData) {
     const email = userData.email;
     const password = userData.password;

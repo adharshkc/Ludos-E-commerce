@@ -218,6 +218,7 @@ const addToCart = async function (req, res) {
   const userId = req.session.userid;
   const cart = await userHelper.addItemsToCart(userId, req.params.id);
   console.log(cart);
+  res.json({cart})
 };
 
 const addProductToCart = async function (req, res) {
@@ -259,6 +260,11 @@ const deleteCart = async function(req, res){
   }
 }
 
+const invoice = async function(req, res){
+  const orderId = req.params.id
+  console.log(orderId)
+}
+
 const logout = async function (req, res) {
   req.session.destroy();
   res.redirect("/");
@@ -280,6 +286,7 @@ module.exports = {
   editAddress,
   delete_address,
   cart,
+  invoice,
   addToCart,
   addProductToCart,
   updateCart,

@@ -10,15 +10,23 @@ const getUsers = async function (req, res) {
 const admin = async function(req, res){
   
   const orders = await orderHelper.getAllOrder()
+  const sortedOrder = orders.reverse()
   const result = await adminHelper.totalAmount()
   const daily = await adminHelper.dailyOrderAmount()
   const totalAmount = result[0].totalAmount
-  const dailyAmount = daily[0].totalAmount
-  console.log(orders.orderid)
+  if(daily.length ==0){
+    const dailyAmount = 0;
+    res.render("admin/index",{orders: sortedOrder,totalAmount: totalAmount, dailyAmount: dailyAmount})
 
-    
-    res.render("admin/index",{orders: orders,totalAmount: totalAmount, dailyAmount: dailyAmount})
+  }else{
+    const dailyAmount = daily[0].totalAmount
+    console.log(orders.orderid)
   
+      
+      res.render("admin/index",{orders: orders,totalAmount: totalAmount, dailyAmount: dailyAmount})
+    
+
+  }
 }
 
 

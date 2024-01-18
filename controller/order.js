@@ -110,7 +110,7 @@ const getCheckout = async function (req, res) {
     if(coupon.length<1){
       res.render("user/checkout", {isUser, user: user, totalPrice, address})
     }else{
-       coupon = coupon[0]
+      //  coupon = coupon[0]
       // const discount = coupon[0].discount
       res.render("user/checkout", { isUser, user: user, totalPrice, address, coupon });
 
@@ -133,6 +133,7 @@ const postCheckout = async function (req, res) {
     const user = await userHelper.getCart(userId);
     const cart = user.cart.cart;
     if (user) {
+      await userHelper.addAddress(req.body, userId)
       if (req.body.payment == "COD") {
         const statuses = {
           orderStatus: "placed",
@@ -233,28 +234,35 @@ const failed = async function (req, res) {
 const postCoupon = async function(req, res){
   const userId = req.session.userid
   console.log(userId)
-  const coupon = await orderHelper.showCoupon(req.body)
+  const couponCode = req.body.couponId
+  const coupon = await orderHelper.showCoupon(couponCode)
+  console.log("COUPON",coupon)
   if(coupon){
     const discount = coupon.discount
     const price = await userHelper.getCart(userId)
     const totalPrice = price.totalPrice - discount
     console.log(totalPrice)
     res.json({totalPrice, discount})
-  }
+  }else{
+    res.json({message: "error"})
+  }  
 }
 
 const orders = async function (req, res) {
   const userId = req.session.userid;
   let isUser = true;
-  const orders = await orderHelper.getOrder(userId); 
+  let orders = await orderHelper.getOrder(userId); 
+  orders = orders.reverse()
   res.render("user/orders", { orders, isUser });
 };
 
 const singleOrder = async function (req, res) {
   const orderId = req.params.id;
+
+  const user = await userHelper.findUserById(req.session.userid)
   const order = await orderHelper.getSingleOrder(orderId);
   // console.log(order.products.product_id.name)
-  res.render("user/single-order", {order:order});
+  res.render("user/single-order", {order:order, user: user, isUser: true});
 };
 
 const deleteOrder = async function(req, res){

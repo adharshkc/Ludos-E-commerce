@@ -1,4 +1,4 @@
-{{> header}}
+{{!-- {{> header}} --}}
 
 <div class="app-content">
 
@@ -28,8 +28,7 @@
   <!--====== Section 2 ======-->
   <!--====== End - Section 2 ======-->
 
-  <!--====== Section 3 ======-->
-<form class="" id="checkoutForm" method="post" action='' >
+ <form class="" id="checkoutForm" method="post" action='' > 
   <div class="u-s-p-b-60">
 
     <!--====== Section Content ======-->
@@ -203,18 +202,24 @@
                   </span>
                   <div class="collapse" id="have-coupon" data-parent="#checkout-msg-group">
                     <div class="c-f u-s-m-b-16">
-                      <span class="msg__text u-s-m-b-16">Get <span style="color: red;">₹{{coupon.discount}}</span> off now!</span>
+                      {{#each coupon}}
+                      <span class="msg__text u-s-m-b-16">Get <span style="color: red;">₹{{this.discount}}</span> off now with <span style="color: red;">{{this.code}}</span></span>
+                      {{/each}}
+                      
                       <div class="c-f__form">
                         <div class="u-s-m-b-16">
                           <div class="u-s-m-b-15">
                             <label for="coupon"></label>
-                            <input class="input-text input-text--primary-style" type="text" id="coupon" value="{{coupon.code}}" placeholder="">
+                            <input class="input-text input-text--primary-style" type="text" id="coupon" value="" placeholder="Enter Coupon Code">
                           </div>
                           <div class="u-s-m-b-15">
+                            <p id="wrongCode"></p>
                             <a href="javascript:void(0);" class="btn btn--e-transparent-brand-b-2" type="button" id="applyCouponBtn">APPLY</a>
                           </div>
                         </div>
                       </div>
+                     
+                      
                     </div>
                   </div>
                 </div>
@@ -536,14 +541,20 @@
   $(document).ready(function(){
     $('#applyCouponBtn').click(function(event){
       event.preventDefault()
-      const couponId = "{{coupon._id}}";
+      const couponId = $('#coupon').val();
       $.ajax({
         type: 'POST',
         url: '/user/applyCoupon',
         data: {couponId: couponId},
         success: function(response){
+          if(response.message == 'error'){
+            console.log("error")
+            $("#wrongCode").text('Invalid Coupon Code')
+
+          }else{
           $("#grandTotal").text(`₹${response.totalPrice}`)
           $("#grandDiscount").text(`-₹${response.discount}`)
+          }
 
         }
       })
@@ -555,7 +566,7 @@
   $("#checkoutForm").submit((e)=>{
     e.preventDefault()
     const totalPrice = $("#grandTotal").text().replace('₹', '');
-    const couponId = "{{coupon._id}}"
+    const couponId = $('#coupon').val();
     $.ajax({
       url: "/postCheckout",
       method: 'post',

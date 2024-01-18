@@ -14,7 +14,7 @@ var instance = new Razorpay({
 module.exports = {
   /*****************************************************************ORDERS**************************************************************/
   getOrder: async function (userId) {
-    const order = await Order.find({ userid: userId }).lean();
+    const order = await Order.find({ userid: userId }).populate('products').lean();
 
     return order;
   },
@@ -136,14 +136,21 @@ module.exports = {
   /*****************************************************************COUPONS**************************************************************/
   getCoupon: async function (price) {
     const coupons = await Coupons.find().lean();
-    const matchCoupon = coupons.map(coupon => coupon);
-
+    console.log(coupons)
+    const matchCoupon = coupons.filter(coupon => {
+      if(price>=coupon.totalPrice){
+        let x = coupon
+        return x
+      }
+    });
+    
+    console.log(matchCoupon)
     // console.log(typeof couponPrices)
      return matchCoupon;
   },
 
   showCoupon: async function (couponId) {
-    const coupon = await Coupons.findOne({ couponId });
+    const coupon = await Coupons.findOne({ code: couponId });
     return coupon;
   },
 

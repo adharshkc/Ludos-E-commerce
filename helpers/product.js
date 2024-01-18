@@ -12,19 +12,23 @@ module.exports = {
   },
 
   editProduct: async function (proId, body) {
-    console.log(body)
-    const editProduct = await Products.findByIdAndUpdate(
-      proId,
-      body,
-      {new: true}
-    );
-    console.log(editProduct)
-    return editProduct
+    console.log(body);
+    const editProduct = await Products.findByIdAndUpdate(proId, body, {
+      new: true,
+    });
+    console.log(editProduct);
+    return editProduct;
   },
 
-  deleteProduct: async function(proId){
+  deleteProduct: async function (proId) {
     const deleteProduct = await Products.findByIdAndDelete(proId);
     return deleteProduct;
+  },
 
-  }
+  productSearch: async function (data) {
+    const result = await Products.find({
+      name: { $regex: `^${data}`, $options: "i" },
+    });
+    return result;
+  },
 };
