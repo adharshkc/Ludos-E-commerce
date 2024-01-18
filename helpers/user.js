@@ -216,5 +216,20 @@ module.exports = {
     } catch (error) {
       console.log(error)
     }
+  },
+
+  getWishlist : async function(userId){
+    const wishlist = await User.findOne({_id: userId}).populate('wishlist').lean()
+    return wishlist;
+  },
+
+  wishlistAdd : async function(userId, proId){
+    const user = await User.findOne({_id: userId})
+    user.wishlist.push({product_id: proId})
+    const wishlist = await User.findByIdAndUpdate(
+      {_id: userId},
+      {wishlist: user.wishlist}
+
+    )
   }
 };

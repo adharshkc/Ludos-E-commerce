@@ -24,6 +24,8 @@ const {
   googleLogin,
   callbackUrl,
   invoice,
+  wishlist,
+  addWishlist,
 } = require("../controller/user");
 // const { cart } = require("../controller/order");
 const { checkAuth } = require("../middlewares/auth");
@@ -60,6 +62,8 @@ router.get("/user/edit_address/:id", checkAuth, edit_address);
 router.post("/user/editAddress/:id", checkAuth, editAddress);
 router.get("/user/delete_address/:id", delete_address);
 router.get("/user/invoice/:id", checkAuth, invoice);
+router.get("/user/wishlist", checkAuth, wishlist);
+router.get("/user/addWishlist/:id", checkAuth, addWishlist);
 router.get("/logout", logout);
 
 module.exports = router;

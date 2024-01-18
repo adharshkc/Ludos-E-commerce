@@ -36,8 +36,8 @@ const userSchema = mongoose.Schema(
       minLength: [4, "Password should be greater than 4 characters"],
       trim: true,
     },
-    googleId:{
-      type: String
+    googleId: {
+      type: String,
     },
     phone: {
       type: Number,
@@ -47,7 +47,7 @@ const userSchema = mongoose.Schema(
     },
     status: {
       type: String,
-      default: 'active'
+      default: "active",
     },
     address: [addressSchema],
     role: {
@@ -64,7 +64,15 @@ const userSchema = mongoose.Schema(
         quantity: {
           type: Number,
           // required: true,
-          default: 1, 
+          default: 1,
+        },
+      },
+    ],
+    wishlist: [
+      {
+        product_id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Products",
         },
       },
     ],

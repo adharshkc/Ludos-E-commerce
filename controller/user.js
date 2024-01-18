@@ -265,6 +265,19 @@ const invoice = async function(req, res){
   console.log(orderId)
 }
 
+const wishlist = async function(req, res){
+  const userId = req.session.userid
+  const wishlistItems = await userHelper.getWishlist(userId)
+  res.render('user/wishlist', {items: wishlistItems})
+}
+
+const addWishlist = async function(req, res){
+  const proId = req.params.id;
+  const userId = req.session.userid
+  const addedWishlist = await userHelper.wishlistAdd(userId, proId)
+  
+}
+
 const logout = async function (req, res) {
   req.session.destroy();
   res.redirect("/");
@@ -291,6 +304,8 @@ module.exports = {
   addProductToCart,
   updateCart,
   deleteCart,
+  wishlist,
+  addWishlist,
   home,
   logout,
 };
