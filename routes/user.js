@@ -26,6 +26,7 @@ const {
   invoice,
   wishlist,
   addWishlist,
+  deleteWishlist,
 } = require("../controller/user");
 // const { cart } = require("../controller/order");
 const { checkAuth } = require("../middlewares/auth");
@@ -64,6 +65,7 @@ router.get("/user/delete_address/:id", delete_address);
 router.get("/user/invoice/:id", checkAuth, invoice);
 router.get("/user/wishlist", checkAuth, wishlist);
 router.get("/user/addWishlist/:id", checkAuth, addWishlist);
+router.get("/deleteWishlistProduct/:id", checkAuth, deleteWishlist)
 router.get("/logout", logout);
 
 module.exports = router;

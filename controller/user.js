@@ -278,6 +278,14 @@ const addWishlist = async function(req, res){
   
 }
 
+const deleteWishlist = async function(req, res){
+  const proId = req.params.id;
+  const userId = req.session.userid;
+  const deletedWishlist = await userHelper.wishlistDelete(userId, proId)
+  console.log(deletedWishlist)
+  res.redirect('/user/wishlist')
+}
+
 const logout = async function (req, res) {
   req.session.destroy();
   res.redirect("/");
@@ -306,6 +314,7 @@ module.exports = {
   deleteCart,
   wishlist,
   addWishlist,
+  deleteWishlist,
   home,
   logout,
 };

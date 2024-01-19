@@ -23,35 +23,39 @@
         <div class="col-lg-12 col-md-12 col-sm-12">
 
           <!--====== Wishlist Product ======-->
-            {{#if items.product_id}}
+            {{!-- {{#if items.product_id}} --}}
           <div class="w-r u-s-m-b-30">
-            {{#each items.product_id}}
+            {{#if items}}
+            {{#each items}}
             <div class="w-r__container">
               <div class="w-r__wrap-1">
                 <div class="w-r__img-wrap">
 
                   <img
                     class="u-img-fluid"
-                    src="{{this.image}}"
+                    src="{{this.product_id.image}}"
                     alt=""
                   /></div>
                 <div class="w-r__info">
 
                   <span class="w-r__name">
 
-                    <a href="product-detail.html">{{this.name}}</a></span>
+                    <a href="product-detail.html">{{this.product_id.name}}</a></span>
 
                   <span class="w-r__category">
 
-                    <a href="shop-side-version-2.html">{{this.category}}</a></span>
+                    <a href="shop-side-version-2.html">{{this.product_id.category}}</a></span>
 
-                  <span class="w-r__price">$125.00
+                  <span class="w-r__price">₹{{this.product_id.price}}
 
-                    <span class="w-r__discount">$160.00</span></span></div>
+                    {{!-- <span class="w-r__discount">5% off</span> --}}
+                    </span>
+                    </div>
               </div>
               <div class="w-r__wrap-2">
 
                 <a
+                href="/addProductToCart/{{this.product_id._id}}"
                   class="w-r__link btn--e-brand-b-2"
                   data-modal="modal"
                   style="color: wheat;"
@@ -60,12 +64,12 @@
 
                 <a
                   class="w-r__link btn--e-transparent-platinum-b-2"
-                  href="product-detail.html"
+                  href="/product/{{this.product_id._id}}"
                 >VIEW</a>
 
                 <a
                   class="w-r__link btn--e-transparent-platinum-b-2"
-                  href="#"
+                  href="/deleteWishlistProduct/{{this.product_id._id}}"
                 >REMOVE</a></div>
             </div>
           </div>
@@ -81,13 +85,13 @@
                 ></i>
 
                 <span>CONTINUE SHOPPING</span></a></div>
-            <div class="route-box__g">
+            {{!-- <div class="route-box__g">
 
               <a class="route-box__link" href="wishlist.html"><i
                   class="fas fa-trash"
                 ></i>
 
-                <span>CLEAR WISHLIST</span></a></div>
+                <span>CLEAR WISHLIST</span></a></div> --}}
           </div>
         </div>
         {{else}}

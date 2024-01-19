@@ -219,8 +219,9 @@ module.exports = {
   },
 
   getWishlist : async function(userId){
-    const wishlist = await User.findOne({_id: userId}).populate('wishlist').lean()
-    return wishlist;
+    const wishlist = await User.findOne({_id: userId}).populate('wishlist.product_id').lean()
+
+    return wishlist.wishlist;
   },
 
   wishlistAdd : async function(userId, proId){
@@ -231,5 +232,16 @@ module.exports = {
       {wishlist: user.wishlist}
 
     )
+  },
+
+  wishlistDelete : async function(userId, proId){
+    const delWishlist = await User.updateOne(
+      {_id: userId},
+      {$pull: {wishlist: {product_id: proId}}},
+      {new: true}
+      )
+      const user = await User.findOne({_id: userId})
+    console.log(user)
+    return delWishlist;
   }
 };
