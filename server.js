@@ -15,6 +15,7 @@ const userRouter = require("./routes/user");
 const connectDb = require("./db/config");
 require('./config/passport-config/localStrategy')
 require('./config/passport-config/googleAuth')
+require('./config/passport-config/facebookAuth')
 
 const app = express();
 const port = process.env.PORT || 3000;

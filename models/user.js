@@ -24,7 +24,7 @@ const userSchema = mongoose.Schema(
     },
     email: {
       type: String,
-      required: [true, "Please enter your email"],
+      // required: [true, "Please enter your email"],
       minLength: [3, "please enter a valid email"],
       maxLength: [64, "Please enter a valid email"],
       trim: true,

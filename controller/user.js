@@ -81,20 +81,30 @@ const user_registration = async function (req, res) {
   }
 };
 
-const googleLogin =  function(){
-  console.log("get")
-  passport.authenticate('google', { scope: ['profile', 'email'] })
-}
+const googleLogin = function () {
+  console.log("get");
+  passport.authenticate("google", { scope: ["profile", "email"] });
+};
 
 const callbackUrl = async function (req, res) {
-  console.log(req.user)
-  if(req.user){
-    const user = await userHelper.findUser(req.user.email)
-    if(user){
+  console.log(req.user);
+  if (req.user) {
+    const user = await userHelper.findUser(req.user.email);
+    if (user) {
       req.session.user = true;
       req.session.userid = user._id;
-       res.redirect('/');
+      res.redirect("/");
+    }
+  }
+};
 
+const fbCallback = async function (req, res) {
+  if (req.user) {
+    const user = await userHelper.findUser(req.user.email);
+    if (user) {
+      req.session.user = true;
+      req.session.userid = user._id;
+      res.redirect("/");
     }
   }
 };
@@ -195,9 +205,6 @@ const delete_address = async function (req, res) {
   }
 };
 
-
-
-
 /**************************************************************CART SECTION**********************************************************/
 const cart = async function (req, res) {
   const userId = req.session.userid;
@@ -214,11 +221,10 @@ const cart = async function (req, res) {
 };
 
 const addToCart = async function (req, res) {
-  
   const userId = req.session.userid;
   const cart = await userHelper.addItemsToCart(userId, req.params.id);
   console.log(cart);
-  res.json({cart})
+  res.json({ cart });
 };
 
 const addProductToCart = async function (req, res) {
@@ -237,54 +243,55 @@ const addProductToCart = async function (req, res) {
 const updateCart = async function (req, res) {
   try {
     let { proId, count } = req.body;
-    count = parseInt(count)
-    console.log(count)
+    count = parseInt(count);
+    console.log(count);
     const userId = req.session.userid;
     const updatedCart = await userHelper.updateCart(proId, count, userId);
     if (updatedCart) {
       const totalPrice = await userHelper.getCart(userId);
       console.log(totalPrice.totalPrice);
-      res.json({totalPrice: totalPrice.totalPrice, updatedCart})
+      res.json({ totalPrice: totalPrice.totalPrice, updatedCart });
     }
   } catch (error) {
-    logger.error({  message:"update cart failed", error });
+    logger.error({ message: "update cart failed", error });
   }
 };
 
-const deleteCart = async function(req, res){
+const deleteCart = async function (req, res) {
   try {
-    const newDeletedCart = await userHelper.cartDelete(req.session.userid, req.params.id)
-    res.redirect('/cart')
-  } catch (error) {
-    
-  }
-}
+    const newDeletedCart = await userHelper.cartDelete(
+      req.session.userid,
+      req.params.id
+    );
+    res.redirect("/cart");
+  } catch (error) {}
+};
 
-const invoice = async function(req, res){
-  const orderId = req.params.id
-  console.log(orderId)
-}
+const invoice = async function (req, res) {
+  const orderId = req.params.id;
+  console.log(orderId);
+};
 
-const wishlist = async function(req, res){
-  const userId = req.session.userid
-  const wishlistItems = await userHelper.getWishlist(userId)
-  res.render('user/wishlist', {items: wishlistItems})
-}
+const wishlist = async function (req, res) {
+  const userId = req.session.userid;
+  const wishlistItems = await userHelper.getWishlist(userId);
+  let isUser = true;
+  res.render("user/wishlist", { items: wishlistItems, isUser: isUser });
+};
 
-const addWishlist = async function(req, res){
-  const proId = req.params.id;
-  const userId = req.session.userid
-  const addedWishlist = await userHelper.wishlistAdd(userId, proId)
-  
-}
-
-const deleteWishlist = async function(req, res){
+const addWishlist = async function (req, res) {
   const proId = req.params.id;
   const userId = req.session.userid;
-  const deletedWishlist = await userHelper.wishlistDelete(userId, proId)
-  console.log(deletedWishlist)
-  res.redirect('/user/wishlist')
-}
+  const addedWishlist = await userHelper.wishlistAdd(userId, proId);
+};
+
+const deleteWishlist = async function (req, res) {
+  const proId = req.params.id;
+  const userId = req.session.userid;
+  const deletedWishlist = await userHelper.wishlistDelete(userId, proId);
+  console.log(deletedWishlist);
+  res.redirect("/user/wishlist");
+};
 
 const logout = async function (req, res) {
   req.session.destroy();
@@ -298,6 +305,7 @@ module.exports = {
   userRegister,
   googleLogin,
   callbackUrl,
+  fbCallback,
   user_dashboard,
   user_profile_edit,
   editUser,

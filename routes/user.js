@@ -23,6 +23,7 @@ const {
   delete_address,
   googleLogin,
   callbackUrl,
+  fbCallback,
   invoice,
   wishlist,
   addWishlist,
@@ -39,6 +40,8 @@ router.get("/login", userLogin);
 router.post("/user_signin", user_signin);
 router.get("/register", userRegister);
 router.post("/user_registration", user_registration);
+
+//google authentication
 router.get(
   "/auth/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
@@ -48,6 +51,15 @@ router.get(
   passport.authenticate("google", { failureRedirect: "/login" }),
   callbackUrl
 );
+
+//facebook authentication
+router.get("/login/federated/facebook", passport.authenticate("facebook"));
+router.get(
+  "/auth/facebook/callback",
+  passport.authenticate("facebook", { failureRedirect: "/login" }),
+  fbCallback
+);
+
 router.get("/add_cart");
 router.get("/cart", checkAuth, cart);
 router.get("/addToCart/:id", checkAuth, addToCart);
@@ -65,7 +77,7 @@ router.get("/user/delete_address/:id", delete_address);
 router.get("/user/invoice/:id", checkAuth, invoice);
 router.get("/user/wishlist", checkAuth, wishlist);
 router.get("/user/addWishlist/:id", checkAuth, addWishlist);
-router.get("/deleteWishlistProduct/:id", checkAuth, deleteWishlist)
+router.get("/deleteWishlistProduct/:id", checkAuth, deleteWishlist);
 router.get("/logout", logout);
 
 module.exports = router;
