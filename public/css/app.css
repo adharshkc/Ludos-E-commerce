@@ -6950,9 +6950,9 @@ input::-ms-clear {
 }
 
 .shop-p__meta-wrap {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 12px 20px rgb(147 147 147);
   padding: 20px;
-  border-radius: 0.625rem;
+  border-radius: 0.825rem;
 }
 
 .shop-p__meta-text-1 {
@@ -8725,7 +8725,7 @@ input::-ms-clear {
 20.4 jquery.scrollUp
 --------------------------------------------------------------*/
 /* ScrollUp Custom */
-#topScroll {
+/* #topScroll {
   right: 24px;
   bottom: 60px;
   width: 50px;
@@ -8736,7 +8736,7 @@ input::-ms-clear {
   color: #333333;
   font-size: 18px;
   text-align: center;
-}
+} */
 
 /*--------------------------------------------------------------
 20.5 Slick Carousel

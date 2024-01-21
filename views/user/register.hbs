@@ -49,6 +49,7 @@
                   method="post"
                   action="/user_registration"
                 >
+                 <p id="errorMessage" style="color: red;"></p>
                   <div class="u-s-m-b-30">
                     <label class="gl-label" for="reg-fname">FIRST NAME *</label>
                     <input
@@ -94,6 +95,12 @@
                       class="btn btn--e-transparent-brand-b-2"
                       type="submit"
                     >CREATE</button></div>
+                      <h6 class="text-center mb-3">OR</h6>
+                  <div class="gl-s-api">
+                    <div class="u-s-m-b-15">
+                      <a href="/auth/google" class="gl-s-api__btn gl-s-api__btn--gplus text-white" type="button"><i class="fab fa-google"></i>
+                      <span>Signin with Google</span></a></div>
+                  </div>
                     <p id="errorMessage" style="color: red;"></p>
                   <p>{{errorMessage}}</p>
                   <a class="gl-link" href="/login">Have an Account?</a>

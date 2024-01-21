@@ -3,11 +3,13 @@ const Cart = require("../models/cart");
 const adminHelper = require("../helpers/admin");
 const productHelper = require("../helpers/product");
 const { logger } = require("../utils/logger");
+const {} = productHelper
 
 /************************************************************GET PRODUCTS PAGE**************************************************** */
 
 const showProduct = async function (req, res) {
   const products = await productHelper.getAllProduct();
+  console.log(products)
   if (req.session.user) {
     let isUser = true;
     res.render("user/products", { products: products, isUser });
@@ -132,10 +134,30 @@ const deleteProduct = async function (req, res) {
 
 const searchProduct = async function (req, res) {
   try {
-    const data = req.query.search;
-    const searchData = await productHelper.productSearch(data)
-    
+    const data = req.body.search;
+    console.log(data)
+    const products = await productHelper.productSearch(data)
+    console.log(products)
+    if(products.length>=1){
+      if (req.session.user) {
+        let isUser = true;
+        res.render("user/products", { products: products, isUser });
+      } else {
+        res.render("user/products", { products: products });
+      }
+    }else{
+      const noProduct = true
+      if(req.session.user){
+        let isUser = true
+        console.log("no product",noProduct);
+        res.render("user/products", { isUser, noProduct });
+
+      }else{
+        res.render("user/products", { noProduct });
+      }
+    }
   } catch (error) {
+    console.log(error)
     logger.error({ message: "error searching product" });
   }
 };

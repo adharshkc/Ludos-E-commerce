@@ -1,4 +1,4 @@
-<header class="header--style-1">
+<header class="header--style-1 mb-5">
 
   <!--====== Nav 1 ======-->
   <nav class="primary-nav primary-nav-wrapper--border">
@@ -15,13 +15,14 @@
         <!--====== End - Main Logo ======-->
 
         <!--====== Search Form ======-->
-        <form class="main-form">
+        <form class="main-form" method="post" action="/user/search">
 
           <label for="main-search"></label>
 
           <input
             class="input-text input-text--border-radius input-text--style-1"
             type="text"
+            name="search"
             id="main-search"
             placeholder="Search"
           />
@@ -29,6 +30,7 @@
           <button
             class="btn btn--icon fas fa-search main-search-button"
             type="submit"
+            style="margin: 1%;"
           ></button></form>
         <!--====== End - Search Form ======-->
 
@@ -99,16 +101,19 @@
                 <!--====== End - Dropdown ======-->
               </li>
 
-              <li data-tooltip="tooltip" data-placement="left" title="Contact">
+              <li>
 
-                <a href="tel:+0900901904"><i
-                    class="fas fa-phone-volume"
-                  ></i></a></li>
-              <li data-tooltip="tooltip" data-placement="left" title="Mail">
+                <a href="/user/wishlist"><i class="far fa-heart"></i></a></li>
+                   <li class="has-dropdown">
 
-                <a href="mailto:contact@domain.com"><i
-                    class="far fa-envelope"
-                  ></i></a></li>
+                <a class="mini-cart-shop-link" href="/cart"><i
+                    class="fas fa-shopping-bag"
+                  ></i>
+                  {{!-- <span class="total-item-round"></span> --}}
+
+                  <span class="total-item-roun"></span></a>
+
+              </li>
             </ul>
             <!--====== End - List ======-->
           </div>
@@ -122,7 +127,7 @@
   <!--====== End - Nav 1 ======-->
 
   <!--====== Nav 2 ======-->
-  <nav class="secondary-nav-wrapper">
+  {{!-- <nav class="secondary-nav-wrapper">
     <div class="container">
 
       <!--====== Secondary Nav ======-->
@@ -177,19 +182,8 @@
             <!--====== List ======-->
             <ul class="ah-list ah-list--design1 ah-list--link-color-secondary">
 
-              <li>
-
-                <a href="/user/wishlist"><i class="far fa-heart"></i></a></li>
-              <li class="has-dropdown">
-
-                <a class="mini-cart-shop-link" href="/cart"><i
-                    class="fas fa-shopping-bag"
-                  ></i>
-                  {{!-- <span class="total-item-round"></span> --}}
-
-                  <span class="total-item-roun"></span></a>
-
-              </li>
+              
+             
             </ul>
             <!--====== End - List ======-->
           </div>
@@ -199,7 +193,7 @@
       </div>
       <!--====== End - Secondary Nav ======-->
     </div>
-  </nav>
+  </nav> --}}
   <!--====== End - Nav 2 ======-->
 </header>
 

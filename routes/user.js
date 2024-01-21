@@ -29,7 +29,6 @@ const {
   addWishlist,
   deleteWishlist,
 } = require("../controller/user");
-// const { cart } = require("../controller/order");
 const { checkAuth } = require("../middlewares/auth");
 const passport = require("passport");
 
@@ -40,26 +39,6 @@ router.get("/login", userLogin);
 router.post("/user_signin", user_signin);
 router.get("/register", userRegister);
 router.post("/user_registration", user_registration);
-
-//google authentication
-router.get(
-  "/auth/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
-router.get(
-  "/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "/login" }),
-  callbackUrl
-);
-
-//facebook authentication
-router.get("/login/federated/facebook", passport.authenticate("facebook"));
-router.get(
-  "/auth/facebook/callback",
-  passport.authenticate("facebook", { failureRedirect: "/login" }),
-  fbCallback
-);
-
 router.get("/add_cart");
 router.get("/cart", checkAuth, cart);
 router.get("/addToCart/:id", checkAuth, addToCart);
@@ -80,4 +59,21 @@ router.get("/user/addWishlist/:id", checkAuth, addWishlist);
 router.get("/deleteWishlistProduct/:id", checkAuth, deleteWishlist);
 router.get("/logout", logout);
 
+//google authentication
+router.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+router.get(
+  "/auth/google/callback",
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  callbackUrl
+);
+//facebook authentication
+router.get("/login/federated/facebook", passport.authenticate("facebook"));
+router.get(
+  "/auth/facebook/callback",
+  passport.authenticate("facebook", { failureRedirect: "/login" }),
+  fbCallback
+);
 module.exports = router;

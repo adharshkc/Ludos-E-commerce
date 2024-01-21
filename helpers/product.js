@@ -28,7 +28,7 @@ module.exports = {
   productSearch: async function (data) {
     const result = await Products.find({
       name: { $regex: `^${data}`, $options: "i" },
-    });
+    }).lean();
     return result;
   },
 };

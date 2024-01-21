@@ -5,6 +5,7 @@ const Cart = require("../models/cart");
 const { logger } = require("../utils/logger");
 const userHelper = require("../helpers/user");
 const passport = require("passport");
+const {} = userHelper
 
 const home = async function (req, res) {
   if (req.session.user) {
@@ -292,6 +293,8 @@ const deleteWishlist = async function (req, res) {
   console.log(deletedWishlist);
   res.redirect("/user/wishlist");
 };
+
+
 
 const logout = async function (req, res) {
   req.session.destroy();
