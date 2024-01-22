@@ -80,11 +80,9 @@
                       <div class="product-m__add-cart">
                        
                         <a
-                        href="/addToCart/{{this._id}}"
-                          id="myToolTip"
+                          href="/addToCart/{{this._id}}"
+                          id="addToCartButton"
                           class="btn--e-brand custom-hover addToCartButton"
-                          data-toggle="modal"
-                          data-target="#myModal"
                           onMouseOver="this.style.color='#fff'"
                           data-modal-id="#add-to-cart"
                         >add to cart</a></div>
@@ -168,21 +166,31 @@
 
 {{#if isUser}}
 
-<div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-        <div class="modal-header">
-          {{!-- <button type="button" class="close" data-dismiss="modal">&times;</button> --}}
-          <h4 class="modal-title" style="color: green;"> Item Added To Cart </h4>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
+<div class="toast text-bg-success" id="myModal" role="alert">
+  <div class="toast-body">
+    <div class="d-flex gap-4">
+      <span><i class="fa-solid fa-circle-check fa-lg"></i></span>
+      <div class="d-flex flex-grow-1 align-items-center">
+        <span class="fw-semibold">Welcome to the room</span>
+        <!-- Other content for the toast -->
       </div>
     </div>
   </div>
+</div>
   {{/if}}
 
+
+<script>
+   document.getElementById('addToCartButton').addEventListener('click', function() {
+    // Show the toast
+    document.getElementById('myModal').style.display = 'block';
+
+    // Hide the toast after a certain duration (e.g., 3 seconds)
+    setTimeout(function() {
+      document.getElementById('myModal').style.display = 'none';
+    }, 3000);
+  });
+</script>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>

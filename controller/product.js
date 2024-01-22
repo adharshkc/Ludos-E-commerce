@@ -9,7 +9,6 @@ const {} = productHelper
 
 const showProduct = async function (req, res) {
   const products = await productHelper.getAllProduct();
-  console.log(products)
   if (req.session.user) {
     let isUser = true;
     res.render("user/products", { products: products, isUser });
