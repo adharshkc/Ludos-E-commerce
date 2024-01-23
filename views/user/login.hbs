@@ -1,108 +1,3 @@
-{{!-- {{> header}} --}}
-
-<div class="app-content" style="background: #DDD;">
-
-  <!--====== Section 1 ======-->
-  <div class="u-s-p-y-1">
-
-    <!--====== Section Content ======-->
-  <!--====== End - Section 1 ======-->
-
-  <!--====== Section 2 ======-->
-  <div class="u-s-p-t-30 ">
-
-    <!--====== Section Intro ======-->
-    <div class="section__intro u-s-m-b-10">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="section__text-wrap">
-              
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--====== End - Section Intro ======-->
-
-    <!--====== Section Content ======-->
-    <div class="section__content">
-      <div class="container">
-        <div class="row row--center">
-          <div class="col-lg-6 col-md-8 u-s-m-b-30" style="
-    border-radius: 8px;
-    background: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-">
-            <div class="l-f-o">
-              <div class="l-f-o__pad-box">
-                <h1 class="section__heading u-c-secondary">LOGIN</h1>
-                {{!-- <div class="u-s-m-b-15">
-                  <a
-                    class="l-f-o__create-link btn--e-transparent-brand-b-2"
-                    href="/register"
-                  >CREATE AN ACCOUNT</a></div> --}}
-                  </div>
-                {{!-- <h1 class="gl-h1 font-weight-bold">SIGNIN</h1> --}}
-
-               
-                {{!-- <form class="l-f-o__form" method="post" action="/user_signin">
-
-                  <div class="u-s-m-b-30">
-
-                    <label class="gl-label" for="login-email">E-MAIL *</label>
-
-                    <input
-                      class="input-text input-text--primary-style text-dark"
-                      type="text"
-                      id="login-email"
-                      name="email"
-                      placeholder="Enter E-mail"
-                    /></div>
-                  <div class="u-s-m-b-30">
-
-                    <label class="gl-label" for="login-password">PASSWORD *</label>
-
-                    <input
-                      class="input-text input-text--primary-style"
-                      type="password"
-                      id="login-password"
-                      name="password"
-                      placeholder="Enter Password"
-                    /></div>
-                  <div class="gl-inline">
-                    <div class="u-s-m-b-30">
-
-                      <button
-                        class="btn btn-dark"
-                        style="color: #ffffff;"
-                        type="submit"
-                      >LOGIN</button></div>
-                  </div>
-                    <h6 class="text-center mb-3">OR</h6>
-                  <div class="gl-s-api">
-                    <div class="u-s-m-b-15">
-                      <a href="/login/federated/facebook" class="gl-s-api__btn gl-s-api__btn--fb text-white" type="button"><i class="fab fa-facebook-f"></i>
-                        <span>Signin with Facebook</span></a></div>
-                    <div class="u-s-m-b-15">
-                      <a href="/auth/google" class="gl-s-api__btn gl-s-api__btn--gplus text-white" type="button"><i class="fab fa-google"></i>
-                      <span>Signin with Google</span></a></div>
-                  </div>
-                   <a class="gl-link" href="/login">New Customer?</a>
-                      <h4 class="text-danger">{{errorMessage}}</h4>
-                </form> --}}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--====== End - Section Content ======-->
-  </div>
-  <!--====== End - Section 2 ======-->
-</div>
-
-{{!-- {{> footer}} --}}
 <style>
   @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500);
 *:focus {
@@ -112,7 +7,8 @@
 body {
   margin: 0;
   padding: 0;
-  background: #DDD;
+  background: rgb(2,0,36);
+background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(2,89,89,1) 29%, rgba(9,96,121,1) 68%, rgba(22,115,134,1) 100%);
   font-size: 16px;
   color: #222;
   font-family: 'Roboto', sans-serif;
@@ -266,9 +162,115 @@ button.social-signin.google {
   background: #DD4B39;
 }
 </style>
+{{!-- {{> header}} --}}
+
+<div class="app-content" style="background: rgb(2,0,36);
+background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(2,89,89,1) 29%, rgba(9,96,121,1) 68%, rgba(22,115,134,1) 100%);">
+
+  <!--====== Section 1 ======-->
+  {{!-- <div class="u-s-p-y-1"> --}}
+
+    <!--====== Section Content ======-->
+  <!--====== End - Section 1 ======-->
+
+  <!--====== Section 2 ======-->
+  {{!-- <div class="u-s-p-t-30 "> --}}
+
+    <!--====== Section Intro ======-->
+    {{!-- <div class="section__intro u-s-m-b-10">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="section__text-wrap">
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> --}}
+    <!--====== End - Section Intro ======-->
+
+    <!--====== Section Content ======-->
+    {{!-- <div class="section__content"> --}}
+      {{!-- <div class="container"> --}}
+        {{!-- <div class="row row--center"> --}}
+          {{!-- <div class="col-lg-6 col-md-8 u-s-m-b-30" style="
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+"> --}}
+            {{!-- <div class="l-f-o"> --}}
+              {{!-- <div class="l-f-o__pad-box"> --}}
+                {{!-- <h1 class="section__heading u-c-secondary">LOGIN</h1> --}}
+                {{!-- <div class="u-s-m-b-15">
+                  <a
+                    class="l-f-o__create-link btn--e-transparent-brand-b-2"
+                    href="/register"
+                  >CREATE AN ACCOUNT</a></div> --}}
+                  {{!-- </div> --}}
+                {{!-- <h1 class="gl-h1 font-weight-bold">SIGNIN</h1> --}}
+
+               
+                {{!-- <form class="l-f-o__form" method="post" action="/user_signin">
+
+                  <div class="u-s-m-b-30">
+
+                    <label class="gl-label" for="login-email">E-MAIL *</label>
+
+                    <input
+                      class="input-text input-text--primary-style text-dark"
+                      type="text"
+                      id="login-email"
+                      name="email"
+                      placeholder="Enter E-mail"
+                    /></div>
+                  <div class="u-s-m-b-30">
+
+                    <label class="gl-label" for="login-password">PASSWORD *</label>
+
+                    <input
+                      class="input-text input-text--primary-style"
+                      type="password"
+                      id="login-password"
+                      name="password"
+                      placeholder="Enter Password"
+                    /></div>
+                  <div class="gl-inline">
+                    <div class="u-s-m-b-30">
+
+                      <button
+                        class="btn btn-dark"
+                        style="color: #ffffff;"
+                        type="submit"
+                      >LOGIN</button></div>
+                  </div>
+                    <h6 class="text-center mb-3">OR</h6>
+                  <div class="gl-s-api">
+                    <div class="u-s-m-b-15">
+                      <a href="/login/federated/facebook" class="gl-s-api__btn gl-s-api__btn--fb text-white" type="button"><i class="fab fa-facebook-f"></i>
+                        <span>Signin with Facebook</span></a></div>
+                    <div class="u-s-m-b-15">
+                      <a href="/auth/google" class="gl-s-api__btn gl-s-api__btn--gplus text-white" type="button"><i class="fab fa-google"></i>
+                      <span>Signin with Google</span></a></div>
+                  </div>
+                   <a class="gl-link" href="/login">New Customer?</a>
+                      <h4 class="text-danger">{{errorMessage}}</h4>
+                </form> --}}
+              {{!-- </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--====== End - Section Content ======--> --}}
+  {{!-- </div> --}}
+  <!--====== End - Section 2 ======-->
+{{!-- </div> --}}
+
+{{!-- {{> footer}} --}}
 <div id="login-box">
   <div class="left">
-    <h1>LOGIN</h1>
+     <h1 class="section__heading u-c-secondary">LOGIN</h1>
     <form method="post" action="/user_signin">
 
     <input type="text" name="email" placeholder="E-mail" />
@@ -276,7 +278,7 @@ button.social-signin.google {
     
     <button type="submit" name="signup_submit" value="Sign me up" style="margin-bottom: 10%;" />Login</button>
     </form>
-    <a style="color: rgb(0, 0, 0); margin-top: 2%; font-weight: 400;" href="/login">New Customer?</a>
+    <a style="color: rgb(3, 86, 3); margin-top: 2%; font-weight: 400;" href="/login">New Customer?</a>
     <h4 class="text-danger">{{errorMessage}}</h4>
     
   </div>
