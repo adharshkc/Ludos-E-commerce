@@ -60,7 +60,6 @@ app.use(express.static(__dirname + "/public"));
 app.set("views", path.join(__dirname, "views"));
 app.use("/images", express.static(path.join(__dirname, "/images")));
 app.set("view engine", "hbs");
-app.use(morgan("tiny"))
 
 // connectDb();
 app.use("/", adminRouter);
