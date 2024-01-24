@@ -73,14 +73,14 @@ app.use((req, res, next)=>{
   error.satus = 404
   next(error)
 })
-app.use((err, req, res, next)=>{
-  res.status(err.status || 500)
-  res.render('user/error', {
-    message: err.message,
-    error: app.get('env') === 'development' ? err : {}
-  });
+// app.use((err, req, res, next)=>{
+//   res.status(err.status || 500)
+//   res.render('user/error', {
+//     message: err.message,
+//     error: app.get('env') === 'development' ? err : {}
+//   });
 
-})
+// })
 
 
 app.listen(port, () =>

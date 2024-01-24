@@ -22,7 +22,7 @@ module.exports = {
       category: category,
       price: price,
       countInStock: countInStock,
-      image: `/images/${fileName}`,
+      image: `/public/image/${fileName}`,
     });
     return productAdd
   },

@@ -65,7 +65,7 @@ const singleProduct = async function (req, res) {
 
 const addProduct = async function (req, res) {
   console.log(req.body.image);
-  const { upload } = require("../helpers/multer");
+  const { upload } = require("../middlewares/multer");
   const uploadMiddleware = upload();
 
   uploadMiddleware(req, res, async (err) => {

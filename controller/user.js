@@ -5,14 +5,16 @@ const Cart = require("../models/cart");
 const { logger } = require("../utils/logger");
 const userHelper = require("../helpers/user");
 const passport = require("passport");
+const productHelper = require('../helpers/product')
 const {} = userHelper
 
 const home = async function (req, res) {
+  const products = await productHelper.getAllProduct();
   if (req.session.user) {
     let isUser = true;
-    res.render("user/index", { layout: "../layouts/layout", isUser });
+    res.render("user/index", { layout: "../layouts/layout", isUser, products });
   } else {
-    res.render("user/index", { layout: "../layouts/layout" });
+    res.render("user/index", { layout: "../layouts/layout", products });
   }
 };
 
@@ -68,7 +70,7 @@ const user_registration = async function (req, res) {
   const user = await userHelper.findUser(email);
   if (user) {
     logger.info("user already exists");
-    res.render("user/register", { errorMessage: "user already exists" });
+    res.render("user/register", { errorMessage: "user already exists, kindly login" });
   } else {
     const newUser = await userHelper.registerUser(req.body);
     if (newUser) {
