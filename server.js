@@ -4,7 +4,6 @@ const hbs = require("express-handlebars");
 const path = require("path");
 const session = require("express-session");
 const MongoDBStore = require('connect-mongodb-session')(session);
-const morgan = require("morgan")
 const bodyParser = require('body-parser')
 const passport = require("passport");
 
