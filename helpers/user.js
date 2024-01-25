@@ -232,6 +232,7 @@ module.exports = {
       {wishlist: user.wishlist}
 
     )
+    return wishlist;
   },
 
   wishlistDelete : async function(userId, proId){

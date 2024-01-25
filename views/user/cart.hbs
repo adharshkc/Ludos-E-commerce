@@ -230,12 +230,14 @@
         count: count
       },
       method: 'post',
-      success: (respose)=>{
-        if(respose.updatedCart && response.updatedCart.length == 0){
+      success: function(response){
+        if(response.updatedCart && response.updatedCart.length == 0){
+          
           
         }else{
-        $('#subTotal').text('₹ '+respose.totalPrice)
-        $('#grandTotal').text('₹ '+respose.totalPrice)
+          console.log(response.totalPrice)
+        $('#subTotal').text('₹ '+response.totalPrice)
+        $('#grandTotal').text('₹ '+response.totalPrice)
 
         }
 
