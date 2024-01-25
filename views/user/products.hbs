@@ -1,4 +1,14 @@
+<style>
+  .toast-top {
+    position: fixed;
+    top: 10px; /* Adjust this value as per your preference */
+    right: 10px; /* Adjust this value as per your preference */
+    z-index: 1050; /* Ensure it's above other content */
+}
+</style>
+
 {{> header}}
+
 <div class="app-content">
 
   <!--====== Section 1 ======-->
@@ -164,6 +174,7 @@
   <!--====== End - Section 1 ======-->
 </div>
 
+
 {{#if isUser}}
 
 <div class="toast text-bg-success" id="myModal" role="alert">
@@ -207,7 +218,13 @@
         type: 'GET',
         url: addToCartUrl,
         success: function(response) {
-         
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Item added to Wishlist",
+            showConfirmButton: false,
+            timer: 1500
+          });
         },
         error: function(error) {
           console.error('Error adding item to cart:', error);
@@ -226,8 +243,15 @@ $(document).ready(function(){
       $.ajax({
         type: 'GET',
         url: addToWishlistUrl,
-        success: function(respose){
-          
+        success: function(response){
+          console.log(response)
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Item added to Wishlist",
+            showConfirmButton: false,
+            timer: 1500
+          });
         }
       })
     })

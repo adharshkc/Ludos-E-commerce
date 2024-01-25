@@ -49,6 +49,7 @@ const user_signin = async function (req, res, next) {
         req.session.user = true;
         req.session.userid = user._id;
         req.session.email = user.email;
+        req.session.isVerified = user.isVerified;
         res.redirect("/");
       }
     });
@@ -77,6 +78,7 @@ const user_registration = async function (req, res) {
       req.session.user = true;
       req.session.userid = newUser._id;
       req.session.email = newUser.email;
+      req.session.isVerified = newUser.isVerified;
       res.redirect("/");
     } else {
       res.render("user/register", { errroMessage: "error creating user" });
@@ -286,6 +288,7 @@ const addWishlist = async function (req, res) {
   const proId = req.params.id;
   const userId = req.session.userid;
   const addedWishlist = await userHelper.wishlistAdd(userId, proId);
+  res.json({addedWishlist})
 };
 
 const deleteWishlist = async function (req, res) {
