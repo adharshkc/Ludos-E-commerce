@@ -170,6 +170,7 @@ const orders = async function (req, res) {
   let isUser = true;
   let orders = await orderHelper.getOrder(userId); 
   orders = orders.reverse()
+  console.log(orders)
   res.render("user/orders", { orders, isUser });
 };
 
