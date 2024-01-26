@@ -1,4 +1,4 @@
-<style>
+{{! <style>
   @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500);
   *:focus { outline: none; } body { margin: 0; padding: 0; background:
   rgb(2,0,36); background: linear-gradient(90deg, rgba(2,0,36,1) 0%,
@@ -37,10 +37,10 @@
   button.social-signin.facebook { background: #32508E; }
   button.social-signin.twitter { background: #55ACEE; }
   button.social-signin.google { background: #DD4B39; }
-</style>
+</style> }}
 {{!-- {{> header}} --}}
 
-<div class="container mt-5">
+{{!-- <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-md-8">
       <div id="login-box" class="d-flex">
@@ -77,6 +77,115 @@
         </div>
         <div class="or">OR</div>
       </div>
+    </div>
+  </div>
+</div> --}}
+
+<style>
+  body{
+background: #c9ccd1; 
+}
+.form-style input{
+	border:0;
+	height:50px;
+	border-radius:0;
+  color: #000000;
+border-bottom:1px solid #ebebeb;	
+}
+.form-style input:focus{
+border-bottom:1px solid #007bff;	
+box-shadow:none;
+outline:0;
+color: #000000;
+background-color:#ebebeb;	
+}
+.sideline {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+	color:#000000;
+}
+button{
+height:50px;	
+}
+.sideline:before,
+.sideline:after {
+    content: '';
+    border-top: 1px solid #ebebeb;
+    margin: 0 20px 0 0;
+    flex: 1 0 20px;
+}
+
+.sideline:after {
+    margin: 0 0 0 20px;
+}
+</style>
+
+<script src="https://use.fontawesome.com/f59bcd8580.js"></script>
+<div class="container">
+  <div class="row m-5 no-gutters shadow-lg">
+    <div class="col-md-6 d-none d-md-block">
+      <img
+        src="https://images.unsplash.com/photo-1566888596782-c7f41cc184c5?ixlib=rb-1.2.1&auto=format&fit=crop&w=2134&q=80"
+        class="img-fluid"
+        style="min-height:100%;"
+      />
+    </div>
+    <div class="col-md-6 bg-white p-5">
+      <h2 class="pb-3 fw-bolder">Login</h2>
+      <div class="form-style">
+        <form method="post" action="/user_signin">
+          <div class="form-group pb-3">
+            <input
+              type="email"
+              placeholder="Email"
+              name="email"
+              class="form-control"
+              id="exampleInputEmail1"
+              aria-describedby="emailHelp"
+            />
+          </div>
+          <div class="form-group pb-3">
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              class="form-control"
+              id="exampleInputPassword1"
+            />
+          </div>
+          <div class="pb-2">
+            <button
+              type="submit"
+              class="btn btn-dark w-100 font-weight-bold mt-2"
+            >Submit</button>
+          </div>
+        </form>
+        <div class="sideline">OR</div>
+        <div>
+          <a href="/auth/google">
+          <button
+            type="submit"
+            class="btn btn-primary w-100 font-weight-bold mt-2" style="background-color: #DB4437; border: none;"
+          ><i class="ti ti-brand-google"></i>
+            Login With Google</button>
+          </a>
+          <a href="/login/federated/facebook">
+          <button
+            type="submit"
+            class="btn btn-primary w-100 font-weight-bold mt-2" style="background-color: #316FF6;"
+          ><i class="ti ti-brand-meta"></i>
+            Login With Facebook</button>
+          </a>
+        </div>
+        <div class="pt-4 text-center text-dark">
+          New User?
+          <a href="/register" style="color: blue;">Sign Up</a>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
