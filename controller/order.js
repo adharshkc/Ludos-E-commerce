@@ -9,88 +9,6 @@ const userHelper = require("../helpers/user");
 
 /*************************************************CART*************************************************************/
 
-// const addToCart = async function (req, res) {
-//   const userId = req.session.userid;
-//   cart.addItemsToCart(req.session.userid, req.params.id);
-
-//   res.redirect("/products");
-// };
-
-// const   addProductToCart = async function (req, res) {
-//   cart.addItemsToCart(req.session.userid, req.params.id).then(() => {
-//     res.redirect("/cart");
-//   });
-// };
-
-// const getCart = async function (req, res) {
-//   if (req.session.user) {
-//     const userId = req.session.userid;
-//     let isUser = true;
-//     const cart = await Cart.findOne({ user: userId })
-//       .populate("items.product")
-//       .lean();
-//     if (cart) {
-//       let totalPrice = 0;
-//       for (const item of cart.items) {
-//         totalPrice += item.quantity * item.product.price;
-//       }
-//       console.log(totalPrice);
-//       res.render("user/cart", {
-//         layout: "../layouts/layout",
-//         isUser,
-//         cart: cart,
-//         totalPrice,
-//       });
-//     }
-//   }
-// };
-
-// const deleteCart = async function (req, res) {
-//   const userId = req.session.userid;
-//   cart.deleteCartProduct(userId, req.params.id).then(() => {
-//     res.redirect("/cart");
-//   });
-// };
-
-// const updateCart = async function (req, res) {
-//   const { proId, count } = req.body;
-//   const userId = req.session.userid;
-
-//   try {
-//     const cart = await Cart.findOne({ user: userId });
-
-//     if (!cart) {
-//       return res.status(404).json({ message: "Cart not found" });
-//     }
-
-//     const result = await Cart.updateOne(
-//       { user: userId, "items.product": proId },
-//       { $inc: { "items.$.quantity": count } },
-//       {
-//         $set: {
-//           totalPrice: {
-//             $reduce: {
-//               input: "$items",
-//               initialValue: 0,
-//               in: {
-//                 $add: [
-//                   "$$value",
-//                   { $multiply: ["$$this.product.price", "$$this.quantity"] },
-//                 ],
-//               },
-//             },
-//           },
-//         },
-//       }
-//     );
-
-//     console.log("Cart updated successfully");
-//     return res.status(200).json({ message: "Cart updated successfully", cart });
-//   } catch (error) {
-//     return res.status(500).json({ message: "Internal server error", error });
-//   }
-// };
-
 const adminOrders = async function (req, res) {
   const orders = await orderHelper.getAllOrder()
   // console.log(orders.user.name)
@@ -147,7 +65,6 @@ const postCheckout = async function (req, res) {
         );
         const updateCoupon = await orderHelper.updateCoupon(req.body.couponId,userId)
         res.json(newOrder);
-        // console.log(newOrder.payment.paymentType)
       } else if (req.body.payment == "razorPay") {
         const statuses = {
           orderStatus: "pending",

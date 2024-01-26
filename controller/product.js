@@ -1,5 +1,4 @@
-const Products = require("../models/product");
-const Cart = require("../models/cart");
+  const Products = require("../models/product");
 const adminHelper = require("../helpers/admin");
 const productHelper = require("../helpers/product");
 const { logger } = require("../utils/logger");
@@ -30,36 +29,6 @@ const singleProduct = async function (req, res) {
     res.render("user/product", { product });
   }
 };
-
-// const postProduct = async function(req, res){
-//   const cart = await Cart.findOne({ user: req.session.userid }); // Find the user's cart
-
-// if (cart) {
-//   const existingItemIndex = cart.items.findIndex(item => item.product.toString() === req.params.id);
-
-//   if (existingItemIndex !== -1) {
-//     await Cart.updateOne(
-//       { user: req.session.userid, 'items.product': req.params.id },
-//       { $inc: { 'items.$.quantity': 1 } }
-//     );
-//   } else {
-
-//     await Cart.updateOne(
-//       { user: req.session.userid },
-//       { $push: { items: { product: req.params.id, quantity: 1 } } }
-//     );
-//   }
-// } else {
-
-//  const cart = await Cart.create({
-//     user: req.session.userid,
-//     items: [{ product: req.params.id, quantity: 1 }],
-
-//   });
-// }
-
-//   res.redirect("/cart")
-// }
 
 /************************************************************POST ADMIN ADD PRODUCT**************************************************** */
 

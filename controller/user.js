@@ -1,7 +1,6 @@
 const express = require("express");
 const { User } = require("../models/user");
 const Products = require("../models/product");
-const Cart = require("../models/cart");
 const { logger } = require("../utils/logger");
 const userHelper = require("../helpers/user");
 const passport = require("passport");

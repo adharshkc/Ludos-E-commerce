@@ -53,7 +53,7 @@ module.exports = {
 
   dailyOrderAmount: async function(){
     const today = new Date();
-    today.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0 for the start of the day
+    today.setHours(0, 0, 0, 0); 
 
     const result = await Order.aggregate([
       {

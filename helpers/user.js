@@ -37,9 +37,6 @@ module.exports = {
       return newUser;
     }
   },
-  // findUserAndAdress: async function(userData){
-  //   const userAddress = await User.findOne({email})
-  // },
   editUser: async function (userData, id) {
     const { name, phone } = userData;
     const user = await User.findByIdAndUpdate(
