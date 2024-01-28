@@ -1,11 +1,11 @@
-const express = require("express");
-const { User } = require("../models/user");
 const Products = require("../models/product");
 const { logger } = require("../utils/logger");
 const userHelper = require("../helpers/user");
 const passport = require("passport");
-const productHelper = require('../helpers/product')
-const {} = userHelper
+const productHelper = require("../helpers/product");
+const {} = userHelper;
+const transporter = require("../middlewares/mailer");
+const { generateToken, verifyToken } = require("../middlewares/token");
 
 const home = async function (req, res) {
   const products = await productHelper.getAllProduct();
@@ -57,7 +57,6 @@ const user_signin = async function (req, res, next) {
 
 const userRegister = function (req, res) {
   if (req.session.user) {
-    let isUser = true;
     res.redirect("/");
   } else if (req.session.admin) {
     res.redirect("/admin");
@@ -68,20 +67,54 @@ const userRegister = function (req, res) {
 const user_registration = async function (req, res) {
   const email = req.body.email;
   const user = await userHelper.findUser(email);
-  if (user) {
+  if (user&&user.isVerified == true) {
     logger.info("user already exists");
-    res.render("user/register", { errorMessage: "user already exists, kindly login" });
+    res.render("user/register", {
+      errorMessage: "user already exists, kindly login",
+    });
   } else {
-    const newUser = await userHelper.registerUser(req.body);
-    if (newUser) {
-      req.session.user = true;
-      req.session.userid = newUser._id;
-      req.session.email = newUser.email;
-      req.session.isVerified = newUser.isVerified;
-      res.redirect("/");
-    } else {
-      res.render("user/register", { errroMessage: "error creating user" });
-    }
+    const token = generateToken(email);
+    const verificationUrl = `http://localhost:3000/verify-email?token=${token}`;
+    const mailOption = {
+      from: "adharshkc2017@gmail.com",
+      to: email,
+      subject: "Ludos Shopping Verification Email",
+      html: `<h3>Click <a href="${verificationUrl}">Verify Email</a> to verify your email.</h3>`,
+    };
+    transporter.sendMail(mailOption, async (error, info) => {
+      if (error) logger.error({ message: `error sending mail ${error}` });
+      const newUser = await userHelper.registerUser(req.body);
+      logger.info("email sent");
+      res.redirect('/verify')
+    });
+  }
+};
+
+const verify = function(req, res){
+  if(req.session.user){
+    res.redirect('/')
+  }else{
+    res.render('user/verify')
+
+  }
+}
+
+const verifyEmail = async function (req, res) {
+  const token = req.query.token;
+  const decoded = verifyToken(token);
+  if (!decoded) {
+    return res.status(401).json({ error: "Invalid token" });
+  }
+  const email = decoded.email;
+  const verifyUser = await userHelper.updateUserStatus(email);
+  if (verifyUser) {
+    req.session.user = true;
+    req.session.userid = verifyUser._id;
+    req.session.email = verifyUser.email;
+    req.session.isVerified = verifyUser.isVerified;
+    res.redirect("/");
+  } else {
+    logger.error({ message: "invalid token" });
   }
 };
 
@@ -287,7 +320,7 @@ const addWishlist = async function (req, res) {
   const proId = req.params.id;
   const userId = req.session.userid;
   const addedWishlist = await userHelper.wishlistAdd(userId, proId);
-  res.json({addedWishlist})
+  res.json({ addedWishlist });
 };
 
 const deleteWishlist = async function (req, res) {
@@ -297,8 +330,6 @@ const deleteWishlist = async function (req, res) {
   console.log(deletedWishlist);
   res.redirect("/user/wishlist");
 };
-
-
 
 const logout = async function (req, res) {
   req.session.destroy();
@@ -310,6 +341,8 @@ module.exports = {
   user_signin,
   user_registration,
   userRegister,
+  verifyEmail,
+  verify,
   googleLogin,
   callbackUrl,
   fbCallback,

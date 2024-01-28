@@ -66,18 +66,18 @@ app.use("/", adminRouter);
 app.use("/", orderRouter);
 app.use("/", productRouter);
 app.use("/", userRouter);
-app.use((req, res, next) => {
-  const error = new Error("Not found");
-  error.satus = 404;
-  next(error);
-});
-app.use((err, req, res, next) => {
-  res.status(err.status || 500);
-  res.render("user/error", {
-    message: err.message,
-    error: app.get("env") === "development" ? err : {},
-  });
-});
+// app.use((req, res, next) => {
+//   const error = new Error("Not found");
+//   error.satus = 404;
+//   next(error);
+// });
+// app.use((err, req, res, next) => {
+//   res.status(err.status || 500);
+//   res.render("user/error", {
+//     message: err.message,
+//     error: app.get("env") === "development" ? err : {},
+//   });
+// });
 
 app.listen(port, () =>
   console.log(`Alpha E-comm app listening on port ${port}!`)

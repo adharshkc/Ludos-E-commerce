@@ -78,7 +78,10 @@ height:50px;
           </div>
           <div class="form-group pb-3">
             <input
-              type="text" name="phone" placeholder="Phone" id="phone"
+              type="tel"
+              name="phone" 
+              placeholder="Phone" 
+              id="phone"
               class="form-control"
               aria-describedby="emailHelp"
             />
@@ -89,7 +92,7 @@ height:50px;
               name="password"
               placeholder="Password"
               class="form-control"
-              id="exampleInputPassword1"
+              id="password"
             />
           </div>
           <div class="pb-2">
@@ -118,7 +121,7 @@ height:50px;
         </div>
         <div class="pt-4 text-center text-dark">
           Have an Account?
-          <a href="/login" style="color: blue;">Sign Up</a>
+          <a href="/login" style="color: blue;">Sign In</a>
         </div>
       </div>
 
@@ -159,7 +162,8 @@ height:50px;
 
       // Validate Phone Number
       var phone = $("#phone").val();
-      if (phone.length !== 10 || isNaN(phone)) {
+      console.log(phone)
+      if (phone.length != 10 || isNaN(phone)) {
         errorMessageElement.text("Phone number should be 10 characters and only numeric.");
         event.preventDefault();
         return;

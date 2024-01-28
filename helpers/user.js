@@ -33,6 +33,7 @@ module.exports = {
         email: email,
         password: password,
         phone: phone,
+        isVerified: false,
       });
       return newUser;
     }
@@ -45,6 +46,15 @@ module.exports = {
       { new: true }
     );
     if (user) return user;
+  },
+
+  updateUserStatus: async function(email){
+    const result = await User.findOneAndUpdate(
+      {email: email},
+      {$set: {isVerified: true}},
+      {new: true}
+    )
+    return result
   },
 
   /**************************************************************ADDRESS SECTION**********************************************************/
