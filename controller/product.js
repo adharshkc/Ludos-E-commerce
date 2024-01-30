@@ -33,7 +33,7 @@ const singleProduct = async function (req, res) {
 /************************************************************POST ADMIN ADD PRODUCT**************************************************** */
 
 const addProduct = async function (req, res) {
-  console.log(req.body.image);
+  console.log("image : "+req.body.image);
   const { upload } = require("../middlewares/multer");
   const uploadMiddleware = upload();
 
