@@ -12,9 +12,11 @@ const orderRouter = require("./routes/order");
 const productRouter = require("./routes/product");
 const userRouter = require("./routes/user");
 const connectDb = require("./config/db/config");
+const {error, errorHandling} = require("./middlewares/error")
 require("./config/passport-config/localStrategy");
 require("./config/passport-config/googleAuth");
 require("./config/passport-config/facebookAuth");
+
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -66,18 +68,8 @@ app.use("/", adminRouter);
 app.use("/", orderRouter);
 app.use("/", productRouter);
 app.use("/", userRouter);
-app.use((req, res, next) => {
-  const error = new Error("Not found");
-  error.satus = 404;
-  next(error);
-});
-app.use((err, req, res, next) => {
-  res.status(err.status || 500);
-  res.render("user/error", {
-    message: err.message,
-    error: app.get("env") === "development" ? err : {},
-  });
-});
+app.use(error)
+app.use(errorHandling)
 
 app.listen(port, () =>
   console.log(`Alpha E-comm app listening on port ${port}!`)
