@@ -6,17 +6,16 @@ const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
 const bodyParser = require("body-parser");
 const passport = require("passport");
-
 const adminRouter = require("./routes/admin");
 const orderRouter = require("./routes/order");
 const productRouter = require("./routes/product");
 const userRouter = require("./routes/user");
 const connectDb = require("./config/db/config");
-const {error, errorHandling} = require("./middlewares/error")
+const {error, errorHandling} = require("./middlewares/error");
+const clearCache = require("./middlewares/cache")
 require("./config/passport-config/localStrategy");
 require("./config/passport-config/googleAuth");
 require("./config/passport-config/facebookAuth");
-
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -24,13 +23,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 
 //header cache remove
-
-app.use((req, res, next) => {
-  res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
-  res.header("Expires", "-1");
-  res.header("Pragma", "no-cache");
-  next();
-});
+app.use(clearCache)
 
 //session
 app.use(
@@ -44,7 +37,6 @@ app.use(
 );
 
 app.use(passport.initialize());
-//passport session
 app.use(passport.session());
 
 //handlebars
@@ -63,7 +55,6 @@ app.set("views", path.join(__dirname, "views"));
 app.use("/images", express.static(path.join(__dirname, "/images")));
 app.set("view engine", "hbs");
 
-// connectDb();
 app.use("/", adminRouter);
 app.use("/", orderRouter);
 app.use("/", productRouter);
