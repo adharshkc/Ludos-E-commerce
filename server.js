@@ -39,7 +39,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-//handlebars
 app.engine(
   "hbs",
   hbs.engine({
@@ -62,6 +61,4 @@ app.use("/", userRouter);
 app.use(error)
 app.use(errorHandling)
 
-app.listen(port, () =>
-  console.log(`Alpha E-comm app listening on port ${port}!`)
-);
+app.listen(port);
