@@ -24,7 +24,6 @@ const userSchema = mongoose.Schema(
     },
     email: {
       type: String,
-      // required: [true, "Please enter your email"],
       minLength: [3, "please enter a valid email"],
       maxLength: [64, "Please enter a valid email"],
       trim: true,
@@ -32,7 +31,6 @@ const userSchema = mongoose.Schema(
     },
     password: {
       type: String,
-      // required: [true, "Please enter your password"],
       minLength: [4, "Password should be greater than 4 characters"],
       trim: true,
     },
@@ -42,7 +40,6 @@ const userSchema = mongoose.Schema(
     phone: {
       type: Number,
       trim: true,
-      // required: true,
       maxLength: [10, "invalid phone number"],
     },
     status: {
@@ -63,7 +60,6 @@ const userSchema = mongoose.Schema(
         },
         quantity: {
           type: Number,
-          // required: true,
           default: 1,
         },
       },
