@@ -11,7 +11,6 @@ const userHelper = require("../helpers/user");
 
 const adminOrders = async function (req, res) {
   const orders = await orderHelper.getAllOrder()
-  // console.log(orders.user.name)
   res.render("admin/orders", { orders: orders });
 };
 
@@ -171,7 +170,6 @@ const orders = async function (req, res) {
   let isUser = true;
   let orders = await orderHelper.getOrder(userId); 
   orders = orders.reverse()
-  console.log(orders[0].products)
   res.render("user/orders", { orders: orders, isUser });
 };
 
@@ -185,7 +183,7 @@ const singleOrder = async function (req, res) {
 };
 
 const deleteOrder = async function(req, res){
-  const deletedOrder = await orderHelper.deleteOrder(req.params.id)
+  const deletedOrder = await orderHelper.cancelOrder(req.params.id)
   res.redirect("/admin/orders")
 }
 

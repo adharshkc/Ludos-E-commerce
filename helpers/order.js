@@ -23,7 +23,7 @@ module.exports = {
     const orders = await Order.find().populate("userid").lean();
     orders.forEach((order) => {
       if (order.userid && order.userid.name) {
-        console.log(order.userid.name);
+        
       }
     });
     return orders;
@@ -172,8 +172,51 @@ module.exports = {
     }
   },
 
-  deleteOrder: async function(orderId){
-    const order=await Order.findByIdAndDelete(orderId)
-    return order;
+  cancelOrder: async function(orderId){
+    const updateOrder = await Order.findByIdAndUpdate(
+      orderId,
+      {
+        $set: {
+          status: 'cancelled',
+        },
+      },
+      { new: true }
+    );
+    return updateOrder
+  },
+  shipmentUpdate : async function(orderId){
+    const updateOrder = await Order.findByIdAndUpdate(
+      orderId,
+      {
+        $set: {
+          status: 'shipped',
+        },
+      },
+      { new: true }
+    );
+    return updateOrder
+  },
+  deliveryStatus : async function(orderId){
+    const updateOrder = await Order.findByIdAndUpdate(
+      orderId,
+      {
+        $set: {
+          status: 'delivered',
+        },
+      },
+      { new: true }
+    );
+    return updateOrder
+  },
+
+  filterOrder: async function(lower, higher){
+    const orders = await Order.find(
+      {
+        totalPrice: {$gt: lower, $lt: higher}
+      }
+    ).populate('userid').lean()
+    console.log(orders)
+    return orders;
   }
+
 };
