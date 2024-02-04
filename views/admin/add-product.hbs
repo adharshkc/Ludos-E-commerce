@@ -82,6 +82,21 @@
                   <div class="form-floating mb-3">
                     <input
                       class="form-control"
+                      id="description"
+                      name="description"
+                      type="text"
+                      placeholder="Description"
+                      data-sb-validations="required"
+                    />
+                    <label for="price">Description</label>
+                    <div
+                      class="invalid-feedback"
+                      data-sb-feedback="description:required"
+                    >Description is required.</div>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input
+                      class="form-control"
                       id="inStock"
                       name="countInStock"
                       type="text"

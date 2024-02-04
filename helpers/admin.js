@@ -15,11 +15,12 @@ module.exports = {
   },
 
   addProduct: async function (body, fileName) {
-    const { name, brand, category, price, countInStock } = body;
+    const { name, brand, category, price,description, countInStock } = body;
     const productAdd = await Product.create({
       name: name,
       brand: brand,
       category: category,
+      description: description,
       price: price,
       countInStock: countInStock,
       image: `/public/image/${fileName}`,

@@ -26,6 +26,7 @@ const getCheckout = async function (req, res) {
     const totalPrice = user.totalPrice;
     const address = user.cart.address[0];
     if(coupon.length<1){
+      if(totalPrice<500)res.render("user/checkout", {isUser, user: user, totalPrice, message: "cannot order below ₹500"})
       res.render("user/checkout", {isUser, user: user, totalPrice, address})
     }else{
       //  coupon = coupon[0]
