@@ -35,7 +35,7 @@ const singleProduct = async function (req, res) {
 const addProduct = async function (req, res) {
   console.log("image : "+req.body.image);
   const { upload } = require("../middlewares/multer");
-  const uploadMiddleware = upload();
+  const uploadMiddleware = upload().array('images', 5);
 
   uploadMiddleware(req, res, async (err) => {
     if (err) {
@@ -43,8 +43,8 @@ const addProduct = async function (req, res) {
       return res.status(500).send("Error uploading file.");
     }
 
-    const fileName = req.file.filename;
-    const addedProduct = await adminHelper.addProduct(req.body, fileName);
+    const fileNames = req.file.map(file=>file.filename);
+    const addedProduct = await adminHelper.addProduct(req.body, fileNames);
     if (addedProduct) {
       res.redirect("/admin/products");
     }
