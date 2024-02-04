@@ -14,7 +14,7 @@ module.exports = {
     });
   },
 
-  addProduct: async function (body, fileName) {
+  addProduct: async function (body, fileNames) {
     const { name, brand, category, price,description, countInStock } = body;
     const productAdd = await Product.create({
       name: name,
@@ -23,7 +23,7 @@ module.exports = {
       description: description,
       price: price,
       countInStock: countInStock,
-      image: `/public/image/${fileName}`,
+      image: fileNames.map(fileName => `/public/image/${fileName}`),
     });
     return productAdd
   },

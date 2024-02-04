@@ -11148,7 +11148,7 @@ template {
 
 .slick-slide {
     float: left;
-    height: 100%;
+    height: 70%;
     min-height: 1px;
     display: none
 }

@@ -13,16 +13,10 @@
             <ul class="pd-breadcrumb__list">
               <li class="has-separator">
 
-                <a href="index.hml">Home</a></li>
-              <li class="has-separator">
-
-                <a href="shop-side-version-2.html">Electronics</a></li>
-              <li class="has-separator">
-
-                <a href="shop-side-version-2.html">{{product.category}}</a></li>
+                <a href="/">Home</a></li>
               <li class="is-marked">
 
-                <a href="shop-side-version-2.html">{{product.name}}</a></li>
+                <a href="">{{product.name}}</a></li>
             </ul>
           </div>
           <!--====== End - Product Breadcrumb ======-->
@@ -42,6 +36,17 @@
                     data-zoom-image="{{product.image}}"
                     alt=""
                   /></div>
+                  <div class="pd-o-img-wrap" data-src="{{product.image}}">
+                      <img class="u-img-fluid" src="{{product.image}}" data-zoom-image="{{product.image}} " alt=""></div>
+                    <div class="pd-o-img-wrap" data-src="{{product.image}}">
+
+                      <img class="u-img-fluid" src="{{product.image}}" data-zoom-image="{{product.image}}" alt=""></div>
+                    <div class="pd-o-img-wrap" data-src="{{product.image}}">
+
+                      <img class="u-img-fluid" src="{{product.image}}" data-zoom-image="{{product.image}}" alt=""></div>
+                    <div class="pd-o-img-wrap" data-src="{{product.image}}">
+
+                      <img class="u-img-fluid" src="{{product.image}}" data-zoom-image="{{product.image}}" alt=""></div>
               </div>
 
               <span class="pd-text">Click for larger zoom</span>
@@ -49,7 +54,21 @@
             <div class="u-s-m-t-15">
               <div class="slider-fouc">
                 <div id="pd-o-thumbnail">
+                   <div>
 
+                                                <img class="u-img-fluid" src="{{product.image}}" alt=""></div>
+                                            <div>
+
+                                                <img class="u-img-fluid" src="{{product.image}}" alt=""></div>
+                                            <div>
+
+                                                <img class="u-img-fluid" src="{{product.image}}" alt=""></div>
+                                            <div>
+
+                                                <img class="u-img-fluid" src="{{product.image}}" alt=""></div>
+                                            <div>
+
+                                                <img class="u-img-fluid" src="{{product.image}}" alt=""></div>
                 </div>
               </div>
             </div>
@@ -86,9 +105,7 @@
             <div class="u-s-m-b-15">
               <div class="pd-detail__inline">
 
-                <span class="pd-detail__stock">{{product.countInStock}} in stock</span>
-
-                {{!-- <span class="pd-detail__left">Only 2 left</span></div> --}}
+                <span class="pd-detail__stock">{{product.countInStock}} left</span>
             </div>
             <div class="u-s-m-b-15">
 
