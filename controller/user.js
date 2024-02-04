@@ -73,6 +73,7 @@ const user_registration = async function (req, res) {
       errorMessage: "user already exists, kindly login",
     });
   } else {
+    
     const token = generateToken(email);
     const verificationUrl = `http://localhost:3000/verify-email?token=${token}`;
     const mailOption = {
@@ -102,12 +103,23 @@ const verify = function(req, res){
 const verifyEmail = async function (req, res) {
   const token = req.query.token;
   const decoded = verifyToken(token);
+  console.log("db tokken");
+  const dbToken = await userHelper.findToken(token)
   if (!decoded) {
+    console.log(" tokken");
     return res.status(401).json({ error: "Invalid token" });
   }
+  if(dbToken){
+    res.render('user/error')
+  }
   const email = decoded.email;
+  
+  console.log(email)
   const verifyUser = await userHelper.updateUserStatus(email);
   if (verifyUser) {
+    console.log("db token");
+    const addedToken = await userHelper.addToken(token)
+    console.log(addedToken)
     req.session.user = true;
     req.session.userid = verifyUser._id;
     req.session.email = verifyUser.email;

@@ -1,6 +1,7 @@
 const passport = require("passport");
 const { User, Address } = require("../models/user");
 const { logger } = require("../utils/logger");
+const Token = require('../models/token')
 
 module.exports = {
   /**************************************************************AUTH SECTION**********************************************************/
@@ -38,6 +39,18 @@ module.exports = {
       return newUser;
     }
   },
+
+  addToken: async function(token){
+    const tokenAdd =  await Token.create({token})
+    console.log("this ",tokenAdd)
+    return tokenAdd
+  },
+
+  findToken: async function(token){
+    const dbToken = await Token.findOne({token: token})
+    return dbToken;
+  },
+
   editUser: async function (userData, id) {
     const { name, phone } = userData;
     const user = await User.findByIdAndUpdate(
