@@ -42,7 +42,6 @@ module.exports = {
 
   addToken: async function(token){
     const tokenAdd =  await Token.create({token})
-    console.log("this ",tokenAdd)
     return tokenAdd
   },
 
@@ -92,7 +91,10 @@ module.exports = {
       logger.error("error adding address");
     }
   },
-
+  getUserAddress: async function(userid){
+    const user = await User.findById(userid);
+    return user.address
+  },
   getAddress: async function (userId, addressId) {
     const userAddress = await User.findOne(
       { _id: userId, "address._id": addressId },

@@ -136,7 +136,6 @@ module.exports = {
   /*****************************************************************COUPONS**************************************************************/
   getCoupon: async function (price) {
     const coupons = await Coupons.find().lean();
-    console.log(coupons)
     const matchCoupon = coupons.filter(coupon => {
       if(price>=coupon.totalPrice){
         let x = coupon
@@ -144,7 +143,6 @@ module.exports = {
       }
     });
     
-    console.log(matchCoupon)
     // console.log(typeof couponPrices)
      return matchCoupon;
   },

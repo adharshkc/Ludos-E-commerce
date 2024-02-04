@@ -103,23 +103,17 @@ const verify = function(req, res){
 const verifyEmail = async function (req, res) {
   const token = req.query.token;
   const decoded = verifyToken(token);
-  console.log("db tokken");
   const dbToken = await userHelper.findToken(token)
   if (!decoded) {
-    console.log(" tokken");
     return res.status(401).json({ error: "Invalid token" });
   }
   if(dbToken){
     res.render('user/error')
   }
   const email = decoded.email;
-  
-  console.log(email)
   const verifyUser = await userHelper.updateUserStatus(email);
   if (verifyUser) {
-    console.log("db token");
     const addedToken = await userHelper.addToken(token)
-    console.log(addedToken)
     req.session.user = true;
     req.session.userid = verifyUser._id;
     req.session.email = verifyUser.email;
@@ -197,6 +191,16 @@ const editUser = async function (req, res) {
   } catch (error) {}
 };
 
+const getAddress = async function(req,res){
+  try {
+    const userid = req.session.userid;
+    const addressess = await userHelper.getUserAddress(userid)
+    res.json({addressess})
+  } catch (error) {
+    logger.error({message: error})
+  }
+}
+
 const add_address = async function (req, res) {
   try {
     const email = req.session.email;
@@ -204,7 +208,7 @@ const add_address = async function (req, res) {
     let isUser = true;
     res.render("user/add-address", { user, isUser });
   } catch (error) {
-    logger.error({ message: err });
+    logger.error({ message: error });
   }
 };
 
@@ -293,7 +297,6 @@ const updateCart = async function (req, res) {
   try {
     let { proId, count } = req.body;
     count = parseInt(count);
-    console.log(count);
     const userId = req.session.userid;
     const updatedCart = await userHelper.updateCart(proId, count, userId);
     if (updatedCart) {
@@ -364,6 +367,7 @@ module.exports = {
   addAddress,
   add_address,
   edit_address,
+  getAddress,
   editAddress,
   delete_address,
   cart,
