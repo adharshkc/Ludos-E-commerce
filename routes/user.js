@@ -21,6 +21,7 @@ const {
   addAddress,
   editAddress,
   delete_address,
+  getAddress,
   googleLogin,
   callbackUrl,
   fbCallback,
@@ -53,6 +54,7 @@ router.get("/user/profile", checkAuth, user_dashboard);
 router.get("/user/edit_profile", checkAuth, user_profile_edit);
 router.post("/user/editUser", checkAuth, editUser);
 router.get("/user/add_address", checkAuth, add_address);
+router.put("/user/getAddress", checkAuth, getAddress)
 router.post("/user/addAddress", checkAuth, addAddress);
 router.get("/user/edit_address/:id", checkAuth, edit_address);
 router.post("/user/editAddress/:id", checkAuth, editAddress);
