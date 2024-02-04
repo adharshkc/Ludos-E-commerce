@@ -9,7 +9,8 @@ const getUsers = async function (req, res) {
 
 const admin = async function (req, res) {
   const orders = await orderHelper.getAllOrder();
-  const sortedOrder = orders.reverse();
+  const reversedOrder = orders.reverse();
+  const sortedOrder = reversedOrder.slice(0,10)
   const result = await adminHelper.totalAmount();
   const daily = await adminHelper.dailyOrderAmount();
   const totalAmount = result[0].totalAmount;
@@ -24,7 +25,7 @@ const admin = async function (req, res) {
     const dailyAmount = daily[0].totalAmount;
 
     res.render("admin/index", {
-      orders: orders,
+      orders: sortedOrder,
       totalAmount: totalAmount,
       dailyAmount: dailyAmount,
     });
@@ -51,11 +52,32 @@ const addCoupon = async function (req, res) {
   const addedCoupon = adminHelper.addCoupon(req.body);
 };
 
+const shipped = async function(req, res){
+  const updatedOrder = await orderHelper.shipmentUpdate(req.params.id)
+  res.redirect('/admin/orders')
+}
+
+const delivered = async function(req, res){
+  const updatedOrder = await orderHelper.deliveryStatus(req.params.id)
+  res.redirect('/admin/orders')
+}
+
+const filterOrder = async function(req, res){
+  const lowerValue = req.query.l;
+  const higherValue = req.query.h;
+  const filteredOrder = await orderHelper.filterOrder(lowerValue, higherValue)
+  console.log(filteredOrder)
+  res.render('admin/orders', {orders: filteredOrder})
+}
+
 module.exports = {
   admin,
   getUsers,
   // editUser,
   deleteUser,
   getAddCoupon,
+  shipped,
+  delivered,
   addCoupon,
+  filterOrder
 };

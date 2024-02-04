@@ -247,12 +247,14 @@
                   </div>
                 </div>
                 <div class="route-box__g1">
-
+                  <p>{{message}}</p>
+                  {{#if message}}
                 <a class="route-box__link" href="/products"><i
                     class="fas fa-long-arrow-alt-left"
                   ></i>
 
                   <span>CONTINUE SHOPPING</span></a></div>
+                  {{else}}
             </div>
                 <div class="o-summary__section u-s-m-b-30">
                   <div class="o-summary__box">
@@ -328,6 +330,7 @@
                           ORDER</button></div>
                   </div>
                 </div>
+                {{/if}}
               </div>
               <!--====== End - Order Summary ======-->
             </div>
