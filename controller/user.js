@@ -3,7 +3,7 @@ const { logger } = require("../utils/logger");
 const userHelper = require("../helpers/user");
 const passport = require("passport");
 const productHelper = require("../helpers/product");
-const {} = userHelper;
+const bcrypt = require('bcrypt');
 const transporter = require("../middlewares/mailer");
 const { generateToken, verifyToken } = require("../middlewares/token");
 
@@ -201,6 +201,19 @@ const getAddress = async function(req,res){
   }
 }
 
+const resetPassword = async function(req, res){
+  let isUser = true;
+  res.render('user/reset-password',{isUser})
+}
+
+const passwordReset = async function(req, res){
+  let password = req.body.password;
+  const salt = await bcrypt.genSalt(10)
+  password = await bcrypt.hash(password, salt)
+  console.log(password)
+  const resetPass = await userHelper.passReset(password, req.session.userid)
+}
+
 const add_address = async function (req, res) {
   try {
     const email = req.session.email;
@@ -364,6 +377,8 @@ module.exports = {
   user_dashboard,
   user_profile_edit,
   editUser,
+  passwordReset,
+  resetPassword,
   addAddress,
   add_address,
   edit_address,
