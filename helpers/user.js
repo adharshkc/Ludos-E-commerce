@@ -75,7 +75,6 @@ module.exports = {
       {$set: {password: password}},
       {new: true}
     )
-    console.log(result)
     return result
   },
 
@@ -116,7 +115,6 @@ module.exports = {
   },
 
   editAddress: async function (userId, addressId, address) {
-    console.log(address);
     const updatedAddress = await Address.findByIdAndUpdate(
       addressId,
       {
@@ -135,7 +133,6 @@ module.exports = {
       { $set: { "address.$": updatedAddress } },
       { new: true }
     );
-    console.log(user);
   },
 
   deleteAddress: async function (userId, addressId) {
@@ -171,7 +168,7 @@ module.exports = {
   addItemsToCart: async function (userId, proId) {
     const user = await User.findOne({ _id: userId });
     if (!user) {
-      console.log("user not found");
+      logger.log({message: "user not found"})
     }
     const existingItemIndex = user.cart.findIndex(
       (cartItem) => cartItem.product_id.toString() == proId
@@ -219,10 +216,7 @@ module.exports = {
   },
   cartDelete: async function (userId, proId) {
     try {
-      console.log(userId);
-      console.log("deleted ");
       const cart = await User.findOne({ _id: userId });
-      console.log(cart);
       if (cart) {
         const deletedCart = await User.updateOne(
           { _id: userId },
@@ -231,22 +225,20 @@ module.exports = {
         );
         return deletedCart;
       } else {
-        console.log("cart not found");
+        logger.log({message: "cart not found"})
       }
     } catch (error) {}
   },
   deleteCartAfterOrder: async function(userId){
     try {
-      console.log(userId)
       const cart = await User.findOneAndUpdate(
         { _id: userId },
         { $unset: { cart: 1 } },
         { new: true },
       );
-      console.log(cart)
       return cart
     } catch (error) {
-      console.log(error)
+      logger.error({message: "error deleting cart"})
     }
   },
 
@@ -274,7 +266,6 @@ module.exports = {
       {new: true}
       )
       const user = await User.findOne({_id: userId})
-    console.log(user)
     return delWishlist;
   }
 };

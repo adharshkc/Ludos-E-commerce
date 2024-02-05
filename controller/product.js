@@ -20,7 +20,6 @@ const showProduct = async function (req, res) {
 
 const singleProduct = async function (req, res) {
   const productId = req.params.id;
-  // console.log(productId)
   const product = await productHelper.getProduct(productId);
   if (req.session.user) {
     let isUser = true;
@@ -33,7 +32,6 @@ const singleProduct = async function (req, res) {
 /************************************************************POST ADMIN ADD PRODUCT**************************************************** */
 
 const addProduct = async function (req, res) {
-  console.log("image : "+req.body.image);
   const { upload } = require("../middlewares/multer");
   const uploadMiddleware = upload().array('images', 5);
 
@@ -87,9 +85,7 @@ const editProduct = async function (req, res) {
 /************************************************************POST ADMIN DELETE PRODUCTS**************************************************** */
 
 const deleteProduct = async function (req, res) {
-  console.log("delete");
   try {
-    console.log(req.params.id);
     const deletedProduct = await productHelper.deleteProduct(req.params.id);
     if (deletedProduct) {
       res.redirect("/admin/products");
@@ -103,9 +99,7 @@ const deleteProduct = async function (req, res) {
 const searchProduct = async function (req, res) {
   try {
     const data = req.body.search;
-    console.log(data)
     const products = await productHelper.productSearch(data)
-    console.log(products)
     if(products.length>=1){
       if (req.session.user) {
         let isUser = true;
@@ -117,7 +111,6 @@ const searchProduct = async function (req, res) {
       const noProduct = true
       if(req.session.user){
         let isUser = true
-        console.log("no product",noProduct);
         res.render("user/products", { isUser, noProduct });
 
       }else{
@@ -125,7 +118,6 @@ const searchProduct = async function (req, res) {
       }
     }
   } catch (error) {
-    console.log(error)
     logger.error({ message: "error searching product" });
   }
 };

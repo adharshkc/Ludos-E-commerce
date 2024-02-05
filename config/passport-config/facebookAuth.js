@@ -10,7 +10,6 @@ passport.use(
     state: true
   },
  async function(accessToken, refreshToken, profile, done){
-    console.log(profile)
     const userEmail = profile.emails;
     const user = await User.findOne({email: userEmail})
     if(user){

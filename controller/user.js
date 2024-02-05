@@ -125,12 +125,10 @@ const verifyEmail = async function (req, res) {
 };
 
 const googleLogin = function () {
-  console.log("get");
   passport.authenticate("google", { scope: ["profile", "email"] });
 };
 
 const callbackUrl = async function (req, res) {
-  console.log(req.user);
   if (req.user) {
     const user = await userHelper.findUser(req.user.email);
     if (user) {
@@ -210,7 +208,6 @@ const passwordReset = async function(req, res){
   let password = req.body.password;
   const salt = await bcrypt.genSalt(10)
   password = await bcrypt.hash(password, salt)
-  console.log(password)
   const resetPass = await userHelper.passReset(password, req.session.userid)
 }
 
@@ -289,13 +286,11 @@ const cart = async function (req, res) {
 const addToCart = async function (req, res) {
   const userId = req.session.userid;
   const cart = await userHelper.addItemsToCart(userId, req.params.id);
-  console.log(cart);
   res.json({ cart });
 };
 
 const addProductToCart = async function (req, res) {
   try {
-    console.log("hitting cart");
     const userId = req.session.userid;
     const cart = await userHelper.addItemsToCart(userId, req.params.id);
     if (cart) {
@@ -314,7 +309,6 @@ const updateCart = async function (req, res) {
     const updatedCart = await userHelper.updateCart(proId, count, userId);
     if (updatedCart) {
       const totalPrice = await userHelper.getCart(userId);
-      console.log(totalPrice.totalPrice);
       res.json({ totalPrice: totalPrice.totalPrice, updatedCart });
     }
   } catch (error) {
@@ -334,7 +328,6 @@ const deleteCart = async function (req, res) {
 
 const invoice = async function (req, res) {
   const orderId = req.params.id;
-  console.log(orderId);
 };
 
 const wishlist = async function (req, res) {
@@ -355,7 +348,6 @@ const deleteWishlist = async function (req, res) {
   const proId = req.params.id;
   const userId = req.session.userid;
   const deletedWishlist = await userHelper.wishlistDelete(userId, proId);
-  console.log(deletedWishlist);
   res.redirect("/user/wishlist");
 };
 

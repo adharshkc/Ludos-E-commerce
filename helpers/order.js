@@ -38,8 +38,6 @@ module.exports = {
     });
 
     const proName = await Product.findOne({ _id: names });
-    console.log(proName);
-    console.log(names);
     return order;
   },
 
@@ -72,21 +70,16 @@ module.exports = {
       });
       if (order.payment.paymentType == "COD") {
         try {
-          console.log(userId);
           const updatedCart = await userHelper.deleteCartAfterOrder(userId);
-          console.log("updated");
-          console.log(updatedCart);
           return order;
         } catch (error) {
-          console.log(error);
+          logger.log({message: "order failed"})
         }
-
-        // console.log(updatedCart)
       } else {
         return order;
       }
     } catch (error) {
-      console.log(error);
+      logger.log(error)
     }
   },
 
@@ -100,21 +93,19 @@ module.exports = {
         };
         instance.orders.create(options, function (err, order) {
           if (err) {
-            console.log(err);
+            logger.log(err)
           } else {
-            console.log(order);
             resolve(order);
           }
         });
       } catch (err) {
-        console.log(err);
+        logger.log(err)
         reject(err);
       }
     });
   },
 
   updateOrder: async function (Id, statuses, userId, orderId) {
-    console.log(statuses.orderStatus);
     const updatedOrder = await Order.findByIdAndUpdate(
       Id,
       {
@@ -142,8 +133,6 @@ module.exports = {
         return x
       }
     });
-    
-    // console.log(typeof couponPrices)
      return matchCoupon;
   },
 
@@ -165,8 +154,6 @@ module.exports = {
         },
         { new: true }
       );
-
-      console.log(updatedCoupon);
     } catch (error) {
       logger.error({ message: "error updating coupon" + error.message });
     }
@@ -215,7 +202,6 @@ module.exports = {
         totalPrice: {$gt: lower, $lt: higher}
       }
     ).populate('userid').lean()
-    console.log(orders)
     return orders;
   }
 

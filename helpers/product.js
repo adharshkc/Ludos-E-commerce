@@ -12,11 +12,9 @@ module.exports = {
   },
 
   editProduct: async function (proId, body) {
-    console.log(body);
     const editProduct = await Products.findByIdAndUpdate(proId, body, {
       new: true,
     });
-    console.log(editProduct);
     return editProduct;
   },
 
