@@ -18,7 +18,6 @@ if (process.env.NODE_ENV === 'production') {
     format: combine(
       timestamp({ format: "HH:mm:ss" }),
       myFormat,
-      // format.colorize(),
       format.json(),
 
     ),

@@ -10,7 +10,6 @@ passport.use(
       callbackURL: process.env.GOOGLE_CB_URL,
     },
     async function (accessToken, refreshToken, profile, done) {
-      console.log(profile.emails[0].value);
       const userEmail = profile.emails[0].value;
       const user = await User.findOne({ email: userEmail });
 
@@ -23,7 +22,6 @@ passport.use(
           name: profile.displayName,
           password: defaultPassword
         });
-        console.log(newUser);
         newUser.save();
 
         return done(null, newUser);

@@ -82,7 +82,6 @@ const postCheckout = async function (req, res) {
               order._id,
               order.totalPrice
             );
-            console.log(orderInstance);
             res.json(orderInstance);
           } catch (error) {
             console.log(error);
@@ -97,7 +96,6 @@ const postCheckout = async function (req, res) {
 };
 
 const verifyPayment = async function (req, res) {
-  console.log(req.body);
   const userId = req.session.userid;
   const paymentId = req.body["payment[razorpay_payment_id]"];
   const orderId = req.body["payment[razorpay_order_id]"];
@@ -125,15 +123,13 @@ const verifyPayment = async function (req, res) {
         userId,
         orderId
       );
-      console.log("Payment successful");
-      // console.log(updatedOrder);
       return res.json({ status: true });
     } catch (err) {
       console.error(err);
       return res.status(500).json({ status: "Payment failed" });
     }
   } else {
-    console.log("Payment failed: Signatures don't match");
+    logger.log("payment failed: signatures does not match")
     return res
       .status(403)
       .json({ status: "Payment failed: Signatures do not match" });
@@ -150,15 +146,12 @@ const failed = async function (req, res) {
 
 const postCoupon = async function(req, res){
   const userId = req.session.userid
-  console.log(userId)
   const couponCode = req.body.couponId
   const coupon = await orderHelper.showCoupon(couponCode)
-  console.log("COUPON",coupon)
   if(coupon){
     const discount = coupon.discount
     const price = await userHelper.getCart(userId)
     const totalPrice = price.totalPrice - discount
-    console.log(totalPrice)
     res.json({totalPrice, discount})
   }else{
     res.json({message: "error"})
@@ -178,7 +171,6 @@ const singleOrder = async function (req, res) {
 
   const user = await userHelper.findUserById(req.session.userid)
   const order = await orderHelper.getSingleOrder(orderId);
-  // console.log(order.products.product_id.name)
   res.render("user/single-order", {order:order, user: user, isUser: true});
 };
 

@@ -66,7 +66,6 @@ const filterOrder = async function(req, res){
   const lowerValue = req.query.l;
   const higherValue = req.query.h;
   const filteredOrder = await orderHelper.filterOrder(lowerValue, higherValue)
-  console.log(filteredOrder)
   res.render('admin/orders', {orders: filteredOrder})
 }
 

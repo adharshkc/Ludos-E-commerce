@@ -8,7 +8,6 @@ const {
   logout,
   user_dashboard,
   user_profile_edit,
-  checkout,
   edit_address,
   addToCart,
   addProductToCart,
