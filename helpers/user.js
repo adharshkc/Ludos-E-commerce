@@ -1,7 +1,7 @@
 const passport = require("passport");
 const { User, Address } = require("../models/user");
 const { logger } = require("../utils/logger");
-const Token = require('../models/token')
+const Token = require('../models/token');
 
 module.exports = {
   /**************************************************************AUTH SECTION**********************************************************/
@@ -66,6 +66,16 @@ module.exports = {
       {$set: {isVerified: true}},
       {new: true}
     )
+    return result
+  },
+
+  passReset: async function(password, id){
+    const result = await User.findOneAndUpdate(
+      {_id: id},
+      {$set: {password: password}},
+      {new: true}
+    )
+    console.log(result)
     return result
   },
 

@@ -30,6 +30,8 @@ const {
   addWishlist,
   deleteWishlist,
   verifyEmail,
+  resetPassword,
+  passwordReset,
   verify
 } = require("../controller/user");
 const { checkAuth } = require("../middlewares/auth");
@@ -44,7 +46,8 @@ router.get("/register", userRegister);
 router.post("/user_registration", user_registration);
 router.get('/verify-email', verifyEmail)
 router.get('/verify', verify)
-router.get("/add_cart");
+router.get('/user/resetPassword', checkAuth, resetPassword)
+router.post('/reset-password', checkAuth, passwordReset)
 router.get("/cart", checkAuth, cart);
 router.get("/addToCart/:id", checkAuth, addToCart);
 router.get("/addProductToCart/:id", checkAuth, addProductToCart);
