@@ -21,11 +21,9 @@ const app = express();
 const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(bodyParser.json());
-
-//header cache remove
 app.use(clearCache)
-
-//session
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -35,9 +33,6 @@ app.use(
     store: new MongoDBStore({ mongooseConnection: connectDb }),
   })
 );
-
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.engine(
   "hbs",
