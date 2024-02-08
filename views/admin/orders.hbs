@@ -32,16 +32,20 @@
                     class="dropdown-menu"
                     aria-labelledby="dropdownMenuButton"
                   >
-                    <a class="dropdown-item " href="/admin/filter/?l=0&h=20000">
-                      Less than ₹20000</a>
+                    <a class="dropdown-item " href="/admin/filterDate/today">
+                      Today</a>
                     <a
                       class="dropdown-item "
-                      href="/admin/filter/?l=20000&h=30000"
-                    > ₹20000 </a>
+                      href="/admin/filterDate/week"
+                    > This week </a>
                     <a
                       class="dropdown-item " 
-                      href="/admin/filter/?l=30000&h=100000"
-                    > More than ₹30000</a>
+                      href="/admin/filterDate/month"
+                    > This month</a>
+                    <a
+                      class="dropdown-item"
+                      href="/admin/orders"
+                    > All</a>
                   </div>
                 </div>
                 <div class="dropdown float-right pl-2">
@@ -64,6 +68,10 @@
                       class="dropdown-item"
                       href="/admin/filter/razorPay"
                     > Online</a>
+                    <a
+                      class="dropdown-item"
+                      href="/admin/orders"
+                    > All</a>
                   </div>
                 </div>
                 <div class="dropdown float-right pl-2">
@@ -93,10 +101,15 @@
                       class="dropdown-item price"
                       href="/admin/filter/?l=30000&h=100000"
                     > More than ₹30000</a>
+                    <a
+                      class="dropdown-item price"
+                      href="/admin/orders"
+                    >All</a>
                   </div>
                 </div>
                 {{! <h5 class="card-title fw-semibold mb-4">Recent Transactions</h5> }}
                 <div class="table-responsive">
+                {{#if orders.length}}
                   <table class="table text-nowrap mb-0 align-middle">
                     <thead class="text-dark fs-4">
                       <tr>
@@ -188,6 +201,9 @@
                       </tbody>
                     {{/each}}
                   </table>
+                {{else}}
+                <h4>Order is empty</h4>
+                {{/if}}
                 </div>
               </div>
             </div>

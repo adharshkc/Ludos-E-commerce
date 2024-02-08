@@ -184,9 +184,17 @@ module.exports = {
       {
         "payment.paymentType": payType      
       }
-    ).populate('userid')  .lean()
-    console.log(orders)
+    ).populate('userid').lean()
       return orders;
+  },
+
+  dateFilter: async function(date){
+    const orders = await Order.find({
+      orderedDate: {
+        $gte: date, $lte: new Date(date.getTime() + 24*60*60*1000)
+      }
+    }).populate('userid').lean()
+    return orders;
   }
 
 };

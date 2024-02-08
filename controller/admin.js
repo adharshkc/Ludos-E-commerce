@@ -77,23 +77,42 @@ const filterOrder = async function (req, res) {
   res.render("admin/orders", { orders: filteredOrder });
 };
 
-const filterType = async function(req, res){
+const filterType = async function (req, res) {
   const payType = req.params.type;
-  const filteredOrderType = await orderHelper.filterOrderType(payType)
-  console.log(filteredOrderType)
-  res.render("admin/orders", {orders: filteredOrderType })
-}
+  const filteredOrderType = await orderHelper.filterOrderType(payType);
+  res.render("admin/orders", { orders: filteredOrderType });
+};
+
+const filterDate = async function (req, res) {
+  const date = req.params.date;
+  const today = new Date();
+  today.setHours(0,0,0,0)
+  const startOfWeek = new Date(today);
+  startOfWeek.setDate(today.getDate() - today.getDay());
+  const endOfWeek = new Date(today);
+  endOfWeek.setDate(today.getDate() - today.getDay() + 6);
+  const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+  const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+  if(date == 'today'){
+    const filteredDate = await orderHelper.dateFilter(today)
+    if(filteredDate.length<1){
+      let noOrder;
+      res.render("admin/orders", {orders: noOrder })
+
+    }
+    res.render("admin/orders", {orders: filteredDate})
+  }
+
+};
 
 module.exports = {
   admin,
   getUsers,
   deleteUser,
   getAddCoupon,
-  // shipped,
-  // delivered,
-  // cancelled,
   filterType,
   updateOrder,
   addCoupon,
   filterOrder,
+  filterDate,
 };
