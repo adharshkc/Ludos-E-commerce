@@ -9,10 +9,11 @@ const {
   // shipped,
   // delivered,
   filterOrder,
+  filterType,
   // cancelled
 } = require("../controller/admin");
 
-const {searchProduct} = require('../controller/product')
+const { searchProduct } = require("../controller/product");
 const { checkAuth, checkAdmin } = require("../middlewares/auth");
 
 const router = express.Router();
@@ -23,6 +24,7 @@ router.get("/admin/addCoupon", checkAdmin, getAddCoupon);
 router.post("/admin/PostAddCoupon", checkAdmin, addCoupon);
 router.get("/admin/searchProduct", checkAdmin, searchProduct);
 router.put("/admin/delete_user/:id", checkAdmin, deleteUser);
-router.put("/admin/update-order", checkAdmin, updateOrder)
-router.get('/admin/filter/', checkAdmin, filterOrder)
+router.put("/admin/update-order", checkAdmin, updateOrder);
+router.get("/admin/filter/", checkAdmin, filterOrder);
+router.get("/admin/filter/:type", checkAdmin, filterType);
 module.exports = router;

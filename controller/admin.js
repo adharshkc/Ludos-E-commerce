@@ -77,6 +77,13 @@ const filterOrder = async function (req, res) {
   res.render("admin/orders", { orders: filteredOrder });
 };
 
+const filterType = async function(req, res){
+  const payType = req.params.type;
+  const filteredOrderType = await orderHelper.filterOrderType(payType)
+  console.log(filteredOrderType)
+  res.render("admin/orders", {orders: filteredOrderType })
+}
+
 module.exports = {
   admin,
   getUsers,
@@ -85,6 +92,7 @@ module.exports = {
   // shipped,
   // delivered,
   // cancelled,
+  filterType,
   updateOrder,
   addCoupon,
   filterOrder,

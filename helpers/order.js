@@ -177,6 +177,16 @@ module.exports = {
       }
     ).populate('userid').lean()
     return orders;
+  },
+
+  filterOrderType: async function(payType){
+    const orders = await Order.find(
+      {
+        "payment.paymentType": payType      
+      }
+    ).populate('userid')  .lean()
+    console.log(orders)
+      return orders;
   }
 
 };
