@@ -86,24 +86,31 @@ const filterType = async function (req, res) {
 const filterDate = async function (req, res) {
   const date = req.params.date;
   const today = new Date();
-  today.setHours(0,0,0,0)
+  today.setHours(0, 0, 0, 0);
   const startOfWeek = new Date(today);
   startOfWeek.setDate(today.getDate() - today.getDay());
   const endOfWeek = new Date(today);
   endOfWeek.setDate(today.getDate() - today.getDay() + 6);
   const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
   const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-  if(date == 'today'){
-    const filteredDate = await orderHelper.dateFilter(today)
-    if(filteredDate.length<1){
-      let noOrder;
-      res.render("admin/orders", {orders: noOrder })
-
-    }
-    res.render("admin/orders", {orders: filteredDate})
+  if (date == "today") {
+    let times = new Date(today.getTime()+ 24 * 60 * 60 * 1000)
+    const filteredDate = await orderHelper.dateFilter(today, times);
+    res.render("admin/orders", { orders: filteredDate });
+  }else if(date == 'week'){
+    const filteredDate = await orderHelper.dateFilter(startOfWeek, endOfWeek )
+    res.render("admin/orders", { orders: filteredDate });
+  }else if(date == 'month'){
+    const filteredDate = await orderHelper.dateFilter(startOfMonth, endOfMonth )
+    res.render("admin/orders", { orders: filteredDate });
   }
-
 };
+
+const filterStatus = async function(req, res){
+  const status = req.params.status;
+  const filteredOrderStatus = await orderHelper.filterOrderStatus(status)
+  res.render("admin/orders", {orders: filteredOrderStatus})
+}
 
 module.exports = {
   admin,
@@ -115,4 +122,5 @@ module.exports = {
   addCoupon,
   filterOrder,
   filterDate,
+  filterStatus
 };

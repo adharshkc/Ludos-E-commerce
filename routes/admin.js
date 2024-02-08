@@ -11,6 +11,7 @@ const {
   filterOrder,
   filterType,
   filterDate,
+  filterStatus
   // cancelled
 } = require("../controller/admin");
 
@@ -29,4 +30,5 @@ router.put("/admin/update-order", checkAdmin, updateOrder);
 router.get("/admin/filter/", checkAdmin, filterOrder);
 router.get("/admin/filter/:type", checkAdmin, filterType);
 router.get("/admin/filterDate/:date", checkAdmin, filterDate)
+router.get("/admin/filterStatus/:status", checkAdmin, filterStatus)
 module.exports = router;

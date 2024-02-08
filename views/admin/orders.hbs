@@ -56,6 +56,40 @@
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
+                    Status<i class="ti ti-adjustments"></i>
+                  </button>
+                  <div
+                    class="dropdown-menu"
+                    aria-labelledby="dropdownMenuButton"
+                  >
+                    <a class="dropdown-item " href="/admin/filterStatus/pending">
+                      Pending</a>
+                    <a
+                      class="dropdown-item "
+                      href="/admin/filterStatus/shipped"
+                    > Shipped </a>
+                    <a
+                      class="dropdown-item " 
+                      href="/admin/filterStatus/delivered"
+                    > Delivered</a>
+                    <a
+                      class="dropdown-item"
+                      href="/admin/filterStatus/cancelled"
+                    > Cancelled</a>
+                    <a
+                      class="dropdown-item"
+                      href="/admin/orders"
+                    > All</a>
+                  </div>
+                </div>
+                <div class="dropdown float-right pl-2">
+                  <button
+                    class="btn btn-outline-secondary dropdown-toggle"
+                    type="button"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
                     Payment<i class="ti ti-adjustments"></i>
                   </button>
                   <div
@@ -75,6 +109,8 @@
                   </div>
                 </div>
                 <div class="dropdown float-right pl-2">
+                  <span>Filters:   </span>
+
                   <button
                     class="btn btn-outline-secondary dropdown-toggle"
                     type="button"

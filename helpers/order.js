@@ -188,13 +188,22 @@ module.exports = {
       return orders;
   },
 
-  dateFilter: async function(date){
+  dateFilter: async function(date, endDate){
     const orders = await Order.find({
       orderedDate: {
-        $gte: date, $lte: new Date(date.getTime() + 24*60*60*1000)
+        $gte: date, $lte: endDate
       }
     }).populate('userid').lean()
     return orders;
+  },
+
+  filterOrderStatus: async function(status){
+    const orders = await Order.find(
+      {
+        status: status      
+      }
+    ).populate('userid').lean()
+      return orders;
   }
 
 };
