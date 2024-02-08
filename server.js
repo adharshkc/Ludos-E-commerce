@@ -11,8 +11,8 @@ const orderRouter = require("./routes/order");
 const productRouter = require("./routes/product");
 const userRouter = require("./routes/user");
 const connectDb = require("./config/db/config");
-const {error, errorHandling} = require("./middlewares/error");
-const clearCache = require("./middlewares/cache")
+const { error, errorHandling } = require("./middlewares/error");
+const clearCache = require("./middlewares/cache");
 require("./config/passport-config/localStrategy");
 require("./config/passport-config/googleAuth");
 require("./config/passport-config/facebookAuth");
@@ -21,9 +21,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(bodyParser.json());
-app.use(clearCache)
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(clearCache);
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -33,6 +31,8 @@ app.use(
     store: new MongoDBStore({ mongooseConnection: connectDb }),
   })
 );
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.engine(
   "hbs",

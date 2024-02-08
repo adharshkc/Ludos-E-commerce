@@ -15,7 +15,6 @@ module.exports = {
   /*****************************************************************ORDERS**************************************************************/
   getOrder: async function (userId) {
     const order = await Order.find({ userid: userId }).populate('products').lean();
-
     return order;
   },
 
@@ -158,37 +157,12 @@ module.exports = {
       logger.error({ message: "error updating coupon" + error.message });
     }
   },
-
-  cancelOrder: async function(orderId){
+  orderUpdate : async function(action,orderId){
     const updateOrder = await Order.findByIdAndUpdate(
       orderId,
       {
         $set: {
-          status: 'cancelled',
-        },
-      },
-      { new: true }
-    );
-    return updateOrder
-  },
-  shipmentUpdate : async function(orderId){
-    const updateOrder = await Order.findByIdAndUpdate(
-      orderId,
-      {
-        $set: {
-          status: 'shipped',
-        },
-      },
-      { new: true }
-    );
-    return updateOrder
-  },
-  deliveryStatus : async function(orderId){
-    const updateOrder = await Order.findByIdAndUpdate(
-      orderId,
-      {
-        $set: {
-          status: 'delivered',
+          status: action,
         },
       },
       { new: true }
