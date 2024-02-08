@@ -113,7 +113,16 @@
             <div class="u-s-m-b-15">
 
             </div>
-
+            <div class="u-s-m-b-15">
+              <div class="pd-detail__inline">
+            
+                <span class="pd-detail__preview-desc"><i class="far fa-heart u-s-m-r-6"></i>
+            
+                  <a class="addToWishlistButton" href="/user/addWishlist/{{product._id}}">Add to Wishlist</a>
+            
+                  </span></span>
+              </div>
+            </div>
             <div class="u-s-m-b-5">
               
                 <div class="pd-detail-inline-2">
@@ -150,3 +159,29 @@
 </div>
 
 {{> footer}}
+
+<script>
+  $(document).ready(function(){
+  const addWishListButton = document.querySelectorAll('.addToWishlistButton');
+  addWishListButton.forEach(function(button){
+    button.addEventListener('click', function(event){
+      event.preventDefault();
+      const addToWishlistUrl = this.getAttribute('href');
+      $.ajax({
+        type: 'GET',
+        url: addToWishlistUrl,
+        success: function(response){
+          console.log(response)
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Item added to Wishlist",
+            showConfirmButton: false,
+            timer: 1500
+          });
+        }
+      })
+    })
+  })
+})
+</script>
