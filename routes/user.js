@@ -47,11 +47,11 @@ router.get('/verify-email', verifyEmail)
 router.get('/verify', verify)
 router.get('/user/resetPassword', checkAuth, resetPassword)
 router.post('/reset-password', checkAuth, passwordReset)
-router.get("/cart", checkAuth, cart);
-router.get("/addToCart/:id", checkAuth, addToCart);
-router.get("/addProductToCart/:id", checkAuth, addProductToCart);
-router.post("/updateCart", checkAuth, updateCart);
-router.get("/deleteCartProduct/:id", checkAuth, deleteCart);
+router.get("/cart", cart);
+router.get("/addToCart/:id", addToCart);
+router.get("/addProductToCart/:id", addProductToCart);
+router.post("/updateCart", updateCart);
+router.get("/deleteCartProduct/:id", deleteCart);
 router.get("/user/profile", checkAuth, user_dashboard);
 router.get("/user/edit_profile", checkAuth, user_profile_edit);
 router.post("/user/editUser", checkAuth, editUser);

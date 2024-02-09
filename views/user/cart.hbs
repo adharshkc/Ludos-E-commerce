@@ -45,8 +45,9 @@
     <!--====== Section Content ======-->
     <div class="section__content">
       <div class="container">
-          {{#if cart.cart.length}}
+          {{#if length}}
         <div class="row">
+          {{#if isUser}}
           {{#each cart.cart}}
           <div class="col-lg-12 col-md-12 col-sm-12 u-s-m-b-30">
             <div class="table-responsive">
@@ -131,6 +132,97 @@
             </div>
           </div>
             {{/each}}
+            {{else}}
+          {{#each cart}}
+
+            <div class="col-lg-12 col-md-12 col-sm-12 u-s-m-b-30">
+            <div class="table-responsive">
+              <table class="table-p">
+                <tbody>
+                  <!--====== Row ======-->
+                  <tr>
+                    <td class="table-p__box">
+                      {{!-- <div class="table-p__box"> --}}
+                        <div class="table-p__img-wrap">
+
+                          <img
+                            class="u-img-fluid"
+                            src="{{this.productId.image}}"
+                            alt=""
+                            style=" height: 140px;"
+                          /></div>
+                        <div class="table-p__info">
+
+                          <span class="table-p__name">
+
+                            <a href="">{{this.productId.name}}</a></span>
+
+                          <span class="table-p__category">
+
+                            <a href="/products">{{this.productId.category}}</a></span>
+                          <ul class="table-p__variant-list">
+                            <li>
+
+                              <span></span></li>
+                            <li>
+
+                              <span>Color: Red</span></li>
+                          </ul>
+                        </div>
+                      {{!-- </div> --}}
+                    </td>
+                    <td>
+                      <span class="table-p__price"><span class="mr-3">Price: </span> ₹{{this.productId.price}}</span></td>
+                    <td>
+                    <td>
+                      <span class="table-p__price"><span class="mr-3">Quantity: </span> {{this.quantity}}</span></td>
+                    <td>
+                      <div class="table-p__input-counter-wrap">
+
+                        <!--====== Input Counter ======-->
+                        {{!-- <div class="input-counter">
+                          
+
+                          <button
+                            class="input-counter__minus fas fa-minus" onclick="updateQuantity( '{{this.productId._id}}', -1)"
+                          ></button>
+                          
+
+                          <input
+                            class="input-counter__text input-counter--text-primary-style"
+                            type="text"
+                            value="{{this.quantity}}"
+                            id="inputField"
+                            data-min="1"
+                            data-max="1000"
+                          />
+                          
+
+                          <button
+                            class="input-counter__plus fas fa-plus" onclick="updateQuantity( '{{this.productId._id}}', 1)"
+                          ></button>
+                          
+                          </div> --}}
+                        <!--====== End - Input Counter ======-->
+                      </div>
+                    </td>
+                    <td>
+                      <div class="table-p__del-wrap">
+
+                        <a
+                          class="far fa-trash-alt table-p__delete-link"
+                          href="/deleteCartProduct/{{this.productId._id}}"
+                        ></a></div>
+                    </td>
+                  </tr>
+                  <!--====== End - Row ======-->
+                </tbody>
+              </table>
+            </div>
+          </div>
+            {{/each}}
+
+          {{/if}}
           <div class="col-lg-12">
             <div class="route-box">
               <div class="route-box__g1">

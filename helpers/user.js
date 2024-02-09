@@ -180,6 +180,7 @@ module.exports = {
       user.cart.push({ product_id: proId, quantity: 1 });
     }
     const newCart = await User.updateOne({ _id: userId }, { cart: user.cart });
+    console.log(newCart)
     return newCart;
   },
 
@@ -197,7 +198,7 @@ module.exports = {
         { _id: userId, "cart.product_id": proId },
         { $set: { "cart.$.quantity": updatedCount } }
       );
-
+      
       if (updatedCount == 0) {
         const newCart = await User.updateOne(
           { _id: userId },
