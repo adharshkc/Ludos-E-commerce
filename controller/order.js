@@ -10,7 +10,7 @@ const userHelper = require("../helpers/user");
 /*************************************************CART*************************************************************/
 
 const adminOrders = async function (req, res) {
-  const orders = await orderHelper.getAllOrder()
+  const orders = await orderHelper.getAllOrder();
   res.render("admin/orders", { orders: orders });
 };
 
@@ -20,18 +20,29 @@ const getCheckout = async function (req, res) {
   const userId = req.session.userid;
   let isUser = true;
   const user = await userHelper.getCart(userId);
-  let coupon = await orderHelper.getCoupon(user.totalPrice) 
+  let coupon = await orderHelper.getCoupon(user.totalPrice);
   if (user.cart.cart) {
     const totalPrice = user.totalPrice;
     const address = user.cart.address[0];
-    if(coupon.length<1){
-      if(totalPrice<500)res.render("user/checkout", {isUser, user: user, totalPrice, message: "cannot order below ₹500"})
-      res.render("user/checkout", {isUser, user: user, totalPrice, address})
-    }else{
+    if (coupon.length < 1) {
+      if (totalPrice < 500)
+        res.render("user/checkout", {
+          isUser,
+          user: user,
+          totalPrice,
+          message: "cannot order below ₹500",
+        });
+      res.render("user/checkout", { isUser, user: user, totalPrice, address });
+    } else {
       //  coupon = coupon[0]
       // const discount = coupon[0].discount
-      res.render("user/checkout", { isUser, user: user, totalPrice, address, coupon });
-
+      res.render("user/checkout", {
+        isUser,
+        user: user,
+        totalPrice,
+        address,
+        coupon,
+      });
     }
   } else {
     res.redirect("/cart");
@@ -46,12 +57,11 @@ const deleteProductCheckout = async function (req, res) {
 
 const postCheckout = async function (req, res) {
   try {
-    
     const userId = req.session.userid;
     const user = await userHelper.getCart(userId);
     const cart = user.cart.cart;
     if (user) {
-      await userHelper.addAddress(req.body, userId)
+      await userHelper.addAddress(req.body, userId);
       if (req.body.payment == "COD") {
         const statuses = {
           orderStatus: "placed",
@@ -63,7 +73,10 @@ const postCheckout = async function (req, res) {
           req.body,
           statuses
         );
-        const updateCoupon = await orderHelper.updateCoupon(req.body.couponId,userId)
+        const updateCoupon = await orderHelper.updateCoupon(
+          req.body.couponId,
+          userId
+        );
         res.json(newOrder);
       } else if (req.body.payment == "razorPay") {
         const statuses = {
@@ -129,7 +142,7 @@ const verifyPayment = async function (req, res) {
       return res.status(500).json({ status: "Payment failed" });
     }
   } else {
-    logger.log("payment failed: signatures does not match")
+    logger.log("payment failed: signatures does not match");
     return res
       .status(403)
       .json({ status: "Payment failed: Signatures do not match" });
@@ -144,40 +157,41 @@ const failed = async function (req, res) {
   res.render("user/failed");
 };
 
-const postCoupon = async function(req, res){
-  const userId = req.session.userid
-  const couponCode = req.body.couponId
-  const coupon = await orderHelper.showCoupon(couponCode)
-  if(coupon){
-    const discount = coupon.discount
-    const price = await userHelper.getCart(userId)
-    const totalPrice = price.totalPrice - discount
-    res.json({totalPrice, discount})
-  }else{
-    res.json({message: "error"})
-  }  
-}
+const postCoupon = async function (req, res) {
+  const userId = req.session.userid;
+  const couponCode = req.body.couponId;
+  const coupon = await orderHelper.showCoupon(couponCode);
+  if (coupon) {
+    const discount = coupon.discount;
+    const code = coupon.code;
+    const price = await userHelper.getCart(userId);
+    const totalPrice = price.totalPrice - discount;
+    res.json({ totalPrice, discount, code });
+  } else {
+    res.json({ message: "error" });
+  }
+};
 
 const orders = async function (req, res) {
   const userId = req.session.userid;
   let isUser = true;
-  let orders = await orderHelper.getOrder(userId); 
-  orders = orders.reverse()
+  let orders = await orderHelper.getOrder(userId);
+  orders = orders.reverse();
   res.render("user/orders", { orders: orders, isUser });
 };
 
 const singleOrder = async function (req, res) {
   const orderId = req.params.id;
 
-  const user = await userHelper.findUserById(req.session.userid)
+  const user = await userHelper.findUserById(req.session.userid);
   const order = await orderHelper.getSingleOrder(orderId);
-  res.render("user/single-order", {order:order, user: user, isUser: true});
+  res.render("user/single-order", { order: order, user: user, isUser: true });
 };
 
-const deleteOrder = async function(req, res){
-  const deletedOrder = await orderHelper.cancelOrder(req.params.id)
-  res.redirect("/admin/orders")
-}
+const deleteOrder = async function (req, res) {
+  const deletedOrder = await orderHelper.cancelOrder(req.params.id);
+  res.redirect("/admin/orders");
+};
 
 module.exports = {
   // addToCart,
@@ -192,5 +206,5 @@ module.exports = {
   postCoupon,
   orders,
   singleOrder,
-  deleteOrder
+  deleteOrder,
 };
