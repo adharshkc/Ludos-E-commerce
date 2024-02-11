@@ -48,6 +48,10 @@ const orderSchema = mongoose.Schema(
       required: true,
       default: "pending",
     },
+   coupon:{
+    code:{type:String},
+    discount:{type:Number},
+   },
     totalPrice: {
       type: Number,
       required: true,

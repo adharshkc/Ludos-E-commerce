@@ -279,16 +279,26 @@ const cart = async function (req, res) {
   if (userId) {
     let isUser = true;
     const cart = await userHelper.getCart(userId);
-    const newCart = cart.cart;
-    const cartLength = newCart.cart.length;
     if (cart) {
-      res.render("user/cart", {
-        layout: "../layouts/layout",
-        isUser,
-        length: cartLength,
-        cart: newCart,
-        totalPrice: cart.totalPrice,
-      });
+      const newCart = cart.cart;
+      console.log(newCart)
+      if(newCart.cart){
+        const cartLength = newCart.cart.length;
+        
+        res.render("user/cart", {
+          layout: "../layouts/layout",
+          isUser,
+          length: cartLength,
+          cart: newCart,
+          totalPrice: cart.totalPrice,
+        });
+      }
+      else{
+        res.render("user/cart", {
+          layout: "../layouts/layout",
+          isUser,
+        });
+      }
     }
   } else {
     const cart = req.session.cart;

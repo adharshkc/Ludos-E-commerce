@@ -72,13 +72,14 @@ module.exports = {
           const updatedCart = await userHelper.deleteCartAfterOrder(userId);
           return order;
         } catch (error) {
-          logger.log({message: "order failed"})
+          logger.error({message: "order failed"})
         }
       } else {
         return order;
       }
     } catch (error) {
-      logger.log(error)
+      console.log(error)
+      logger.error('error' , error.message)
     }
   },
 
@@ -142,8 +143,9 @@ module.exports = {
 
   updateCoupon: async function (couponId, userId) {
     try {
+      const coupon = await this.showCoupon(couponId)
       const updatedCoupon = await Coupons.findByIdAndUpdate(
-        couponId,
+        coupon,
         {
           $set: {
             lastUpdatedUser: userId,
@@ -153,6 +155,7 @@ module.exports = {
         },
         { new: true }
       );
+      console.log("updatedCoupon"+updatedCoupon)
     } catch (error) {
       logger.error({ message: "error updating coupon" + error.message });
     }

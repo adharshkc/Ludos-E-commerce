@@ -177,13 +177,13 @@
                           <div class="u-s-m-b-16">
                             <div class="u-s-m-b-15">
                               <label for="coupon"></label>
-                              <input class="input-text input-text--primary-style" type="text" id="couponInput" value=""
+                              <input class="input-text input-text--primary-style" type="text" id="couponInput" value="{{couponCode}}"
                                 placeholder="Enter Coupon Code">
                             </div>
                             <div class="u-s-m-b-15">
                               <p id="wrongCode"></p>
                               <a href="javascript:void(0);" id="removeCouponLink"
-                                class="btn btn--e-transparent-brand-b-2" type="button" style="display: none;">Remove Coupon</a>
+                                class="btn btn--e-transparent-brand-b-2" type="button">Remove Coupon</a>
                             </div>
                           </div>
                         </div>
@@ -204,11 +204,11 @@
                           </tr> --}}
                           <tr>
                             <td>SUBTOTAL</td>
-                            <td>₹{{totalPrice}}</td>
+                            <td>₹{{subTotal}}</td>
                           </tr>
                           <tr>
                             <td>DISCOUNT</td>
-                            <td id="grandDiscount">₹0</td>
+                            <td id="grandDiscount">-₹{{discount}}</td>
                           </tr>
                           <tr>
                             <td>GRAND TOTAL</td>
@@ -451,7 +451,14 @@
             $("#grandTotal").text(`₹${response.totalPrice}`)
             $("#grandDiscount").text(`-₹${response.discount}`)
             $('#couponInput').val(`${response.code}`)
-             $('#removeCouponLink').show();
+             Swal.fire({
+            position: "top-middle",
+            icon: "success",
+            title: `You have saved ₹${response.discount}`,
+            showConfirmButton: false,
+            timer: 1500
+          });
+             {{!-- $('#removeCouponLink').show(); --}}
           }
 
         }
@@ -459,12 +466,44 @@
     })
   })
 
+  $(document).ready(function() {
+    $('#removeCouponLink').click(function(event) {
+        event.preventDefault();
+        var couponCode = $('#couponInput').val();
+        $.ajax({
+            type: 'POST',
+            url: '/user/removeCoupon',
+             data: { couponCode: couponCode }, 
+            success: function(response) {
+                 $('#couponInput').val('');
+                 Swal.fire({
+            position: "top-middle",
+            icon: "success",
+            title: `Coupon removed`,
+            showConfirmButton: false,
+            timer: 1500
+          });
+          console.log(response.totalPrice)
+          $("#grandTotal").text(`₹${response.totalPrice}`)
+            $("#grandDiscount").text(`₹${response.discount}`)
+            },
+            error: function(xhr, status, error) {
+                // Handle errors if needed
+                console.error('Error removing coupon:', error);
+            }
+        });
+    });
+});
+
 
 
   $("#checkoutForm").submit((e) => {
     e.preventDefault()
     const totalPrice = $("#grandTotal").text().replace('₹', '');
-    const couponId = $('#coupon').val();
+    const couponId = $('#couponInput').val();
+    console.log("asdf",couponId)
+    const discount = $('#grandDiscount').text()
+    console.log(discount)
     $.ajax({
       url: "/postCheckout",
       method: 'post',

@@ -10,7 +10,8 @@ const {
   orders,
   postCoupon,
   singleOrder,
-  deleteOrder
+  deleteOrder,
+  removeCoupon
 } = require("../controller/order");
 const { checkAuth, checkAdmin } = require("../middlewares/auth");
 
@@ -27,6 +28,7 @@ router.post("/verifyPayment", checkAuth, verifyPayment);
 router.get("/user/success", checkAuth, success)
 router.get("/user/failed", checkAuth, failed)
 router.post("/user/applyCoupon", checkAuth, postCoupon)
+router.post("/user/removeCoupon", checkAuth, removeCoupon)
 router.get("/admin/orders", checkAdmin,adminOrders)
 router.get("/orders", checkAuth, orders)
 router.get("/user/order/:id", checkAuth, singleOrder)

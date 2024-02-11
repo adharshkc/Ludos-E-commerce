@@ -72,6 +72,10 @@ const userSchema = mongoose.Schema(
         },
       },
     ],
+    coupon: {
+      code: String,
+      discount: Number
+    },
     isVerified:{
       type: Boolean,
       default: false  

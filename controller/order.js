@@ -20,29 +20,48 @@ const getCheckout = async function (req, res) {
   const userId = req.session.userid;
   let isUser = true;
   const user = await userHelper.getCart(userId);
+  // console.log(user.cart.coupon.code)
   let coupon = await orderHelper.getCoupon(user.totalPrice);
+  console.log(coupon.length)
   if (user.cart.cart) {
-    const totalPrice = user.totalPrice;
+    let totalPrice;
+    
     const address = user.cart.address[0];
+    console.log("ashas")
+    
     if (coupon.length < 1) {
-      if (totalPrice < 500)
-        res.render("user/checkout", {
-          isUser,
-          user: user,
-          totalPrice,
-          message: "cannot order below ₹500",
-        });
-      res.render("user/checkout", { isUser, user: user, totalPrice, address });
+      console.log(coupon)
+      totalPrice = user.totalPrice;
+      const subTotal = totalPrice;
+      const discount = 0;
+      if (totalPrice < 500){
+        res.render("user/checkout", {isUser, user: user, totalPrice, message: "cannot order below ₹500"});
+      }else{
+        res.render("user/checkout", {isUser, user: user, totalPrice, subTotal, address, discount})
+        
+      }
+      
     } else {
       //  coupon = coupon[0]
-      // const discount = coupon[0].discount
-      res.render("user/checkout", {
-        isUser,
-        user: user,
-        totalPrice,
-        address,
-        coupon,
-      });
+      if(user.cart.coupon){
+
+        console.log("coupon is ther")
+        totalPrice = user.totalPrice-user.cart.coupon.discount;
+        const subTotal = user.totalPrice
+        const code= user.cart.coupon.code
+        const discount = user.cart.coupon.discount
+        // const discount = coupon[0].discount
+        console.log("bjf")
+        res.render("user/checkout", { isUser, user: user, totalPrice,subTotal, address, coupon, couponCode: code, discount });
+      }else{
+        console.log('no coupon')
+        totalPrice = user.totalPrice;
+        const subTotal = totalPrice;
+        discount = 0;
+        res.render("user/checkout", { isUser, user: user, totalPrice,subTotal, address, coupon, discount });
+
+      }
+
     }
   } else {
     res.redirect("/cart");
@@ -59,16 +78,20 @@ const postCheckout = async function (req, res) {
   try {
     const userId = req.session.userid;
     const user = await userHelper.getCart(userId);
+    console.log(user)
     const cart = user.cart.cart;
+    console.log('cart', cart)
     if (user) {
-      await userHelper.addAddress(req.body, userId);
+      // await userHelper.addAddress(req.body, userId);
       if (req.body.payment == "COD") {
         const statuses = {
           orderStatus: "placed",
           payStatus: "pending",
         };
+        console.log("cod")
         const newOrder = await orderHelper.createOrder(
           userId,
+          req.body.couponId,
           cart,
           req.body,
           statuses
@@ -162,6 +185,7 @@ const postCoupon = async function (req, res) {
   const couponCode = req.body.couponId;
   const coupon = await orderHelper.showCoupon(couponCode);
   if (coupon) {
+    const updatedCoupon = await userHelper.updateCoupon(userId, couponCode, coupon.discount)
     const discount = coupon.discount;
     const code = coupon.code;
     const price = await userHelper.getCart(userId);
@@ -171,6 +195,20 @@ const postCoupon = async function (req, res) {
     res.json({ message: "error" });
   }
 };
+
+const removeCoupon = async function(req, res){
+  const userId = req.session.userid;
+  const couponCode = req.body.couponCode;
+  console.log(couponCode)
+  const coupon = await orderHelper.showCoupon(couponCode)
+  if(coupon){
+    const removedCoupon = await userHelper.couponRemove(userId, couponCode, coupon.discount)
+    const price = await userHelper.getCart(userId)
+    const totalPrice = price.totalPrice
+    const discount = 0;
+    res.json({ totalPrice, discount })
+  }
+}
 
 const orders = async function (req, res) {
   const userId = req.session.userid;
@@ -207,4 +245,5 @@ module.exports = {
   orders,
   singleOrder,
   deleteOrder,
+  removeCoupon
 };

@@ -1,7 +1,7 @@
 const passport = require("passport");
 const { User, Address } = require("../models/user");
 const { logger } = require("../utils/logger");
-const Token = require('../models/token');
+const Token = require("../models/token");
 
 module.exports = {
   /**************************************************************AUTH SECTION**********************************************************/
@@ -12,9 +12,9 @@ module.exports = {
       .lean();
     if (user) return user;
   },
-  findUserById: async function(id){
-    const user = await User.findOne({_id: id})
-    return user
+  findUserById: async function (id) {
+    const user = await User.findOne({ _id: id });
+    return user;
   },
   loginUser: async function (userData) {
     const email = userData.email;
@@ -40,13 +40,13 @@ module.exports = {
     }
   },
 
-  addToken: async function(token){
-    const tokenAdd =  await Token.create({token})
-    return tokenAdd
+  addToken: async function (token) {
+    const tokenAdd = await Token.create({ token });
+    return tokenAdd;
   },
 
-  findToken: async function(token){
-    const dbToken = await Token.findOne({token: token})
+  findToken: async function (token) {
+    const dbToken = await Token.findOne({ token: token });
     return dbToken;
   },
 
@@ -60,22 +60,22 @@ module.exports = {
     if (user) return user;
   },
 
-  updateUserStatus: async function(email){
+  updateUserStatus: async function (email) {
     const result = await User.findOneAndUpdate(
-      {email: email},
-      {$set: {isVerified: true}},
-      {new: true}
-    )
-    return result
+      { email: email },
+      { $set: { isVerified: true } },
+      { new: true }
+    );
+    return result;
   },
 
-  passReset: async function(password, id){
+  passReset: async function (password, id) {
     const result = await User.findOneAndUpdate(
-      {_id: id},
-      {$set: {password: password}},
-      {new: true}
-    )
-    return result
+      { _id: id },
+      { $set: { password: password } },
+      { new: true }
+    );
+    return result;
   },
 
   /**************************************************************ADDRESS SECTION**********************************************************/
@@ -100,9 +100,9 @@ module.exports = {
       logger.error("error adding address");
     }
   },
-  getUserAddress: async function(userid){
+  getUserAddress: async function (userid) {
     const user = await User.findById(userid);
-    return user.address
+    return user.address;
   },
   getAddress: async function (userId, addressId) {
     const userAddress = await User.findOne(
@@ -160,15 +160,15 @@ module.exports = {
       }
 
       return { cart, totalPrice };
-    }else{
-      return {cart}
+    } else {
+      return { cart };
     }
   },
 
   addItemsToCart: async function (userId, proId) {
     const user = await User.findOne({ _id: userId });
     if (!user) {
-      logger.log({message: "user not found"})
+      logger.log({ message: "user not found" });
     }
     const existingItemIndex = user.cart.findIndex(
       (cartItem) => cartItem.product_id.toString() == proId
@@ -180,7 +180,7 @@ module.exports = {
       user.cart.push({ product_id: proId, quantity: 1 });
     }
     const newCart = await User.updateOne({ _id: userId }, { cart: user.cart });
-    console.log(newCart)
+    console.log(newCart);
     return newCart;
   },
 
@@ -198,7 +198,7 @@ module.exports = {
         { _id: userId, "cart.product_id": proId },
         { $set: { "cart.$.quantity": updatedCount } }
       );
-      
+
       if (updatedCount == 0) {
         const newCart = await User.updateOne(
           { _id: userId },
@@ -226,47 +226,65 @@ module.exports = {
         );
         return deletedCart;
       } else {
-        logger.log({message: "cart not found"})
+        logger.log({ message: "cart not found" });
       }
     } catch (error) {}
   },
-  deleteCartAfterOrder: async function(userId){
+  deleteCartAfterOrder: async function (userId) {
     try {
       const cart = await User.findOneAndUpdate(
         { _id: userId },
         { $unset: { cart: 1 } },
-        { new: true },
+        { new: true }
       );
-      return cart
+      return cart;
     } catch (error) {
-      logger.error({message: "error deleting cart"})
+      logger.error({ message: "error deleting cart" });
     }
   },
 
-  getWishlist : async function(userId){
-    const wishlist = await User.findOne({_id: userId}).populate('wishlist.product_id').lean()
+  getWishlist: async function (userId) {
+    const wishlist = await User.findOne({ _id: userId })
+      .populate("wishlist.product_id")
+      .lean();
 
     return wishlist.wishlist;
   },
 
-  wishlistAdd : async function(userId, proId){
-    const user = await User.findOne({_id: userId})
-    user.wishlist.push({product_id: proId})
+  wishlistAdd: async function (userId, proId) {
+    const user = await User.findOne({ _id: userId });
+    user.wishlist.push({ product_id: proId });
     const wishlist = await User.findByIdAndUpdate(
-      {_id: userId},
-      {wishlist: user.wishlist}
-
-    )
+      { _id: userId },
+      { wishlist: user.wishlist }
+    );
     return wishlist;
   },
 
-  wishlistDelete : async function(userId, proId){
+  wishlistDelete: async function (userId, proId) {
     const delWishlist = await User.updateOne(
-      {_id: userId},
-      {$pull: {wishlist: {product_id: proId}}},
-      {new: true}
-      )
-      const user = await User.findOne({_id: userId})
+      { _id: userId },
+      { $pull: { wishlist: { product_id: proId } } },
+      { new: true }
+    );
+    const user = await User.findOne({ _id: userId });
     return delWishlist;
-  }
+  },
+
+  updateCoupon: async function (userid, code, discount) {
+    const coupon = await User.updateOne(
+      { _id: userid },
+      { "coupon.code": code, "coupon.discount": discount },
+      { new: true }
+    );
+  },
+
+  couponRemove: async function (userid, code, discount) {
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: userid },
+      { $unset: { coupon: 1 } },
+      { new: true }
+    );
+    return updatedUser;
+  },
 };
