@@ -53,7 +53,7 @@ app.use("/", adminRouter);
 app.use("/", orderRouter);
 app.use("/", productRouter);
 app.use("/", userRouter);
-app.use(error)
-app.use(errorHandling)
+// app.use(error)
+// app.use(errorHandling)
 
 app.listen(port);
