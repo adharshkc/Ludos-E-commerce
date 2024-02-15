@@ -27,7 +27,6 @@ const getCheckout = async function (req, res) {
     let totalPrice;
     
     const address = user.cart.address[0];
-    console.log("ashas")
     
     if (coupon.length < 1) {
       console.log(coupon)
@@ -78,7 +77,6 @@ const postCheckout = async function (req, res) {
   try {
     const userId = req.session.userid;
     const user = await userHelper.getCart(userId);
-    console.log(user)
     const cart = user.cart.cart;
     console.log('cart', cart)
     if (user) {
@@ -88,7 +86,7 @@ const postCheckout = async function (req, res) {
           orderStatus: "placed",
           payStatus: "pending",
         };
-        console.log("cod")
+        console.log(req.body.name)
         const newOrder = await orderHelper.createOrder(
           userId,
           req.body.couponId,
@@ -106,8 +104,11 @@ const postCheckout = async function (req, res) {
           orderStatus: "pending",
           payStatus: "pending",
         };
+        console.log("user")
+
         const order = await orderHelper.createOrder(
           userId,
+          req.body.couponId,
           cart,
           req.body,
           statuses

@@ -503,15 +503,17 @@
     const couponId = $('#couponInput').val();
     console.log("asdf",couponId)
     const discount = $('#grandDiscount').text()
-    console.log(discount)
+    let form = $('#checkoutForm').serialize()
+    console.log("dfdsf  " ,form)
     $.ajax({
       url: "/postCheckout",
       method: 'post',
       data: $('#checkoutForm').serialize() + "&totalPrice=" + totalPrice + "&couponId=" + couponId,
       success: (response) => {
         if (response.payment) {
-          $('#thankYouSection').show()
-          $('#checkoutForm').hide()
+          {{!-- $('#thankYouSection').show()
+          $('#checkoutForm').hide() --}}
+          window.location.href = '/user/success'
         } else {
           console.log(response)
           razorpayPayment(response)

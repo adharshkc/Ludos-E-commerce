@@ -14,7 +14,9 @@ var instance = new Razorpay({
 module.exports = {
   /*****************************************************************ORDERS**************************************************************/
   getOrder: async function (userId) {
-    const order = await Order.find({ userid: userId }).populate('products').lean();
+    const order = await Order.find({ userid: userId })
+      .populate("products")
+      .lean();
     return order;
   },
 
@@ -22,7 +24,6 @@ module.exports = {
     const orders = await Order.find().populate("userid").lean();
     orders.forEach((order) => {
       if (order.userid && order.userid.name) {
-        
       }
     });
     return orders;
@@ -40,46 +41,79 @@ module.exports = {
     return order;
   },
 
-  createOrder: async function (userId, cart, body, statuses) {
+  createOrder: async function (userId, couponId, cart, body, statuses) {
     try {
+      const userCart = await userHelper.getCart(userId);
+      const cart = userCart.cart.cart;
       const productsToAdd = cart.map((product) => ({
         product_id: product.product_id._id,
         quantity: product.quantity,
       }));
-      // const userCart = await userHelper.getCart(userId);
+      let coupon;
+      if (couponId) {
+        coupon = await this.showCoupon(couponId);
+      }
+      console.log("coupon: c ", coupon);
       const orderId = Math.floor(Math.random() * 1000000000 + 1);
 
-      const order = await Order.create({
-        userid: userId,
-        orderid: orderId,
-        shippingAddress: {
-          houseName: body.houseName,
-          street: body.street,
-          city: body.city,
-          pincode: body.pincode,
-        },
-        products: productsToAdd,
-        phone: body.phone,
-        status: statuses.orderStatus,
-        totalPrice: body.totalPrice,
-        payment: {
-          paymentType: body.payment,
-          paymentStatus: statuses.payStatus,
-        },
-      });
+      let order;
+      if (coupon === null) {
+         order = await Order.create({
+          userid: userId,
+          orderid: orderId,
+          shippingAddress: {
+            houseName: body.houseName,
+            street: body.street,
+            city: body.city,
+            pincode: body.pincode,
+          },
+          products: productsToAdd,
+          phone: body.phone,
+          status: statuses.orderStatus,
+          totalPrice: body.totalPrice,
+          payment: {
+            paymentType: body.payment,
+            paymentStatus: statuses.payStatus,
+          },
+          
+        });
+      } else {
+         order = await Order.create({
+          userid: userId,
+          orderid: orderId,
+          shippingAddress: {
+            houseName: body.houseName,
+            street: body.street,
+            city: body.city,
+            pincode: body.pincode,
+          },
+          products: productsToAdd,
+          phone: body.phone,
+          status: statuses.orderStatus,
+          totalPrice: body.totalPrice,
+          payment: {
+            paymentType: body.payment,
+            paymentStatus: statuses.payStatus,
+          },
+          coupon: {
+            code: coupon.code,
+            discount: coupon.discount,
+          },
+        });
+      }
       if (order.payment.paymentType == "COD") {
         try {
           const updatedCart = await userHelper.deleteCartAfterOrder(userId);
           return order;
         } catch (error) {
-          logger.error({message: "order failed"})
+          logger.error({ message: "order failed" });
         }
       } else {
         return order;
       }
     } catch (error) {
-      console.log(error)
-      logger.error('error' , error.message)
+      console.log(error);
+      logger.error("error", error.message);
     }
   },
 
@@ -93,13 +127,13 @@ module.exports = {
         };
         instance.orders.create(options, function (err, order) {
           if (err) {
-            logger.log(err)
+            logger.log(err);
           } else {
             resolve(order);
           }
         });
       } catch (err) {
-        logger.log(err)
+        logger.log(err);
         reject(err);
       }
     });
@@ -127,13 +161,13 @@ module.exports = {
   /*****************************************************************COUPONS**************************************************************/
   getCoupon: async function (price) {
     const coupons = await Coupons.find().lean();
-    const matchCoupon = coupons.filter(coupon => {
-      if(price>=coupon.totalPrice){
-        let x = coupon
-        return x
+    const matchCoupon = coupons.filter((coupon) => {
+      if (price >= coupon.totalPrice) {
+        let x = coupon;
+        return x;
       }
     });
-     return matchCoupon;
+    return matchCoupon;
   },
 
   showCoupon: async function (couponId) {
@@ -143,7 +177,7 @@ module.exports = {
 
   updateCoupon: async function (couponId, userId) {
     try {
-      const coupon = await this.showCoupon(couponId)
+      const coupon = await this.showCoupon(couponId);
       const updatedCoupon = await Coupons.findByIdAndUpdate(
         coupon,
         {
@@ -155,12 +189,12 @@ module.exports = {
         },
         { new: true }
       );
-      console.log("updatedCoupon"+updatedCoupon)
+      console.log("updatedCoupon" + updatedCoupon);
     } catch (error) {
       logger.error({ message: "error updating coupon" + error.message });
     }
   },
-  orderUpdate : async function(action,orderId){
+  orderUpdate: async function (action, orderId) {
     const updateOrder = await Order.findByIdAndUpdate(
       orderId,
       {
@@ -170,43 +204,45 @@ module.exports = {
       },
       { new: true }
     );
-    return updateOrder
+    return updateOrder;
   },
 
-  filterOrder: async function(lower, higher){
-    const orders = await Order.find(
-      {
-        totalPrice: {$gt: lower, $lt: higher}
-      }
-    ).populate('userid').lean()
+  filterOrder: async function (lower, higher) {
+    const orders = await Order.find({
+      totalPrice: { $gt: lower, $lt: higher },
+    })
+      .populate("userid")
+      .lean();
     return orders;
   },
 
-  filterOrderType: async function(payType){
-    const orders = await Order.find(
-      {
-        "payment.paymentType": payType      
-      }
-    ).populate('userid').lean()
-      return orders;
+  filterOrderType: async function (payType) {
+    const orders = await Order.find({
+      "payment.paymentType": payType,
+    })
+      .populate("userid")
+      .lean();
+    return orders;
   },
 
-  dateFilter: async function(date, endDate){
+  dateFilter: async function (date, endDate) {
     const orders = await Order.find({
       orderedDate: {
-        $gte: date, $lte: endDate
-      }
-    }).populate('userid').lean()
+        $gte: date,
+        $lte: endDate,
+      },
+    })
+      .populate("userid")
+      .lean();
     return orders;
   },
 
-  filterOrderStatus: async function(status){
-    const orders = await Order.find(
-      {
-        status: status      
-      }
-    ).populate('userid').lean()
-      return orders;
-  }
-
+  filterOrderStatus: async function (status) {
+    const orders = await Order.find({
+      status: status,
+    })
+      .populate("userid")
+      .lean();
+    return orders;
+  },
 };
