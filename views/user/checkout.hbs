@@ -162,11 +162,12 @@
                         <div class="d-flex justify-content-between align-items-center">
 
                           <span class="msg__text u-s-m-b-16">Get <span style="color: red;">₹{{this.discount}}</span> off
-                            now with <span style="color: red;" id="coupon-code">{{this.code}}</span></span>
+                            now with <span style="color: red;" id="coupon-code">{{this.code}}</span>
+                            <span class="ml-3 text-primary" id="couponSpan{{this.code}}"></span></span>
                           <div>
 
                             <button type="button" class="btn btn-outline-primary btn-floating applyCouponBtn"
-                              style="height: 10px; padding-bottom: 33px; padding-top: 10px" data-mdb-ripple-init>
+                              style="height: 10px; padding-bottom: 33px; padding-top: 10px" id="appliedClass{{this.code}}" data-mdb-ripple-init>
                               <span>Apply</span>
                             </button>
                           </div>
@@ -451,6 +452,8 @@
             $("#grandTotal").text(`₹${response.totalPrice}`)
             $("#grandDiscount").text(`-₹${response.discount}`)
             $('#couponInput').val(`${response.code}`)
+            $('.applyCouponBtn').hide()
+             $('#couponSpan'+ response.code).text('Applied')
              Swal.fire({
             position: "top-middle",
             icon: "success",
@@ -483,7 +486,10 @@
             showConfirmButton: false,
             timer: 1500
           });
-          console.log(response.totalPrice)
+          $('.applyCouponBtn').show()
+          $('#couponSpan'+ response.couponCode).text('')
+
+          console.log(response.couponCode)
           $("#grandTotal").text(`₹${response.totalPrice}`)
             $("#grandDiscount").text(`₹${response.discount}`)
             },

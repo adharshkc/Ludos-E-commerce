@@ -207,7 +207,7 @@ const removeCoupon = async function(req, res){
     const price = await userHelper.getCart(userId)
     const totalPrice = price.totalPrice
     const discount = 0;
-    res.json({ totalPrice, discount })
+    res.json({ totalPrice, discount, couponCode })
   }
 }
 

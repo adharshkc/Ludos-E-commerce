@@ -272,11 +272,15 @@ module.exports = {
   },
 
   updateCoupon: async function (userid, code, discount) {
-    const coupon = await User.updateOne(
-      { _id: userid },
-      { "coupon.code": code, "coupon.discount": discount },
-      { new: true }
-    );
+    try {
+      const coupon = await User.updateOne(
+        { _id: userid },
+        { "coupon.code": code, "coupon.discount": discount },
+        { new: true }
+      );
+    } catch (error) {
+      console.log(error)
+    }
   },
 
   couponRemove: async function (userid, code, discount) {
