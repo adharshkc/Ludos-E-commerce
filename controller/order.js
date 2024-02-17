@@ -181,6 +181,20 @@ const failed = async function (req, res) {
   res.render("user/failed");
 };
 
+const couponGet = async function(req, res){
+  const userId = req.session.userid;
+  const user = await userHelper.findUserById(userId)
+  console.log("coupn",user.coupon)
+  if(user.coupon){
+    const code = user.coupon.code;
+    res.json({code})
+
+  }else{
+    const code = null;
+    res.json({code})
+  }
+}
+
 const postCoupon = async function (req, res) {
   const userId = req.session.userid;
   const couponCode = req.body.couponId;
@@ -246,5 +260,6 @@ module.exports = {
   orders,
   singleOrder,
   deleteOrder,
+  couponGet,
   removeCoupon
 };
