@@ -197,7 +197,9 @@ const getAddress = async function (req, res) {
   try {
     const userid = req.session.userid;
     const addressess = await userHelper.getUserAddress(userid);
-    res.json({ addressess });
+    const user = await userHelper.findUserById(userid)
+    const username = user.name
+    res.json({ addressess, username });
   } catch (error) {
     logger.error({ message: error });
   }

@@ -1,5 +1,29 @@
 {{!-- {{> header}} --}}
 
+<style>
+  /* Style for the container div */
+.u-s-m-b-10 {
+  margin-bottom: 10px; /* Adjust margin bottom as needed */
+}
+
+/* Style for the select element */
+#addressDropdown {
+  width: 100%; /* Adjust width as needed */
+  padding: 8px; /* Adjust padding as needed */
+  font-size: 16px; /* Adjust font size as needed */
+  border: 1px solid #ccc; /* Border color */
+  border-radius: 4px; /* Border radius */
+  background-color: #fff; /* Background color */
+  color: #333; /* Text color */
+}
+
+/* Style for select options */
+#addressDropdown option {
+  padding: 8px; /* Adjust padding as needed */
+}
+
+</style>
+
 <div class="app-content">
 
   <!--====== Section 1 ======-->
@@ -405,7 +429,7 @@
         addresses = response.addressess;
         console.log(addresses)
         addresses.forEach(function (address) {
-          $('#addressDropdown').append('<option value="' + address.houseName + '">' + address.houseName + ',' + address.city + '</option>');
+          $('#addressDropdown').append('<option value="' + address.houseName + '">' + response.username + ',  ' + address.houseName + ', ' + address.street + ', '  + address.city + ', ' + address.pincode + '</option>');
         });
       },
       error: function (xhr, status, error) {
