@@ -284,11 +284,16 @@ module.exports = {
   },
 
   couponRemove: async function (userid, code, discount) {
-    const updatedUser = await User.findOneAndUpdate(
-      { _id: userid },
-      { $unset: { coupon: 1 } },
-      { new: true }
-    );
-    return updatedUser;
+    try {
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: userid },
+        { $unset: { coupon: 1 } },
+        { new: true }
+      );
+      return updatedUser;
+      
+    } catch (error) {
+      console.log(error)
+    }
   },
 };

@@ -171,8 +171,13 @@ module.exports = {
   },
 
   showCoupon: async function (couponId) {
-    const coupon = await Coupons.findOne({ code: couponId });
-    return coupon;
+    try{
+
+      const coupon = await Coupons.findOne({ code: couponId });
+      return coupon;
+    }catch(error){
+      console.log(error)
+    }
   },
 
   updateCoupon: async function (couponId, userId) {
