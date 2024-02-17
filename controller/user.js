@@ -13,13 +13,14 @@ const home = async function (req, res) {
     let isUser = true;
     res.render("user/index", { layout: "../layouts/layout", isUser, products });
   } else {
-    console.log("home",req.session.cart)
+    console.log("home", req.session.cart);
     res.render("user/index", { layout: "../layouts/layout", products });
   }
 };
 
 /**********************************************AUTHENTICATION****************************************************************** */
 const userLogin = function (req, res) {
+  console.log(req.session.cart);
   if (req.session.user) {
     // let isUser = true;
     res.redirect("/");
@@ -30,7 +31,8 @@ const userLogin = function (req, res) {
 };
 
 const user_signin = async function (req, res, next) {
-  console.log("login",req.session.cart)
+  console.log("login", req.session.cart);
+  const cartItems = req.session.cart;
   passport.authenticate("local", function (err, user, info) {
     if (err) {
       return next(err);
@@ -38,7 +40,7 @@ const user_signin = async function (req, res, next) {
     if (!user) {
       return res.render("user/login", { errorMessage: "user not found" });
     }
-    req.logIn(user, function (err) {
+    req.logIn(user, async function (err) {
       if (err) {
         return next(err);
       }
@@ -47,10 +49,12 @@ const user_signin = async function (req, res, next) {
         req.session.adminid = user._id;
         res.redirect("/admin");
       } else if (user.role == "user") {
-        if(req.session.cart){
-          console.log(req.session.cart)
+        if (cartItems) {
+          for (const item of cartItems){
+            console.log(item.productId, item.quantity)
+            const saveCart = await userHelper.addCartGuest(user._id, item.productId, item.quantity);
+          }
         }
-        console.log(req.session.cart)
         req.session.user = true;
         req.session.userid = user._id;
         req.session.email = user.email;
@@ -106,6 +110,7 @@ const verify = function (req, res) {
 
 const verifyEmail = async function (req, res) {
   const token = req.query.token;
+  const cartItems = req.session.cart;
   const decoded = verifyToken(token);
   const dbToken = await userHelper.findToken(token);
   if (!decoded) {
@@ -122,6 +127,12 @@ const verifyEmail = async function (req, res) {
     req.session.userid = verifyUser._id;
     req.session.email = verifyUser.email;
     req.session.isVerified = verifyUser.isVerified;
+    if (cartItems) {
+      for (const item of cartItems){
+        console.log(item.productId, item.quantity)
+        const saveCart = await userHelper.addCartGuest(req.session.userid, item.productId, item.quantity);
+      }
+    }
     res.redirect("/");
   } else {
     logger.error({ message: "invalid token" });
@@ -197,8 +208,8 @@ const getAddress = async function (req, res) {
   try {
     const userid = req.session.userid;
     const addressess = await userHelper.getUserAddress(userid);
-    const user = await userHelper.findUserById(userid)
-    const username = user.name
+    const user = await userHelper.findUserById(userid);
+    const username = user.name;
     res.json({ addressess, username });
   } catch (error) {
     logger.error({ message: error });
@@ -219,7 +230,6 @@ const passwordReset = async function (req, res) {
 
 const add_address = async function (req, res) {
   try {
-
     const email = req.session.email;
     const user = await userHelper.findUser(email);
     let isUser = true;
@@ -283,10 +293,10 @@ const cart = async function (req, res) {
     const cart = await userHelper.getCart(userId);
     if (cart) {
       const newCart = cart.cart;
-      console.log(newCart)
-      if(newCart.cart){
+      // console.log(newCart)
+      if (newCart.cart) {
         const cartLength = newCart.cart.length;
-        
+
         res.render("user/cart", {
           layout: "../layouts/layout",
           isUser,
@@ -294,8 +304,7 @@ const cart = async function (req, res) {
           cart: newCart,
           totalPrice: cart.totalPrice,
         });
-      }
-      else{
+      } else {
         res.render("user/cart", {
           layout: "../layouts/layout",
           isUser,
@@ -305,25 +314,25 @@ const cart = async function (req, res) {
   } else {
     const cart = req.session.cart;
     if (cart) {
-      console.log(cart);
+      // console.log(cart);
 
       let cartItems = [];
       let totalPrice = 0;
       for (const item of cart) {
-        console.log(item.productId);
+        // console.log(item.productId);
         let items = await productHelper.getProduct(item.productId);
-        let quantity = item.quantity
-        cartItems.push({productId:items, quantity: quantity});
-        console.log(cartItems)
+        let quantity = item.quantity;
+        cartItems.push({ productId: items, quantity: quantity });
+        // console.log(cartItems)
         totalPrice += item.quantity * items.price;
       }
-      const quantity = cart.quantity
+      const quantity = cart.quantity;
       const cartLength = cartItems.length;
       res.render("user/cart", {
         layout: "../layouts/layout",
         length: cartLength,
         cart: cartItems,
-        
+
         totalPrice: totalPrice,
       });
     } else {
@@ -403,7 +412,7 @@ const updateCart = async function (req, res) {
         const totalPrice = await userHelper.getCart(userId);
         res.json({ totalPrice: totalPrice.totalPrice, updatedCart });
       }
-    }else{
+    } else {
       // const cart = req.session.cart;
       // console.log("this,,, ",cart)
       // const cartItem = cart.find((item)=>item.productId == proId)
@@ -418,7 +427,7 @@ const updateCart = async function (req, res) {
       // console.log("sessuib", req.session.cart)
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
     logger.error({ message: "update cart failed", error });
   }
 };
