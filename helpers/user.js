@@ -184,18 +184,18 @@ module.exports = {
     return newCart;
   },
 
-  addCartGuest: async function(userId, proId, quantity){
-    const user = await User.findOne({_id: userId})
+  addCartGuest: async function (userId, proId, quantity) {
+    const user = await User.findOne({ _id: userId });
     const existingItemIndex = user.cart.findIndex(
       (cartItem) => cartItem.product_id.toString() == proId
-    )
+    );
     if (existingItemIndex !== -1) {
       user.cart[existingItemIndex].quantity += quantity;
     } else {
       user.cart.push({ product_id: proId, quantity: quantity });
     }
     const newCart = await User.updateOne({ _id: userId }, { cart: user.cart });
-    console.log(newCart)
+    console.log(newCart);
   },
 
   updateCart: async function (proId, count, userId) {
@@ -267,12 +267,18 @@ module.exports = {
 
   wishlistAdd: async function (userId, proId) {
     const user = await User.findOne({ _id: userId });
-    user.wishlist.push({ product_id: proId });
-    const wishlist = await User.findByIdAndUpdate(
-      { _id: userId },
-      { wishlist: user.wishlist }
+    const index = user.wishlist.findIndex(
+      (item) => item.product_id.toString() === proId.toString()
     );
-    return wishlist;
+
+    if (index === -1) {
+      user.wishlist.push({ product_id: proId });
+    } else {
+      user.wishlist.splice(index, 1);
+    }
+
+    const updatedUser = await user.save();
+    return updatedUser;
   },
 
   wishlistDelete: async function (userId, proId) {
@@ -293,7 +299,7 @@ module.exports = {
         { new: true }
       );
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   },
 
@@ -305,9 +311,8 @@ module.exports = {
         { new: true }
       );
       return updatedUser;
-      
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   },
 };
