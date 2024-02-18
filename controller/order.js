@@ -20,14 +20,12 @@ const getCheckout = async function (req, res) {
   const userId = req.session.userid;
   let isUser = true;
   let user = await userHelper.getCart(userId);
-  // console.log(user.cart.coupon.code)
   let coupon = await orderHelper.getCoupon(user.totalPrice);
   if (user.cart.coupon) {
     const eligibleCoupon = await orderHelper.showCoupon(user.cart.coupon.code);
     if(user.totalPrice < eligibleCoupon.totalPrice){
       user = await userHelper.couponRemove(userId)
       coupon = []
-      console.log("coupon is invalid")
     }
   }
   if (user.cart.cart) {
@@ -36,7 +34,6 @@ const getCheckout = async function (req, res) {
     const address = user.cart.address[0];
 
     if (coupon.length < 1) {
-      console.log(coupon);
       totalPrice = user.totalPrice;
       const subTotal = totalPrice;
       const discount = 0;
@@ -60,13 +57,11 @@ const getCheckout = async function (req, res) {
     } else {
       //  coupon = coupon[0]
       if (user.cart.coupon) {
-        console.log("coupon is ther");
         totalPrice = user.totalPrice - user.cart.coupon.discount;
         const subTotal = user.totalPrice;
         const code = user.cart.coupon.code;
         const discount = user.cart.coupon.discount;
         // const discount = coupon[0].discount
-        console.log("bjf");
         res.render("user/checkout", {
           isUser,
           user: user,
@@ -78,7 +73,6 @@ const getCheckout = async function (req, res) {
           discount,
         });
       } else {
-        console.log("no coupon");
         totalPrice = user.totalPrice;
         const subTotal = totalPrice;
         discount = 0;
@@ -109,7 +103,6 @@ const postCheckout = async function (req, res) {
     const userId = req.session.userid;
     const user = await userHelper.getCart(userId);
     const cart = user.cart.cart;
-    console.log("cart", cart);
     if (user) {
       // await userHelper.addAddress(req.body, userId);
       if (req.body.payment == "COD") {
@@ -117,7 +110,6 @@ const postCheckout = async function (req, res) {
           orderStatus: "placed",
           payStatus: "pending",
         };
-        console.log(req.body.name);
         const newOrder = await orderHelper.createOrder(
           userId,
           req.body.couponId,
@@ -129,13 +121,13 @@ const postCheckout = async function (req, res) {
           req.body.couponId,
           userId
         );
+        await userHelper.couponRemove(userId)
         res.json(newOrder);
       } else if (req.body.payment == "razorPay") {
         const statuses = {
           orderStatus: "pending",
           payStatus: "pending",
         };
-        console.log("user");
 
         const order = await orderHelper.createOrder(
           userId,
@@ -191,6 +183,7 @@ const verifyPayment = async function (req, res) {
         userId,
         orderId
       );
+      await userHelper.couponRemove(userId)
       return res.json({ status: true });
     } catch (err) {
       console.error(err);
@@ -215,7 +208,6 @@ const failed = async function (req, res) {
 const couponGet = async function (req, res) {
   const userId = req.session.userid;
   const user = await userHelper.findUserById(userId);
-  console.log("coupn", user.coupon);
   if (user.coupon) {
     const code = user.coupon.code;
     res.json({ code });
@@ -248,7 +240,6 @@ const postCoupon = async function (req, res) {
 const removeCoupon = async function (req, res) {
   const userId = req.session.userid;
   const couponCode = req.body.couponCode;
-  console.log(couponCode);
   const coupon = await orderHelper.showCoupon(couponCode);
   if (coupon) {
     const removedCoupon = await userHelper.couponRemove(

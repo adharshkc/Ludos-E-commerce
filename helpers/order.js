@@ -53,11 +53,10 @@ module.exports = {
       if (couponId) {
         coupon = await this.showCoupon(couponId);
       }
-      console.log("coupon: c ", coupon);
       const orderId = Math.floor(Math.random() * 1000000000 + 1);
 
       let order;
-      if (coupon === null) {
+      if (coupon == null) {
          order = await Order.create({
           userid: userId,
           orderid: orderId,
@@ -194,7 +193,6 @@ module.exports = {
         },
         { new: true }
       );
-      console.log("updatedCoupon" + updatedCoupon);
     } catch (error) {
       logger.error({ message: "error updating coupon" + error.message });
     }

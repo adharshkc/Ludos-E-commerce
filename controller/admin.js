@@ -65,7 +65,6 @@ const updateOrder = async function (req, res) {
     res.json({ updatedOrder });
   } else {
     updatedOrder = await orderHelper.orderUpdate(action, orderId);
-    console.log(updatedOrder);
     res.json({ updatedOrder });
   }
 };

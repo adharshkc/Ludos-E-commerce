@@ -118,7 +118,9 @@
             
                 <span class="pd-detail__preview-desc"><i class="far fa-heart u-s-m-r-6"></i>
             
-                  <a class="addToWishlistButton" href="/user/addWishlist/{{product._id}}">Add to Wishlist</a>
+                  <a class="addToWishlistButton"
+                    data-coupon-id="{{product._id}}"
+                    href="/user/addWishlist/{{product._id}}"> Wishlist</a>
             
                   </span></span>
               </div>
@@ -167,11 +169,28 @@
     button.addEventListener('click', function(event){
       event.preventDefault();
       const addToWishlistUrl = this.getAttribute('href');
+      const proId = this.getAttribute('data-coupon-id')
       $.ajax({
         type: 'GET',
         url: addToWishlistUrl,
         success: function(response){
-          console.log(response)
+           const wishlist = response.addedWishlist.wishlist
+           
+          let product = wishlist.filter((item)=> {
+            if(proId == item.product_id) {
+              return item.product_id
+            }
+          })
+          if(product.length < 1){
+
+          Swal.fire({
+            position: "top-middle",
+            icon: "success",
+            title: "Item removed from Wishlist",
+            showConfirmButton: false,
+            timer: 1500
+          });
+          }else{
           Swal.fire({
             position: "top-middle",
             icon: "success",
@@ -179,6 +198,8 @@
             showConfirmButton: false,
             timer: 1500
           });
+
+          }
         }
       })
     })

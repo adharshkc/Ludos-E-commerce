@@ -427,7 +427,6 @@
       method: 'PUT',
       success: function (response) {
         addresses = response.addressess;
-        console.log(addresses)
         addresses.forEach(function (address) {
           $('#addressDropdown').append('<option value="' + address.houseName + '">' + response.username + ',  ' + address.houseName + ', ' + address.street + ', '  + address.city + ', ' + address.pincode + '</option>');
         });
@@ -439,7 +438,6 @@
 
     // Handle address selection
     $('#addressDropdown').change(function () {
-      console.log(addresses)
       var selectedAddressId = $(this).val();
       if (selectedAddressId) {
         // Fetch details of selected address
@@ -463,7 +461,6 @@
       url: 'user/getCoupon',
       method: 'PUT',
       success: function(response){
-        console.log(response.code)
         if(response.code){
           $('#couponSpan'+ response.code).text('Applied')
             $('.applyCouponBtn').hide()
@@ -488,7 +485,6 @@
             $("#wrongCode").text('Invalid Coupon Code')
 
           } else {
-            console.log(response)
             $("#grandTotal").text(`₹${response.totalPrice}`)
             $("#grandDiscount").text(`-₹${response.discount}`)
             $('#couponInput').val(`${response.code}`)
@@ -529,7 +525,6 @@
           $('.applyCouponBtn').show().find('span').text('Apply')
           $('#couponSpan'+ response.couponCode).text('')
 
-          console.log(response.couponCode)
           $("#grandTotal").text(`₹${response.totalPrice}`)
             $("#grandDiscount").text(`₹${response.discount}`)
             },
@@ -547,10 +542,8 @@
     e.preventDefault()
     const totalPrice = $("#grandTotal").text().replace('₹', '');
     const couponId = $('#couponInput').val();
-    console.log("asdf",couponId)
     const discount = $('#grandDiscount').text()
     let form = $('#checkoutForm').serialize()
-    console.log("dfdsf  " ,form)
     $.ajax({
       url: "/postCheckout",
       method: 'post',
@@ -561,7 +554,6 @@
           $('#checkoutForm').hide() --}}
           window.location.href = '/user/success'
         } else {
-          console.log(response)
           razorpayPayment(response)
         }
       }

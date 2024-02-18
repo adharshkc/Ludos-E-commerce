@@ -13,14 +13,12 @@ const home = async function (req, res) {
     let isUser = true;
     res.render("user/index", { layout: "../layouts/layout", isUser, products });
   } else {
-    console.log("home", req.session.cart);
     res.render("user/index", { layout: "../layouts/layout", products });
   }
 };
 
 /**********************************************AUTHENTICATION****************************************************************** */
 const userLogin = function (req, res) {
-  console.log(req.session.cart);
   if (req.session.user) {
     // let isUser = true;
     res.redirect("/");
@@ -31,7 +29,6 @@ const userLogin = function (req, res) {
 };
 
 const user_signin = async function (req, res, next) {
-  console.log("login", req.session.cart);
   const cartItems = req.session.cart;
   passport.authenticate("local", function (err, user, info) {
     if (err) {
@@ -51,7 +48,6 @@ const user_signin = async function (req, res, next) {
       } else if (user.role == "user") {
         if (cartItems) {
           for (const item of cartItems){
-            console.log(item.productId, item.quantity)
             const saveCart = await userHelper.addCartGuest(user._id, item.productId, item.quantity);
           }
         }
@@ -129,7 +125,6 @@ const verifyEmail = async function (req, res) {
     req.session.isVerified = verifyUser.isVerified;
     if (cartItems) {
       for (const item of cartItems){
-        console.log(item.productId, item.quantity)
         const saveCart = await userHelper.addCartGuest(req.session.userid, item.productId, item.quantity);
       }
     }
@@ -293,7 +288,6 @@ const cart = async function (req, res) {
     const cart = await userHelper.getCart(userId);
     if (cart) {
       const newCart = cart.cart;
-      // console.log(newCart)
       if (newCart.cart) {
         const cartLength = newCart.cart.length;
 
@@ -314,16 +308,12 @@ const cart = async function (req, res) {
   } else {
     const cart = req.session.cart;
     if (cart) {
-      // console.log(cart);
-
       let cartItems = [];
       let totalPrice = 0;
       for (const item of cart) {
-        // console.log(item.productId);
         let items = await productHelper.getProduct(item.productId);
         let quantity = item.quantity;
         cartItems.push({ productId: items, quantity: quantity });
-        // console.log(cartItems)
         totalPrice += item.quantity * items.price;
       }
       const quantity = cart.quantity;
@@ -363,7 +353,6 @@ const addToCart = async function (req, res) {
       req.session.cart.push(cart);
     }
     const carts = req.session.cart;
-    console.log(carts);
     res.json({ carts });
   }
 };
@@ -413,18 +402,7 @@ const updateCart = async function (req, res) {
         res.json({ totalPrice: totalPrice.totalPrice, updatedCart });
       }
     } else {
-      // const cart = req.session.cart;
-      // console.log("this,,, ",cart)
-      // const cartItem = cart.find((item)=>item.productId == proId)
-      // console.log(cartItem)
-      // const currentQuantity = cartItem? cartItem.quantity:0;
-      // req.session.count = Math.max(currentQuantity+count, 1)
-      // console.log("count ",req.session.count)
-      // console.log("itemq ",cartItem.quantity)
-      // cartItem.quantity = req.session.count
-      // console.log(cart)
-      // req.session.cart.push(cart)
-      // console.log("sessuib", req.session.cart)
+      
     }
   } catch (error) {
     console.log(error);
@@ -436,7 +414,6 @@ const deleteCart = async function (req, res) {
   try {
     const userId = req.session.userid;
     if (userId) {
-      console.log(userId);
       const newDeletedCart = await userHelper.cartDelete(
         req.session.userid,
         req.params.id
@@ -444,14 +421,11 @@ const deleteCart = async function (req, res) {
       res.redirect("/cart");
     } else {
       let cart = req.session.cart;
-      console.log(cart);
       if (cart) {
         const existingProductIndex = cart.findIndex((cartItem) => {
           return cartItem.productId == req.params.id;
         });
-        console.log(existingProductIndex);
         const newCart = cart.splice(existingProductIndex, 1);
-        console.log("this is ", cart);
         req.session.cart = cart;
         res.redirect("/cart");
       }
