@@ -64,7 +64,7 @@
                       </div>
                       <div class="flex-lg-grow-1 ms-3">
                         <h6 class="small mb-0"><a
-                            href="#"
+                            href="/product/{{this.product_id._id}}"
                             class="text-reset"
                           >Smartwatch IP68 Waterproof GPS and Bluetooth Support</a></h6>
                         <span class="small">Color: White</span>
@@ -121,9 +121,9 @@
                   <br />
                   Total: ₹{{order.totalPrice}}
                   {{#if order.coupon.code}}
-                 <span class="text-danger">Coupon Applied</span> 
+                 <span style="color: blueviolet;"> Coupon Applied <i class="fa-solid fa-ticket"></i></span> 
                   {{/if}}
-                  <span class="badge bg-success rounded-pill">PAID</span></p>
+                  <span class="badge bg-success rounded-pill">SUCCESS</span></p>
               </div>
               {{!-- <div class="col-lg-6">
                 <h3 class="h6">Billing address</h3>
