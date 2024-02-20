@@ -47,8 +47,12 @@ const user_signin = async function (req, res, next) {
         res.redirect("/admin");
       } else if (user.role == "user") {
         if (cartItems) {
-          for (const item of cartItems){
-            const saveCart = await userHelper.addCartGuest(user._id, item.productId, item.quantity);
+          for (const item of cartItems) {
+            const saveCart = await userHelper.addCartGuest(
+              user._id,
+              item.productId,
+              item.quantity
+            );
           }
         }
         req.session.user = true;
@@ -124,8 +128,12 @@ const verifyEmail = async function (req, res) {
     req.session.email = verifyUser.email;
     req.session.isVerified = verifyUser.isVerified;
     if (cartItems) {
-      for (const item of cartItems){
-        const saveCart = await userHelper.addCartGuest(req.session.userid, item.productId, item.quantity);
+      for (const item of cartItems) {
+        const saveCart = await userHelper.addCartGuest(
+          req.session.userid,
+          item.productId,
+          item.quantity
+        );
       }
     }
     res.redirect("/");
@@ -402,7 +410,6 @@ const updateCart = async function (req, res) {
         res.json({ totalPrice: totalPrice.totalPrice, updatedCart });
       }
     } else {
-      
     }
   } catch (error) {
     console.log(error);
