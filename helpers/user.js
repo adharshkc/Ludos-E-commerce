@@ -2,6 +2,7 @@ const passport = require("passport");
 const { User, Address } = require("../models/user");
 const { logger } = require("../utils/logger");
 const Token = require("../models/token");
+const bcrypt = require('bcrypt')
 
 module.exports = {
   /**************************************************************AUTH SECTION**********************************************************/
@@ -26,9 +27,11 @@ module.exports = {
   },
 
   registerUser: async function (userData) {
-    const { name, email, password, phone } = userData;
+    const { name, email, phone } = userData;
+    let password = userData.password;
     const user = await User.findOne({ email: email }).lean();
     if (!user) {
+      password = await bcrypt.hash()
       const newUser = await User.create({
         name: name,
         email: email,

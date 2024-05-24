@@ -40,7 +40,7 @@ const router = express.Router();
 
 router.get("/", home);
 router.get("/login", userLogin);
-router.post("/user_signin", user_signin);
+router.post("/userLogin", user_signin);
 router.get("/register", userRegister);
 router.post("/user_registration", user_registration);
 router.get('/verify-email', verifyEmail)
