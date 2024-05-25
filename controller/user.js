@@ -68,41 +68,8 @@ const user_signin = async function (req, res, next) {
     }
   }
 
-  // passport.authenticate("local", function (err, user, info) {
-  //   if (err) {
-  //     return next(err);
-  //   }
-  //   if (!user) {
-  //     console.log(user)
-  //     return res.render("user/login", { errorMessage: "user not found" });
-  //   }
-  //   req.logIn(user, async function (err) {
-  //     if (err) {
-  //       return next(err);
-  //     }
-  //     if (user.role == "admin") {
-  //       req.session.admin = true;
-  //       req.session.adminid = user._id;
-  //       res.redirect("/admin");
-  //     } else if (user.role == "user") {
-  //       if (cartItems) {
-  //         for (const item of cartItems) {
-  //           const saveCart = await userHelper.addCartGuest(
-  //             user._id,
-  //             item.productId,
-  //             item.quantity
-  //           );
-  //         }
-  //       }
-  //       console.log(user)
-  //       req.session.user = true;
-  //       req.session.userid = user._id;
-  //       req.session.email = user.email;
-  //       req.session.isVerified = user.isVerified;
-  //       res.redirect("/");
-  //     }
-  //   });
-  // })(req, res, next);
+ 
+ 
 };
 
 const userRegister = function (req, res) {
