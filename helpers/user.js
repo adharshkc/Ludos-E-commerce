@@ -31,7 +31,8 @@ module.exports = {
     let password = userData.password;
     const user = await User.findOne({ email: email }).lean();
     if (!user) {
-      password = await bcrypt.hash()
+      password = await bcrypt.hash(password,10)
+      console.log("password", password)
       const newUser = await User.create({
         name: name,
         email: email,
@@ -39,6 +40,7 @@ module.exports = {
         phone: phone,
         isVerified: false,
       });
+      console.log(newUser)
       return newUser;
     }
   },

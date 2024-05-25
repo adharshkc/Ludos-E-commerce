@@ -30,16 +30,44 @@ const userLogin = function (req, res) {
 
 const user_signin = async function (req, res, next) {
   const cartItems = req.session.cart;
-  const {email, password} = req.body;
-  const user = await userHelper.findUser(email)
-  console.log(user)
-  if(!user){
+  const { email, password } = req.body;
+  const user = await userHelper.findUser(email);
+  if (!user) {
     return res.render("user/login", { errorMessage: "user not found" });
-  }else{
-    const matchPassword = await bcrypt.compare(password, user.password)
-    console.log(matchPassword)
+  } else {
+    const matchPassword = await bcrypt.compare(password, user.password);
+    if (matchPassword) {
+      if (user.isVerified) {
+        if (user.role == "admin") {
+          req.session.admin = true;
+          req.session.adminid = user._id;
+          res.redirect("/admin");
+        } else if (user.role == "user") {
+          if (cartItems) {
+            for (const item of cartItems) {
+              const saveCart = await userHelper.addCartGuest(
+                user._id,
+                item.productId,
+                item.quantity
+              );
+            }
+          }
+          req.session.user = true;
+          req.session.userid = user._id;
+          req.session.email = user.email;
+          req.session.isVerified = user.isVerified;
+          res.redirect("/");
+        }
+      } else {
+        return res.render("user/login", {
+          errorMessage: "Email not verified, Kindly verify",
+        });
+      }
+    } else {
+      return res.render("user/login", { errorMessage: "incorrect password" });
+    }
   }
-  
+
   // passport.authenticate("local", function (err, user, info) {
   //   if (err) {
   //     return next(err);
